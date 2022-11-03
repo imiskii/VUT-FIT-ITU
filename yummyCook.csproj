@@ -12,14 +12,14 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>yummyCook</ApplicationTitle>
+		<ApplicationTitle>Yummy Cook</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.yummycook</ApplicationId>
+		<ApplicationId>com.ituFit2022.yummycook</ApplicationId>
 		<ApplicationIdGuid>520c103e-d8f3-49f6-9d42-416c8fc462e8</ApplicationIdGuid>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+		<ApplicationDisplayVersion>0.1</ApplicationDisplayVersion>
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
