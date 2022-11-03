@@ -25,9 +25,9 @@ Nastavení -> vývojaøské možnosti (nutné altivovat: Informace o softwaru -> 7x kl
 - bezdrátové ladìní: (telefon) Android >= 11, (VS) Android SDK >= 30
 	- ve VS otevøít Android Adb Command Prompt
 ```bash
-	adb pair [IP:port (údaje v telefonu)] 
+adb pair [IP:port (údaje v telefonu)] 
 
-	Enter pairing code: 
+Enter pairing code: 
 
-	adb connect [IP telefonu]
+adb connect [IP telefonu]
 ```
