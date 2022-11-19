@@ -3,12 +3,44 @@
     x:Class="yummyCook.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:yummyCook"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:local="clr-namespace:yummyCook.Views.Main"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.NavBarIsVisible="False">
+    
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+    <TabBar>
+        <ShellContent Title="Domů"
+                      ContentTemplate="{DataTemplate local:HomePage}"
+                      Route="HomePage">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontRegular"
+                                 Glyph="snowflake" />
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Ingredience"
+                      ContentTemplate="{DataTemplate local:IngredientsPage}"
+                      Route="IngredientsPage">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontRegular"
+                                 Glyph="snowflake" />
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Recepty"
+                      ContentTemplate="{DataTemplate local:RecipesPage}"
+                      Route="RecipesPage">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontRegular"
+                                 Glyph="snowflake" />
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Více"
+                      ContentTemplate="{DataTemplate local:MorePage}"
+                      Route="MorePage">
+            <ShellContent.Icon>
+                <FontImageSource FontFamily="FontRegular"
+                                 Glyph="snowflake" />
+            </ShellContent.Icon>
+        </ShellContent>
+    </TabBar>
 
 </Shell>
