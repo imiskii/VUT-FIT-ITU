@@ -53,11 +53,19 @@
 	  <None Remove="Resources\Fonts\FontAwesome-Solid.otf" />
 	  <None Remove="Resources\Fonts\FontAwesome6-Regular.otf" />
 	  <None Remove="Resources\Fonts\FontAwesome6Brands-Regular.otf" />
+	  <None Remove="Resources\Images\house.png" />
+	  <None Remove="Resources\Images\Icons\menu.png" />
 	  <None Remove="Resources\Images\pizza.jpg" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Icons\house.png" />
+	  <MauiImage Include="Resources\Images\Icons\menu.png" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <PackageReference Include="banditoth.MAUI.Multilanguage" Version="1.0.4" />
+	  <PackageReference Include="FirebaseDatabase.net" Version="4.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>

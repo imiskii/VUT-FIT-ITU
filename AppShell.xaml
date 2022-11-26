@@ -11,36 +11,20 @@
     <TabBar>
         <ShellContent Title="Domů"
                       ContentTemplate="{DataTemplate local:HomePage}"
-                      Route="HomePage">
-            <ShellContent.Icon>
-                <FontImageSource FontFamily="FontRegular"
-                                 Glyph="snowflake" />
-            </ShellContent.Icon>
-        </ShellContent>
+                      Route="HomePage"
+                      Icon="Icons/house.png"/>
         <ShellContent Title="Ingredience"
                       ContentTemplate="{DataTemplate local:IngredientsPage}"
-                      Route="IngredientsPage">
-            <ShellContent.Icon>
-                <FontImageSource FontFamily="FontRegular"
-                                 Glyph="snowflake" />
-            </ShellContent.Icon>
-        </ShellContent>
+                      Route="IngredientsPage"
+                      Icon="Icons/fridge.png" />
         <ShellContent Title="Recepty"
                       ContentTemplate="{DataTemplate local:RecipesPage}"
-                      Route="RecipesPage">
-            <ShellContent.Icon>
-                <FontImageSource FontFamily="FontRegular"
-                                 Glyph="snowflake" />
-            </ShellContent.Icon>
-        </ShellContent>
+                      Route="RecipesPage"
+                      Icon="Icons/cookbook.png" />
         <ShellContent Title="Více"
                       ContentTemplate="{DataTemplate local:MorePage}"
-                      Route="MorePage">
-            <ShellContent.Icon>
-                <FontImageSource FontFamily="FontRegular"
-                                 Glyph="snowflake" />
-            </ShellContent.Icon>
-        </ShellContent>
+                      Route="MorePage"
+                      Icon="Icons/menu.png" />
     </TabBar>
 
 </Shell>
