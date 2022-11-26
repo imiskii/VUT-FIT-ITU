@@ -5,8 +5,32 @@
     
     <ScrollView>
         <VerticalStackLayout>
-            <Label Text="Welcome to .NET MAUI!"
-                   HorizontalOptions="Center" />
+            <Grid ColumnDefinitions="*"
+                  RowDefinitions="*"
+                  RowSpacing="10">
+                <!-- ### Jedno pole ### -->
+                <Frame Padding="0">
+                    <Grid
+                    ColumnDefinitions="*"
+                    RowDefinitions="50, *"
+                    RowSpacing="0">
+                        <Button Grid.Row="0" Text="Ovocie" Style="{StaticResource openButton}"/>
+                        <CollectionView Grid.Row="1" HeightRequest="130" BackgroundColor="Red">
+                            <CollectionView.Shadow>
+                                <Shadow Brush="{StaticResource Black}"
+                                Radius="40"
+                                Offset="20, 20"
+                                Opacity="0.6"/>
+                            </CollectionView.Shadow>
+                        </CollectionView>
+                    </Grid>
+                </Frame>
+                <!-- ### Jedno pole ### -->
+                <Grid>
+
+
+                </Grid>
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
