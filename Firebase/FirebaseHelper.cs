@@ -1,4 +1,5 @@
 ﻿using Firebase.Database;
+using Firebase.Database.Query;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,25 @@ namespace yummyCook.Firebase
                   Diets = item.Object.Diets,
                   Allergies = item.Object.Allergies,
                   Photos = item.Object.Photos
+
+              }).ToList();
+        }
+        public async Task<List<IngredientModel>> GetIngredients(string category)
+        {
+            category = category.ToLower();
+            return (await firebase
+              .Child("Ingredients")
+              .Child(category)
+              .OnceAsync<IngredientModel>()).Select(item => new IngredientModel
+              {
+                  Name = item.Object.Name,
+                  Category = item.Object.Category,
+                  Fat = item.Object.Fat,
+                  Sugar = item.Object.Sugar,
+                  Proteins = item.Object.Proteins,
+                  Calories = item.Object.Calories,
+                  Have = item.Object.Have,
+                  Buy = item.Object.Buy    
 
               }).ToList();
         }
