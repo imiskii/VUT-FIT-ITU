@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace yummyCook
+namespace yummyCook.ViewModels
 {
     public class RecipeViewModel
     {
