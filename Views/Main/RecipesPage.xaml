@@ -5,8 +5,15 @@
     
     <ScrollView>
         <VerticalStackLayout>
-            <Label Text="Welcome to .NET MAUI!"
-                   HorizontalOptions="Center" />
+            <Label Text="Recepty"
+                   StyleClass="PageH1" />
+            <Entry
+                MaxLength="30"
+                Style="{StaticResource CommonEntryStyle}"
+                Placeholder="Hledat "
+                PlaceholderColor="BlanchedAlmond" />
+
+           
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
