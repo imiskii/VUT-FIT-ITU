@@ -2,6 +2,7 @@
 using Firebase.Database.Query;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,16 @@ namespace yummyCook.Firebase
     {
         FirebaseClient firebase = new FirebaseClient("https://yummycook-itu-default-rtdb.europe-west1.firebasedatabase.app/");
 
-        public async Task<List<RecipeModel>> GetRecipes()
+        public async Task<ObservableCollection<RecipeModel>> GetRecipes()
+        {
+            return (new ObservableCollection<RecipeModel>(await GetRecipesList()));
+        }
+        public async Task<ObservableCollection<IngredientModel>> GetIngredients(string category)
+        {
+            return (new ObservableCollection<IngredientModel>(await GetIngredientsList(category)));
+        }
+
+        public async Task<List<RecipeModel>> GetRecipesList()
         {
             return (await firebase
               .Child("Recipe")
@@ -34,7 +44,7 @@ namespace yummyCook.Firebase
 
               }).ToList();
         }
-        public async Task<List<IngredientModel>> GetIngredients(string category)
+        public async Task<List<IngredientModel>> GetIngredientsList(string category)
         {
             category = category.ToLower();
             return (await firebase

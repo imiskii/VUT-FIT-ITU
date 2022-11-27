@@ -14,8 +14,7 @@ public partial class HomePage : ContentPage
     {
         base.OnAppearing();
         var recipes = await firebaseHelper.GetRecipes();
-
-        var fruits = await firebaseHelper.GetIngredients("fruits");
+        var ing = await firebaseHelper.GetIngredients("fruits");
 
         recipesList.ItemsSource = recipes;
     }
