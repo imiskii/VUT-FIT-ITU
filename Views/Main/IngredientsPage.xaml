@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
+             x:DataType="viewmodel:IngredientsViewModel"
              x:Class="yummyCook.Views.Main.IngredientsPage">
-    
+
     <ScrollView>
         <VerticalStackLayout>
             <Grid ColumnDefinitions="*"
-                  RowDefinitions="*"
+                  RowDefinitions="*,*"
                   RowSpacing="10">
                 <!-- ### Jedno pole ### -->
-                <Frame Padding="0">
-                    <Grid
-                    ColumnDefinitions="*"
-                    RowDefinitions="50, *"
-                    RowSpacing="0">
-                        <Button Grid.Row="0" Text="Ovocie" Style="{StaticResource openButton}"/>
-                        <CollectionView Grid.Row="1" HeightRequest="130" BackgroundColor="Red">
-                            <CollectionView.Shadow>
-                                <Shadow Brush="{StaticResource Black}"
-                                Radius="40"
-                                Offset="20, 20"
-                                Opacity="0.6"/>
-                            </CollectionView.Shadow>
-                        </CollectionView>
-                    </Grid>
-                </Frame>
+
+                <CollectionView VerticalOptions="FillAndExpand">
+                    <CollectionView.Shadow>
+                        <Shadow Brush="{StaticResource Black}"
+                            Radius="40"
+                            Offset="20, 20"
+                            Opacity="0.6"/>
+                    </CollectionView.Shadow>
+                    <CollectionView.Header>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <StackLayout BackgroundColor="{StaticResource White}">
+                                <Label Text="Ovoce"/>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.Header>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <FlexLayout x:Name="flexLayout"
+                                                  Wrap="Wrap"
+                                                  JustifyContent="SpaceAround">
+                                    <Button Text="{Binding Name}"/>
+                                    <Label Text="1" BackgroundColor="Red"/>
+                                    <Label Text="2" BackgroundColor="Blue"/>
+                                    <Label Text="3" BackgroundColor="Yellow"/>
+                                </FlexLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
                 <!-- ### Jedno pole ### -->
-                <Grid>
+                <Grid ColumnDefinitions="*"
+                      RowDefinitions="*"
+                      RowSpacing="10"
+                      Grid.Row="1">
 
 
                 </Grid>
