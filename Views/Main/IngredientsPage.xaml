@@ -8,49 +8,71 @@
 
     <ScrollView>
         <VerticalStackLayout>
-            <Grid ColumnDefinitions="*"
-                  RowDefinitions="*,*"
-                  RowSpacing="10">
-                <!-- ### Jedno pole ### -->
-
-                <CollectionView VerticalOptions="FillAndExpand">
-                    <CollectionView.Shadow>
-                        <Shadow Brush="{StaticResource Black}"
-                            Radius="40"
-                            Offset="20, 20"
-                            Opacity="0.6"/>
-                    </CollectionView.Shadow>
+            <Grid Grid.Row="0" RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Fruits}">
                     <CollectionView.Header>
-                        <DataTemplate x:DataType="model:IngredientModel">
-                            <StackLayout BackgroundColor="{StaticResource White}">
-                                <Label Text="Ovoce"/>
-                            </StackLayout>
-                        </DataTemplate>
+                        <StackLayout>
+                            <Label Text="Ovoce" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
                     </CollectionView.Header>
-
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
-                            <FlexLayout x:Name="flexLayout"
-                                                  Wrap="Wrap"
-                                                  JustifyContent="SpaceAround">
-                                    <Button Text="{Binding Name}"/>
-                                    <Label Text="1" BackgroundColor="Red"/>
-                                    <Label Text="2" BackgroundColor="Blue"/>
-                                    <Label Text="3" BackgroundColor="Yellow"/>
-                                </FlexLayout>
+                            <Button Text="{Binding Name}" Margin="5" Style="{StaticResource HaveButton}">
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                </Button.Triggers>
+                            </Button>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-
-                <!-- ### Jedno pole ### -->
-                <Grid ColumnDefinitions="*"
-                      RowDefinitions="*"
-                      RowSpacing="10"
-                      Grid.Row="1">
-
-
-                </Grid>
             </Grid>
+
+            <Grid Grid.Row="1" RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Vegetables}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Zelenina"  Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Text="{Binding Name}" Margin="5"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+
+            <Grid Grid.Row="2" RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Fruits}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Zelenina"  Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Text="{Binding Name}" Margin="5"/>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+
         </VerticalStackLayout>
     </ScrollView>
+
 </ContentPage>

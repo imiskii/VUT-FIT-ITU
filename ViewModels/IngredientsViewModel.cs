@@ -6,6 +6,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
@@ -14,16 +15,15 @@ namespace yummyCook.ViewModels
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
 
-        public ObservableCollection<IngredientModel> ingredient { get; } = new();
+        public ObservableCollection<IngredientModel> Fruits { get; } = new();
+        public ObservableCollection<IngredientModel> Vegetables { get; } = new();
 
         public Command GetIngredientCommand { get; }
-        public IngredientsViewModel(FirebaseHelper firebaseHelper)                          //
+        public IngredientsViewModel(FirebaseHelper firebaseHelper)
         {
-            GetIngredientCommand = new Command(async () => await GetIngredietsAsync());     //
+            GetIngredientCommand = new Command(async () => await GetIngredietsAsync());
             GetIngredientCommand.Execute(this);
         }
-        
-        //[ICommand]
 
         async Task GetIngredietsAsync()
         {
@@ -31,15 +31,22 @@ namespace yummyCook.ViewModels
             try
             {
                 var fruits = await firebaseHelper.GetIngredients("fruits");
+                var vagetables = await firebaseHelper.GetIngredients("vegetables");
 
-                if (ingredient.Count != 0)
+                if (Fruits.Count != 0 || Vegetables.Count != 0)
                 {
-                    ingredient.Clear();
+                    Fruits.Clear();
+                    Vegetables.Clear();
                 }
 
                 foreach (var fruit in fruits)
                 {
-                    ingredient.Add(fruit);
+                    Fruits.Add(fruit);
+                }
+
+                foreach (var item in vagetables)
+                {
+                    Vegetables.Add(item);
                 }
             }
             catch(Exception ex)
