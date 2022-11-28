@@ -20,4 +20,9 @@ public partial class HomePage : ContentPage
 
         IngCollection.ItemsSource = ing;
     }
+
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        await firebaseHelper.UpdateIngredience("have","fruits", "Jablko", false);
+    }
 }
