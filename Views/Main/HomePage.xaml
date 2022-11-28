@@ -84,6 +84,19 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Label Text="AAAAAAAAA" />
+
+                <CollectionView x:Name="IngCollection">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal"  />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Button Text="{Binding Name}"
+                                    Margin="5" />
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

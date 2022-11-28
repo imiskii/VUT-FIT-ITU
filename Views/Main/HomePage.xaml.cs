@@ -17,5 +17,7 @@ public partial class HomePage : ContentPage
         var ing = await firebaseHelper.GetIngredients("fruits");
 
         recipesList.ItemsSource = recipes;
+
+        IngCollection.ItemsSource = ing;
     }
 }
