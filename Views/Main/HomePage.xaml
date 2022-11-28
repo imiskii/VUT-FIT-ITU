@@ -71,7 +71,8 @@
                                 Grid.RowSpan="2"
                                 Grid.Column="2"
                                 CornerRadius="10"
-                                Text="Do toho!"/>
+                                Text="Do toho!"
+                                Clicked="Button_Clicked"/>
                     </Grid>
                 </Grid>
             </Frame>

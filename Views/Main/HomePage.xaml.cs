@@ -18,4 +18,9 @@ public partial class HomePage : ContentPage
 
         recipesList.ItemsSource = recipes;
     }
+
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        await firebaseHelper.UpdateIngredience("have","fruits", "Jablko", false);
+    }
 }
