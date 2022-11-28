@@ -63,5 +63,53 @@ namespace yummyCook.Firebase
 
               }).ToList();
         }
+
+        /// <summary>
+        /// Fukce vyhledá objekt v databázi podle name a category, poté na zakládě property aktualizuje, buďto Have nebo Buy na hodnotu value
+        /// </summary>
+        /// <param name="property"></param>
+        /// <param name="category"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task UpdateIngredience(string property, string category, string name, bool value)
+        {
+            var ingItem = (await firebase
+                .Child("Ingredients")
+                .Child(category)
+                .OnceAsync<IngredientModel>())
+                .Where(x => x.Object.Name == name).FirstOrDefault();
+
+            if (property == "have")
+            {
+                await firebase.Child("Ingredients")
+                    .Child(category)
+                    .Child(ingItem.Key)
+                    .PutAsync(new IngredientModel { 
+                        Name = ingItem.Object.Name, 
+                        Category = ingItem.Object.Category, 
+                        Fat = ingItem.Object.Fat, 
+                        Sugar = ingItem.Object.Sugar,
+                        Proteins = ingItem.Object.Proteins, 
+                        Calories = ingItem.Object.Calories, 
+                        Have = value, 
+                        Buy = ingItem.Object.Buy });
+            }
+            else if (property == "buy")
+            {
+                await firebase.Child("Ingredients")
+                    .Child(category)
+                    .Child(ingItem.Key)
+                    .PutAsync(new IngredientModel { 
+                        Name = ingItem.Object.Name, 
+                        Category = ingItem.Object.Category, 
+                        Fat = ingItem.Object.Fat, 
+                        Sugar = ingItem.Object.Sugar, 
+                        Proteins = ingItem.Object.Proteins, 
+                        Calories = ingItem.Object.Calories, 
+                        Have = ingItem.Object.Have, 
+                        Buy = value });
+            }
+        }
     }
 }
