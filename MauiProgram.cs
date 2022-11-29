@@ -1,4 +1,4 @@
-﻿using banditoth.MAUI.Multilanguage;
+using banditoth.MAUI.Multilanguage;
 using yummyCook.Firebase;
 using yummyCook.Resources.Translations;
 using yummyCook.ViewModels;
@@ -41,6 +41,15 @@ public static class MauiProgram
         builder.Services.AddSingleton<RecipeViewModel>();
         builder.Services.AddSingleton<HomePage>();
         builder.Services.AddSingleton<FirebaseHelper>();
+
+        builder.Services.AddSingleton<FirebaseHelper>();
+
+
+        builder.Services.AddSingleton<IngredientsViewModel>();
+
+        builder.Services.AddSingleton<HomePage>();
+        builder.Services.AddSingleton<IngredientsPage>();
+
 
 
         return builder.Build();
