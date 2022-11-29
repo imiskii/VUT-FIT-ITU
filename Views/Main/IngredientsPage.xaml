@@ -12,24 +12,22 @@
 
     <ScrollView>
         <VerticalStackLayout>
+
             <!-- Ovoce -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Fruits}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Ovoce" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Ovoce" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Fruits}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
-                                
+
                                 <Button.Triggers>
                                     <DataTrigger TargetType="Button"
                                                  Binding="{Binding Have}"
@@ -44,25 +42,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Zelenina -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Vegetables}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Zelenina" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Zelenina" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Vegetables}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -79,25 +74,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Maso -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Meat}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Maso" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Maso" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Meat}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -114,25 +106,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Ryby -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Fish}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Ryby" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Ryby" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Fish}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -149,25 +138,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Cestoviny -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Pasta}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Cestoviny" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Cestoviny" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Pasta}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -184,25 +170,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Pečivo -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Pastry}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Pečivo" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Pečivo" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Pastry}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -219,25 +202,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Mléčné výrobky -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Dairyproducts}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Mléčné výrobky" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Mléčné výrobky" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Dairyproducts}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -254,25 +234,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Huby -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Mushrooms}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Huby" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Huby" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Mushrooms}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -289,25 +266,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Oleje -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Oils}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Oleje" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Oleje" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Oils}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -324,25 +298,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Ořechy -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Nuts}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Ořechy" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Ořechy" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Nuts}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -359,25 +330,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Koření -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Spices}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Koření" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Koření" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Spices}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -394,25 +362,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Sladké -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Sweeteners}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Sladké" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Sladké" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Sweeteners}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -429,25 +394,22 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
             <!-- Omáčky -->
-            <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Sauces}">
-                    <CollectionView.Header>
-                        <StackLayout>
-                            <Label Text="Omáčky" Margin="10,10,0,10" FontSize="20"/>
-                        </StackLayout>
-                    </CollectionView.Header>
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical" Span="3"/>
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Omáčky" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Sauces}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
                                     CommandParameter="{Binding .}" Text="{Binding Name}" 
-                                    Margin="5" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
                                     Style="{StaticResource HaveButton}">
 
                                 <Button.Triggers>
@@ -464,8 +426,8 @@
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
