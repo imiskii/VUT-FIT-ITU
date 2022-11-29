@@ -12,8 +12,8 @@ namespace yummyCook.Firebase
         public string Category { get; set; }
         public float Fat { get; set; }
         public float Sugar { get; set; }
-        public float Proteins { get; set;}
-        public float Calories { get; set;}
+        public float Proteins { get; set; }
+        public float Calories { get; set; }
         public bool Have { get; set; }
         public bool Buy { get; set; }
     }

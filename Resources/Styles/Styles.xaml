@@ -21,20 +21,6 @@
                 Value="Bold" />
     </Style>
 
-    <!--<Style TargetType="Grid"
-           Class="RecCardTop">
-        <Setter Property="Background">
-            <LinearGradientBrush EndPoint="0,1">
-                <GradientStop Color="#00000000"
-                              Offset="0.25" />
-                <GradientStop Color="Black"
-                              Offset="1" />
-                --><!--<GradientStop Color="#99000000"
-                                              Offset="0.7" />--><!--
-            </LinearGradientBrush>
-        </Setter>
-    </Style>-->
-    
     <!--Styles-->
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
