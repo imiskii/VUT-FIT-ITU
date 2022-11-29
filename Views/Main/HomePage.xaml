@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="yummyCook.Views.Main.HomePage">
+             x:Class="yummyCook.Views.Main.HomePage"
+             
+             xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
+             x:DataType="viewmodel:RecipeViewModel">
 
-    <ScrollView>
-        <VerticalStackLayout Spacing="15">
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout Spacing="25">
             <Label Text="Dobré odpoledne"
                    StyleClass="PageH1" />
             <HorizontalStackLayout Spacing="5">
@@ -18,11 +22,9 @@
             </HorizontalStackLayout>
             <Button Text="Zobrazit seznam"
                     WidthRequest="150" />
-            <Label Text="Právě trendy"
-                   StyleClass="PageH2" />
 
             <!--Momentalne frame pro snazsi designovani, pote zmena na listview-->
-            <Frame HeightRequest="200" Margin="5, 10">
+            <!--<Frame HeightRequest="200" Margin="5, 10">
                 <Grid>
                     <Image Source="Images/pizza.jpg"
                            Aspect="AspectFill" />
@@ -71,33 +73,83 @@
                                 Grid.RowSpan="2"
                                 Grid.Column="2"
                                 CornerRadius="10"
-                                Text="Do toho!"
-                                Clicked="Button_Clicked"/>
+                                Text="Do toho!"/>
                     </Grid>
                 </Grid>
-            </Frame>
-            <ListView x:Name="recipesList">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Label Text="{Binding Name}" />
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Label Text="AAAAAAAAA" />
+            </Frame>-->
 
-                <CollectionView x:Name="IngCollection">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Horizontal"  />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Button Text="{Binding Name}"
-                                    Margin="5" />
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+            <CollectionView ItemsSource="{Binding Recipes}" VerticalScrollBarVisibility="Never">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.Header>
+                    <Label Text="Právě trendy"
+                           StyleClass="PageH2" />
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:RecipeModel">
+                        <Frame HeightRequest="200"
+                               Margin="5, 10">
+                            <Grid>
+                                <Image Source="Images/pizza.jpg"
+                                       Aspect="AspectFill" />
+                                <Grid>
+                                    <Grid.Background>
+                                        <LinearGradientBrush EndPoint="0,1">
+                                            <GradientStop Color="#00000000"
+                                                          Offset="0.25" />
+                                            <GradientStop Color="Black"
+                                                          Offset="1" />
+                                            <GradientStop Color="#99000000"
+                                                          Offset="0.7" />
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="3*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Name}"
+                                           FontSize="Title"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Start"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="White"
+                                           Margin="10,0,0,0" />
+                                    <Label Grid.Row="2"
+                                           Grid.Column="0"
+                                           Text="{Binding Rating}"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="LightGray" />
+                                    <Label Grid.Row="3"
+                                           Grid.Column="1"
+                                           Text="7 surovin"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="LightGray" />
+                                    <Button Grid.Row="2"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            CornerRadius="10"
+                                            Text="Do toho!" />
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
