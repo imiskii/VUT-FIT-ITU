@@ -8,16 +8,23 @@
 
     <StackLayout>
         <Frame BackgroundColor="{StaticResource Secondary}"
-               HeightRequest="70"
-               TranslationX="-20">
+               HeightRequest="75"
+               TranslationY="-10">
             <StackLayout Orientation="Horizontal">
-                <Frame WidthRequest="40" HeightRequest="40"  Margin="20, 10, 10, 10" BackgroundColor="Orange"/>
-                <Label StyleClass="PageH2" TextColor="Black" Text="Nákupní seznam" VerticalOptions="Center" Margin="20, 10, 10, 10"/>
+                <Frame WidthRequest="40"
+                       HeightRequest="40"
+                       Margin="20, 20, 10, 10"
+                       BackgroundColor="Orange" />
+                <Label StyleClass="PageH2"
+                       TextColor="Black"
+                       Text="Nákupní seznam"
+                       VerticalOptions="Center"
+                       Margin="10, 20, 10, 10" />
             </StackLayout>
         </Frame>
         <ScrollView>
-            
+
         </ScrollView>
-        
+
     </StackLayout>
 </ContentPage>
