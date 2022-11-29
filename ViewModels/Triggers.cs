@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿/**
+ * Triggers.cs
+ * Autor: Michal Ľaš (xlasmi00)
+ *
+*/
 
 namespace yummyCook.IngredientTriggers
 {

@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- IngredientPage.xaml -->
+<!-- Autor: Michal Ľaš (xlasmi00) -->
+    
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:yummyCook.Firebase"
@@ -9,6 +12,7 @@
 
     <ScrollView>
         <VerticalStackLayout>
+            <!-- Ovoce -->
             <Grid RowDefinitions="*" RowSpacing="5">
                 <CollectionView ItemsSource="{Binding Fruits}">
                     <CollectionView.Header>
@@ -43,12 +47,12 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
-
+            <!-- Zelenina -->
             <Grid RowDefinitions="*" RowSpacing="5">
                 <CollectionView ItemsSource="{Binding Vegetables}">
                     <CollectionView.Header>
                         <StackLayout>
-                            <Label Text="Zelenina"  Margin="10,10,0,10" FontSize="20"/>
+                            <Label Text="Zelenina" Margin="10,10,0,10" FontSize="20"/>
                         </StackLayout>
                     </CollectionView.Header>
                     <CollectionView.ItemsLayout>
@@ -56,17 +60,34 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
-                            <Button Text="{Binding Name}" Margin="5"/>
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
-
+            <!-- Maso -->
             <Grid RowDefinitions="*" RowSpacing="5">
-                <CollectionView ItemsSource="{Binding Fruits}">
+                <CollectionView ItemsSource="{Binding Meat}">
                     <CollectionView.Header>
                         <StackLayout>
-                            <Label Text="Zelenina"  Margin="10,10,0,10" FontSize="20"/>
+                            <Label Text="Maso" Margin="10,10,0,10" FontSize="20"/>
                         </StackLayout>
                     </CollectionView.Header>
                     <CollectionView.ItemsLayout>
@@ -74,12 +95,378 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
-                            <Button Text="{Binding Name}" Margin="5"/>
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
+            <!-- Ryby -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Fish}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Ryby" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
 
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Cestoviny -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Pasta}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Cestoviny" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Pečivo -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Pastry}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Pečivo" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Mléčné výrobky -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Dairyproducts}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Mléčné výrobky" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Huby -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Mushrooms}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Huby" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Oleje -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Oils}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Oleje" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Ořechy -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Nuts}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Ořechy" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Koření -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Spices}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Koření" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Sladké -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Sweeteners}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Sladké" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Omáčky -->
+            <Grid RowDefinitions="*" RowSpacing="5">
+                <CollectionView ItemsSource="{Binding Sauces}">
+                    <CollectionView.Header>
+                        <StackLayout>
+                            <Label Text="Omáčky" Margin="10,10,0,10" FontSize="20"/>
+                        </StackLayout>
+                    </CollectionView.Header>
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 

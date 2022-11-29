@@ -87,7 +87,7 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="Padding" Value="0,10"/>
         <Setter Property="CornerRadius" Value="13"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
@@ -113,7 +113,7 @@
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontAttributes" Value="Bold" />
-        <Setter Property="Padding" Value="14,10"/>
+        <Setter Property="Padding" Value="0,10"/>
         <Setter Property="CornerRadius" Value="13"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>

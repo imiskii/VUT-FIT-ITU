@@ -1,3 +1,9 @@
+/**
+ * IngredientPage.xaml.cs
+ * Autor: Michal ¼aš (xlasmi00)
+ *
+*/
+
 using yummyCook.ViewModels;
 using yummyCook.Firebase;
 namespace yummyCook.Views.Main;
