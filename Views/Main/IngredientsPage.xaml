@@ -2,13 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
              x:DataType="viewmodel:IngredientsViewModel"
              x:Class="yummyCook.Views.Main.IngredientsPage">
 
     <ScrollView>
         <VerticalStackLayout>
-            <Grid Grid.Row="0" RowDefinitions="*" RowSpacing="5">
+            <Grid RowDefinitions="*" RowSpacing="5">
                 <CollectionView ItemsSource="{Binding Fruits}">
                     <CollectionView.Header>
                         <StackLayout>
@@ -20,7 +21,11 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
-                            <Button Text="{Binding Name}" Margin="5" Style="{StaticResource HaveButton}">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="5" 
+                                    Style="{StaticResource HaveButton}">
+                                
                                 <Button.Triggers>
                                     <DataTrigger TargetType="Button"
                                                  Binding="{Binding Have}"
@@ -29,6 +34,9 @@
                                                 Value="{StaticResource NotHaveButton}"/>
 
                                     </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
                                 </Button.Triggers>
                             </Button>
                         </DataTemplate>
@@ -36,7 +44,7 @@
                 </CollectionView>
             </Grid>
 
-            <Grid Grid.Row="1" RowDefinitions="*" RowSpacing="5">
+            <Grid RowDefinitions="*" RowSpacing="5">
                 <CollectionView ItemsSource="{Binding Vegetables}">
                     <CollectionView.Header>
                         <StackLayout>
@@ -54,7 +62,7 @@
                 </CollectionView>
             </Grid>
 
-            <Grid Grid.Row="2" RowDefinitions="*" RowSpacing="5">
+            <Grid RowDefinitions="*" RowSpacing="5">
                 <CollectionView ItemsSource="{Binding Fruits}">
                     <CollectionView.Header>
                         <StackLayout>

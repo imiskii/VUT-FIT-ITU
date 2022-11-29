@@ -82,6 +82,8 @@
     <Style x:Key="HaveButton" TargetType="Button">
         <Setter Property="TextColor" Value="Black" />
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderColor" Value="{StaticResource White}"/>
+        <Setter Property="BorderWidth" Value="2"/>
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontAttributes" Value="Bold" />

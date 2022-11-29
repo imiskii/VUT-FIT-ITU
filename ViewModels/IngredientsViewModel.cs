@@ -1,30 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
 {
-    public partial class IngredientsViewModel
+    public partial class IngredientsViewModel : INotifyPropertyChanged
     {
+
         FirebaseHelper firebaseHelper = new FirebaseHelper();
+
+        public event PropertyChangedEventHandler PropertyChanged; 
+
+        /* Observable Collections for ingredients categories */
 
         public ObservableCollection<IngredientModel> Fruits { get; } = new();
         public ObservableCollection<IngredientModel> Vegetables { get; } = new();
 
+        /* Commands */
+
+        public ICommand SetFruitCommand => new Command<IngredientModel>(SetIngredientHave);
         public Command GetIngredientCommand { get; }
+
+        /* VIEWMODEL */
         public IngredientsViewModel(FirebaseHelper firebaseHelper)
         {
             GetIngredientCommand = new Command(async () => await GetIngredietsAsync());
             GetIngredientCommand.Execute(this);
+
         }
 
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+
+        /* Set Ingredient "Have" property */
+        public async void SetIngredientHave(IngredientModel ing)
+        {
+            if (ing.Have)
+            {
+                await firebaseHelper.UpdateIngredience("have", ing.Category, ing.Name, false);
+                ing.Have = false;
+            }
+            else
+            {
+                await firebaseHelper.UpdateIngredience("have", ing.Category, ing.Name, true);
+                ing.Have = true;
+            }
+        }
+
+        /* Load Ingredients from database */
         async Task GetIngredietsAsync()
         {
 
@@ -54,7 +82,6 @@ namespace yummyCook.ViewModels
                 Debug.WriteLine(ex);
                 await Shell.Current.DisplayAlert("Error!", $"Nelze načíst ingredience: {ex.Message}", "OK");
             }
-
         }
     }
 }

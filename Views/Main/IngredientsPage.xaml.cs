@@ -1,7 +1,5 @@
 using yummyCook.ViewModels;
-using System.ComponentModel;
 using yummyCook.Firebase;
-
 namespace yummyCook.Views.Main;
 
 public partial class IngredientsPage : ContentPage
