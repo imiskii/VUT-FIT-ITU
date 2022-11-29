@@ -31,11 +31,14 @@ namespace yummyCook.ViewModels
         public ObservableCollection<IngredientModel> Spices { get; } = new();
         public ObservableCollection<IngredientModel> Sweeteners { get; } = new();
         public ObservableCollection<IngredientModel> Sauces { get; } = new();
+        public ObservableCollection<IngredientModel> ShoppingList { get; } = new();
 
         /* Commands */
 
         public ICommand SetFruitCommand => new Command<IngredientModel>(SetIngredientHave);
         public Command GetIngredientCommand { get; }
+
+        public ICommand SetInCartCommand => new Command<IngredientModel>(SetInCartFirebase);
 
         /* VIEWMODEL */
         public IngredientsViewModel(FirebaseHelper firebaseHelper)
@@ -59,6 +62,20 @@ namespace yummyCook.ViewModels
             {
                 await firebaseHelper.UpdateIngredience("have", ing.Category, ing.Name, true);
                 ing.Have = true;
+            }
+        }
+
+        public async void SetInCartFirebase(IngredientModel ing)
+        {
+            if (ing.InCart)
+            {
+                await firebaseHelper.UpdateIngredience("inCart", ing.Category, ing.Name, false);
+                ing.InCart = false;
+            }
+            else
+            {
+                await firebaseHelper.UpdateIngredience("inCart", ing.Category, ing.Name, true);
+                ing.InCart = true;
             }
         }
 
@@ -153,8 +170,16 @@ namespace yummyCook.ViewModels
                 {
                     Sauces.Add(item);
                 }
+
+                var joined = new ObservableCollection<IngredientModel>(Fruits.Concat(Vegetables.Concat(Meat.Concat(Fish.Concat(Pasta.Concat(Pastry.Concat(Dairyproducts.Concat(Mushrooms.Concat(Oils.Concat(Nuts.Concat(Spices.Concat(Sweeteners))))))))))));
+
+                ShoppingList.Clear();
+                foreach (var item in joined.Where(x => x.Buy.Equals(true)))
+                {
+                    ShoppingList.Add(item);
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex);
                 await Shell.Current.DisplayAlert("Error!", $"Nelze načíst ingredience: {ex.Message}", "OK");

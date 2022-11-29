@@ -16,5 +16,7 @@ namespace yummyCook.Firebase
         public float Calories { get; set; }
         public bool Have { get; set; }
         public bool Buy { get; set; }
+        public bool InCart { get; set; }
+        public string ToBuy { get; set; }
     }
 }

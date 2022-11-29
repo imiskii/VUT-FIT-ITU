@@ -65,11 +65,11 @@
     </Style>
 
     <!-- Have Button -->
-    <Style x:Key="HaveButton" TargetType="Button">
-        <Setter Property="TextColor" Value="Black" />
+    <Style x:Key="HaveButton" TargetType="Button" Class="HaveButton">
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
-        <Setter Property="BorderColor" Value="{StaticResource White}"/>
-        <Setter Property="BorderWidth" Value="2"/>
+        <Setter Property="BorderColor" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderWidth" Value="3"/>
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontAttributes" Value="Bold" />
@@ -91,9 +91,9 @@
     </Style>
 
     <!-- Do Not Have Button -->
-    <Style x:Key="NotHaveButton" TargetType="Button">
-        <Setter Property="TextColor" Value="Black" />
-        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+    <Style x:Key="NotHaveButton" TargetType="Button" Class="NotHaveButton">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Gray100}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
         <Setter Property="BorderColor" Value="{StaticResource Primary}"/>
         <Setter Property="BorderWidth" Value="2"/>
         <Setter Property="FontFamily" Value="OpenSansRegular"/>

@@ -3,6 +3,7 @@ using yummyCook.Firebase;
 using yummyCook.Resources.Translations;
 using yummyCook.ViewModels;
 using yummyCook.Views.Main;
+using yummyCook.Views.Others;
 
 namespace yummyCook;
 
@@ -44,11 +45,12 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<FirebaseHelper>();
 
-
         builder.Services.AddSingleton<IngredientsViewModel>();
 
         builder.Services.AddSingleton<HomePage>();
         builder.Services.AddSingleton<IngredientsPage>();
+
+        builder.Services.AddSingleton<ShoppingListPage>();
 
 
 

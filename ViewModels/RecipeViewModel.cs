@@ -16,7 +16,7 @@ namespace yummyCook.ViewModels
         public ObservableCollection<RecipeModel> Recipes { get; } = new();
 
         public ICommand ShowShoppingList {  get; set; }
-
+        
 
         public Command GetRecipesCommand { get; }
         public RecipeViewModel()
