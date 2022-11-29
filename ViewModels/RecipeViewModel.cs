@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
@@ -14,11 +15,16 @@ namespace yummyCook.ViewModels
 
         public ObservableCollection<RecipeModel> Recipes { get; } = new();
 
+        public ICommand ShowShoppingList {  get; set; }
+
+
         public Command GetRecipesCommand { get; }
-        public RecipeViewModel(FirebaseHelper firebaseHelper)
+        public RecipeViewModel()
         {
             GetRecipesCommand = new Command(async () => await GetRecipesAsync());
             GetRecipesCommand.Execute(this);
+
+            ShowShoppingList = new Command(async () => await ShowShoppingListAsync());
         }
 
         async Task GetRecipesAsync()
@@ -39,6 +45,11 @@ namespace yummyCook.ViewModels
                     counter++;
                 }
             }
-        }     
+        }
+
+        async Task ShowShoppingListAsync()
+        {
+            await Shell.Current.GoToAsync("shoppingList");
+        }
     }
 }
