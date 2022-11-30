@@ -4,14 +4,17 @@
  *
 */
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
 {
-    public partial class IngredientsViewModel
+    public partial class IngredientsViewModel : BaseClass
     {
 
         FirebaseHelper firebaseHelper = new FirebaseHelper();
@@ -33,21 +36,24 @@ namespace yummyCook.ViewModels
         public ObservableCollection<IngredientModel> Sauces { get; } = new();
         public ObservableCollection<IngredientModel> ShoppingList { get; } = new();
 
+
+
         /* Commands */
 
         public ICommand SetFruitCommand => new Command<IngredientModel>(SetIngredientHave);
         public Command GetIngredientCommand { get; }
 
         public ICommand SetInCartCommand => new Command<IngredientModel>(SetInCartFirebase);
+        public ICommand NavigateBackCommand => new Command(NavigateBack);
+        public ICommand ClearShoppingListCommand => new Command(ClearShoppingList);
 
         /* VIEWMODEL */
         public IngredientsViewModel(FirebaseHelper firebaseHelper)
         {
             GetIngredientCommand = new Command(async () => await GetIngredietsAsync());
             GetIngredientCommand.Execute(this);
-
         }
-
+        
         /* Set Ingredient "Have" property */
         /* If "Have" is true set to false */
         /* if "Have" is false set to true */
@@ -71,18 +77,44 @@ namespace yummyCook.ViewModels
             {
                 await firebaseHelper.UpdateIngredience("inCart", ing.Category, ing.Name, false);
                 ing.InCart = false;
+                shoppingListCount++;
             }
             else
             {
                 await firebaseHelper.UpdateIngredience("inCart", ing.Category, ing.Name, true);
                 ing.InCart = true;
+                shoppingListCount--;
             }
         }
+
+        public async void NavigateBack()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+        public async void ClearShoppingList()
+        {
+            bool answer = await Shell.Current.DisplayAlert("Pozor", "Opravdu si přejete vymazat nákupní seznam?", "Ano", "Ne");
+
+            if (answer)
+            {
+                foreach (var item in ShoppingList)
+                {
+                    await firebaseHelper.UpdateIngredience("buy", item.Category, item.Name, false);
+                    await firebaseHelper.UpdateIngredience("inCart", item.Category, item.Name, false);
+                }
+
+                ShoppingList.Clear();
+                shoppingListCount = 0;
+                IsEmpty = true;
+            }
+        }
+
 
         /* Load Ingredients from database */
         async Task GetIngredietsAsync()
         {
-
+            IsBusy = true;
+            IsEmpty = true;
             try
             {
                 var fruits = await firebaseHelper.GetIngredients("fruits");
@@ -178,6 +210,15 @@ namespace yummyCook.ViewModels
                 {
                     ShoppingList.Add(item);
                 }
+
+                shoppingListCount = ShoppingList.Where(x => x.InCart.Equals(false)).Count();
+
+                if (shoppingListCount != 0)
+                {
+                    IsEmpty = false;
+                }
+
+                IsBusy = false;
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 using banditoth.MAUI.Multilanguage;
+using SkiaSharp.Views.Maui.Controls.Hosting;
 using yummyCook.Firebase;
 using yummyCook.Resources.Translations;
 using yummyCook.ViewModels;
@@ -14,7 +15,10 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
+
+            .UseSkiaSharp()
+
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");

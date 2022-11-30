@@ -2,37 +2,43 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="yummyCook.Views.Others.ShoppingListPage"
-             
              xmlns:model="clr-namespace:yummyCook.Firebase"
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
              x:DataType="viewmodel:IngredientsViewModel"
              xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
-             
              Shell.PresentationMode="ModalAnimated"
-             Padding="0">
+             Padding="0"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI">
 
     <StackLayout TranslationY="-10">
         <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}"
                HeightRequest="75">
             <StackLayout Orientation="Horizontal">
-                <Frame WidthRequest="40"
+                <Button WidthRequest="40"
                        HeightRequest="40"
                        Margin="20, 20, 10, 10"
-                       BackgroundColor="Orange" />
+                       BackgroundColor="Orange"
+                       Text="➜"
+                       Rotation="180"
+                       FontSize="20"
+                       Padding="0, 0, 0, 3.5"
+                       Command="{Binding NavigateBackCommand}"/>
                 <Label StyleClass="PageH2"
                        Text="Nákupní seznam"
                        VerticalOptions="Center"
                        Margin="10, 20, 10, 10" />
             </StackLayout>
         </Frame>
+        
         <Frame Margin="20"
-               BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
+               BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
+               IsVisible="{Binding IsNotBusy}">
             <StackLayout>
-                <ListView x:Name="ShoppingListView"
-                          ItemsSource="{Binding ShoppingList}"
+                <ListView ItemsSource="{Binding ShoppingList}"
                           SelectionMode="None"
                           HasUnevenRows="True"
-                          VerticalOptions="Start">
+                          VerticalOptions="Start"
+                          IsVisible="{Binding IsNotEmpty}">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="model:IngredientModel">
                             <ViewCell>
@@ -82,7 +88,7 @@
                                     <Button Grid.RowSpan="3"
                                             Grid.Column="3"
                                             Text="🛒"
-                                            Padding="4, 3"
+                                            Padding="4.3, 3"
                                             FontSize="16"
                                             VerticalOptions="Center"
                                             BackgroundColor="{StaticResource Primary}"
@@ -122,18 +128,37 @@
                 <StackLayout Padding="10" Orientation="Horizontal" Spacing="15" HorizontalOptions="Center">
                     <Label Text="Zbývá koupit:"
                            FontSize="18"
-                           VerticalOptions="Center"/>
-                    <Label Text="120 položek"
+                           VerticalOptions="Center"
+                           IsVisible="{Binding IsNotEmpty}" />
+                    <Label Text="{Binding shoppingListCount}"
                            FontSize="25"
-                           StyleClass="PageH1"/>
+                           StyleClass="PageH1"
+                           IsVisible="{Binding IsNotEmpty}" />
+                    <Label Text="Nákupní seznam je prázdný"
+                           FontSize="18"
+                           IsVisible="{Binding IsEmpty}" />
                 </StackLayout>
 
             </StackLayout>
         </Frame>
+        
+        <skia:SKLottieView Source="{AppThemeBinding Light=loaderLight.json, Dark=loaderDark.json}"
+                           RepeatCount="-1"
+                           HeightRequest="200"
+                           WidthRequest="200"
+                           HorizontalOptions="Center"
+                           VerticalOptions="CenterAndExpand"
+                           IsVisible="{Binding IsBusy}" />
 
-        <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" HorizontalOptions="Center" Spacing="20">
-            <Button Style="{StaticResource NotHaveButton}" Text="Odstranit seznam"/>
-            <Button Text="Označit vše"/>
+        <StackLayout Orientation="Horizontal"
+                     VerticalOptions="End"
+                     HorizontalOptions="Center"
+                     Spacing="20"
+                     IsVisible="{Binding IsNotBusy}">
+            <Button Style="{StaticResource NotHaveButton}"
+                    Text="Odstranit seznam"
+                    Command="{Binding ClearShoppingListCommand}"/>
+            <!--<Button Text="Označit vše"/>-->
         </StackLayout>
     </StackLayout>
 </ContentPage>

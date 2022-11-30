@@ -2,6 +2,7 @@
  * Triggers.cs
  * Autor: Michal Ľaš (xlasmi00)
  *
+ * Úpravy pro různá AppTheme: Ondřej Janečka (xjanec33)
 */
 
 namespace yummyCook.IngredientTriggers
