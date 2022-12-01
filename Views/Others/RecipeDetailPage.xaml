@@ -5,7 +5,7 @@
              Title="RecipeDetailPage"
              xmlns:model="clr-namespace:yummyCook.Firebase"
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
-             x:DataType="viewmodel:RecipeViewModel">
+             x:DataType="viewmodel:RecipeDetailViewModel">
     
     <VerticalStackLayout>
         <Label x:DataType="model:RecipeModel"

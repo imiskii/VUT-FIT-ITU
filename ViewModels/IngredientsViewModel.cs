@@ -46,6 +46,7 @@ namespace yummyCook.ViewModels
         public ICommand SetInCartCommand => new Command<IngredientModel>(SetInCartFirebase);
         public ICommand NavigateBackCommand => new Command(NavigateBack);
         public ICommand ClearShoppingListCommand => new Command(ClearShoppingList);
+        public ICommand RemoveCommand => new Command<IngredientModel>(Remove);
 
         /* VIEWMODEL */
         public IngredientsViewModel(FirebaseHelper firebaseHelper)
@@ -107,6 +108,13 @@ namespace yummyCook.ViewModels
                 shoppingListCount = 0;
                 IsEmpty = true;
             }
+        }
+
+        public async void Remove(IngredientModel obj)
+        {
+            await firebaseHelper.UpdateIngredience("buy", obj.Category, obj.Name, false);
+            await firebaseHelper.UpdateIngredience("inCart", obj.Category, obj.Name, false);
+            Remove(obj);
         }
 
 

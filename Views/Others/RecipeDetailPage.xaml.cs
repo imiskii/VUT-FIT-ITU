@@ -1,9 +1,13 @@
+using yummyCook.ViewModels;
+
 namespace yummyCook.Views.Others;
 
 public partial class RecipeDetailPage : ContentPage
 {
-	public RecipeDetailPage()
+	public RecipeDetailPage(RecipeDetailViewModel viewModel)
 	{
 		InitializeComponent();
+
+		BindingContext = viewModel.recipeModel;
 	}
 }

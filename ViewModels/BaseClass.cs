@@ -11,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
 {
@@ -66,6 +67,8 @@ namespace yummyCook.ViewModels
             }
         }
         public bool IsNotEmpty => !IsEmpty;
+
+        public static RecipeModel DetailRecipe { get; set; }
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {

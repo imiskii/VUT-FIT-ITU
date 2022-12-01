@@ -6,7 +6,8 @@
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
              x:DataType="viewmodel:IngredientsViewModel"
              xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
-             Shell.PresentationMode="ModalAnimated"
+             Shell.PresentationMode="Animated"
+             Shell.TabBarIsVisible="False"
              Padding="0"
              xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI">
 
@@ -84,7 +85,9 @@
                                            Grid.Column="2"
                                            Placeholder="Množství"
                                            FontSize="16"
-                                           VerticalOptions="Center" />
+                                           VerticalOptions="Center"
+                                           ReturnCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=RemoveCommand}"
+                                           ReturnCommandParameter="{Binding .}"/>
                                     <Button Grid.RowSpan="3"
                                             Grid.Column="3"
                                             Text="🛒"
@@ -118,7 +121,9 @@
                                             Text="Odebrat"
                                             Margin="0, 0, 15, 0"
                                             Padding="5"
-                                            VerticalOptions="Center" />
+                                            VerticalOptions="Center"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=RemoveCommand}"
+                                            CommandParameter="{Binding .}" />
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
