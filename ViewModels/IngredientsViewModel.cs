@@ -50,16 +50,8 @@ namespace yummyCook.ViewModels
         /* if "Have" is false set to true */
         public async void SetIngredientHave(IngredientModel ing)
         {
-            if (ing.Have)
-            {
-                await firebaseHelper.UpdateIngredience("have", ing.Category, ing.Name, false);
-                ing.Have = false;
-            }
-            else
-            {
-                await firebaseHelper.UpdateIngredience("have", ing.Category, ing.Name, true);
-                ing.Have = true;
-            }
+            await firebaseHelper.UpdateIngredience("have", ing.Category, ing.Name, !ing.Have);
+            ing.Have = !ing.Have;
         }
 
         /* Load Ingredients from database */

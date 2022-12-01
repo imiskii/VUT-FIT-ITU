@@ -1,11 +1,6 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace yummyCook.Firebase
 {
@@ -20,6 +15,11 @@ namespace yummyCook.Firebase
         public async Task<ObservableCollection<IngredientModel>> GetIngredients(string category)
         {
             return (new ObservableCollection<IngredientModel>(await GetIngredientsList(category)));
+        }
+
+        public async Task<ObservableCollection<ProfilModel>> GetProfil()
+        {
+            return (new ObservableCollection<ProfilModel>(await GetProfilList()));
         }
 
         public async Task<List<RecipeModel>> GetRecipesList()
@@ -110,6 +110,21 @@ namespace yummyCook.Firebase
                         Have = ingItem.Object.Have, 
                         Buy = value });
             }
+        }
+
+        public async Task<List<ProfilModel>> GetProfilList()
+        {
+            return (await firebase
+              .Child("Profil")
+              .OnceAsync<ProfilModel>()).Select(item => new ProfilModel
+              {
+                  ProfilName = item.Object.ProfilName,
+                  ProfilImage = item.Object.ProfilImage,
+                  Diets = item.Object.Diets,
+                  Alergy = item.Object.Alergy,
+                  Language = item.Object.Language,
+
+              }).ToList();
         }
     }
 }

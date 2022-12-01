@@ -1,10 +1,9 @@
 ﻿/**
- * Triggers.cs
- * Autor: Michal Ľaš (xlasmi00)
- *
+* Triggers.cs
+* Autor: Michal Ľaš (xlasmi00)
+*
 */
-
-namespace yummyCook.IngredientTriggers
+namespace yummyCook.Views.IngredientTriggers
 {
     public class ChangeStyle : TriggerAction<Button>
     {

@@ -1,11 +1,105 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- MorePage.xaml -->
+<!-- Autor: Michal Ľaš -->
+    
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
+             xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:local="clr-namespace:yummyCook.Views.IngredientTriggers"
+             x:DataType="viewmodel:ProfilViewModel"
              x:Class="yummyCook.Views.Main.MorePage">
     
     <ScrollView>
         <VerticalStackLayout>
+            <Grid RowDefinitions="*,Auto,*,Auto" RowSpacing="10" ColumnDefinitions="*,*" ColumnSpacing="10">
+                <ImageButton Grid.Row="0" Grid.Column="0" HeightRequest="120" WidthRequest="120" CornerRadius="60" BackgroundColor="Red"/>
+                <Grid Grid.Row="0" Grid.Column="1" ColumnDefinitions="Auto,Auto">
+                    <Label Grid.Column="0" Text="{Binding ProfilData.ProfilName}" FontSize="24" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <ImageButton Grid.Column="1" VerticalOptions="Center" HeightRequest="50" WidthRequest="50" Margin="10,0,0,0" BackgroundColor="Green"/>
+                </Grid>
+                <Button Grid.Row="1" Grid.Column="0" Text="Nákupní seznam"/>
+                <Button Grid.Row="1" Grid.Column="1" Text="Vytvoř recept"/>
+                <Grid Grid.Row="2" Grid.ColumnSpan="2" RowDefinitions="*,*" RowSpacing="20">
+                    <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
+                        <Label Grid.Row="0" Text="Diéty" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding ProfilData.Diets}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="model:Diets">
+                                    <Button 
+                                        Text="{Binding Diet}"
+                                        
+                                        CommandParameter="{Binding .}"
+                                        Margin="2"
+                                        FlexLayout.Basis="Auto"
+                                        Style="{StaticResource HaveButton}">
 
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                                <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                            </DataTrigger>
+                                            <EventTrigger Event="Clicked">
+                                                <local:ChangeStyle/>
+                                            </EventTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </Grid>
+                    <Grid Grid.Row="1" RowDefinitions="Auto,Auto" RowSpacing="5">
+                        <Label Grid.Row="0" Text="Alergie" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
+                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding ProfilData.Alergy}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate x:DataType="model:Alergies">
+                                    <Button 
+                                        Text="{Binding Alergy}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=SetAlergyHave}"
+                                        CommandParameter="{Binding .}"
+                                        Margin="2"
+                                        FlexLayout.Basis="Auto"
+                                        Style="{StaticResource HaveButton}">
+
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                                <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                            </DataTrigger>
+                                            <EventTrigger Event="Clicked">
+                                                <local:ChangeStyle/>
+                                            </EventTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </FlexLayout>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="3" RowDefinitions="Auto, *" Grid.ColumnSpan="2">
+                    <Label Grid.Row="0" Text="Jazyk" FontSize="16" FontAttributes="Bold"/>
+                    <Picker Grid.Row="1" Title="Jazyk" SelectedItem="{Binding ProfilData.Language}">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Čeština</x:String>
+                                <x:String>Angličtina</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </Grid>
+            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
