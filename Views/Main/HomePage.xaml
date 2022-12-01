@@ -2,17 +2,19 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="yummyCook.Views.Main.HomePage"
-             
              xmlns:model="clr-namespace:yummyCook.Firebase"
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
              x:DataType="viewmodel:RecipeViewModel"
+             x:Name="ParentPage"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              
-             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI">
+             xmlns:local="clr-namespace:yummyCook.RecipeDetailTriggers">
 
-    <ScrollView VerticalScrollBarVisibility="Never">
+    <ScrollView HorizontalScrollBarVisibility="Never">
         <VerticalStackLayout Spacing="25">
             <Label Text="Dobré odpoledne"
-                   StyleClass="PageH1" />
+                   StyleClass="PageH1" 
+                   Margin="0, 10, 0, 0"/>
             <HorizontalStackLayout Spacing="5">
                 <Label Text="{Binding shoppingListCount}"
                        StyleClass="PageH1"
@@ -41,7 +43,7 @@
                         <Frame HeightRequest="200"
                                Margin="5, 10">
                             <Grid>
-                                <Image Source="Images/pizza.jpg"
+                                <Image Source="{Binding Photos}"
                                        Aspect="AspectFill" />
                                 <Grid>
                                     <Grid.Background>
@@ -92,7 +94,15 @@
                                             Grid.RowSpan="2"
                                             Grid.Column="2"
                                             CornerRadius="10"
-                                            Text="Do toho!" />
+                                            Text="Do toho!"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeViewModel}}, Path=GoToDetailCommand}"
+                                            CommandParameter="{Binding .}">
+                                        <Button.Triggers>
+                                            <EventTrigger Event="Clicked">
+                                                <local:RecipeDetailTrigger />
+                                            </EventTrigger>
+                                        </Button.Triggers>
+                                    </Button>
                                 </Grid>
                             </Grid>
                         </Frame>

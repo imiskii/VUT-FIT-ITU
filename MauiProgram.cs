@@ -15,7 +15,6 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-
             .UseSkiaSharp()
 
             .ConfigureFonts(fonts =>
@@ -55,8 +54,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IngredientsPage>();
 
         builder.Services.AddSingleton<ShoppingListPage>();
-
-
+        builder.Services.AddSingleton<RecipeDetailPage>();
 
         return builder.Build();
 	}

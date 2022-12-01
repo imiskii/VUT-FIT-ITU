@@ -21,7 +21,8 @@ namespace yummyCook.ViewModels
 
         public ObservableCollection<RecipeModel> Recipes { get; } = new();
 
-        public ICommand ShowShoppingList {  get; set; }
+        public ICommand ShowShoppingList => new Command(async () => await ShowShoppingListAsync());
+        public ICommand GoToDetailCommand => new Command(async () => await GoToDetailAsync());
 
         public Command GetRecipesCommand { get; }
         public RecipeViewModel()
@@ -29,7 +30,8 @@ namespace yummyCook.ViewModels
             GetRecipesCommand = new Command(async () => await GetRecipesAsync());
             GetRecipesCommand.Execute(this);
             
-            ShowShoppingList = new Command(async () => await ShowShoppingListAsync());
+            //ShowShoppingList = new Command(async () => await ShowShoppingListAsync());
+
         }
 
         bool topDone = false;
@@ -71,6 +73,11 @@ namespace yummyCook.ViewModels
         async Task ShowShoppingListAsync()
         {
             await Shell.Current.GoToAsync("shoppingList");
+        }
+
+        async Task GoToDetailAsync()
+        {
+            await Shell.Current.GoToAsync("recipeDetail");
         }
     }
 }
