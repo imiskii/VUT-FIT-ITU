@@ -6,7 +6,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
              xmlns:model="clr-namespace:yummyCook.Firebase"
-             xmlns:local="clr-namespace:yummyCook.Views.IngredientTriggers"
+             xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
              x:DataType="viewmodel:ProfilViewModel"
              x:Class="yummyCook.Views.Main.MorePage">
     

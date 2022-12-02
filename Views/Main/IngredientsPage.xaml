@@ -5,7 +5,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:model="clr-namespace:yummyCook.Firebase"
-             xmlns:local="clr-namespace:yummyCook.Views.IngredientTriggers"
+             xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
              x:DataType="viewmodel:IngredientsViewModel"
              x:Class="yummyCook.Views.Main.IngredientsPage">
