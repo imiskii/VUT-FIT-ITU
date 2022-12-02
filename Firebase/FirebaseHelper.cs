@@ -1,11 +1,8 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace yummyCook.Firebase
 {
@@ -20,6 +17,11 @@ namespace yummyCook.Firebase
         public async Task<ObservableCollection<IngredientModel>> GetIngredients(string category)
         {
             return (new ObservableCollection<IngredientModel>(await GetIngredientsList(category)));
+        }
+
+        public async Task<ObservableCollection<ProfilModel>> GetProfil()
+        {
+            return (new ObservableCollection<ProfilModel>(await GetProfilList()));
         }
 
         public async Task<List<RecipeModel>> GetRecipesList()
@@ -123,19 +125,153 @@ namespace yummyCook.Firebase
                 await firebase.Child("Ingredients")
                     .Child(category)
                     .Child(ingItem.Key)
-                    .PutAsync(new IngredientModel { 
-                        Name = ingItem.Object.Name, 
-                        Category = ingItem.Object.Category, 
-                        Fat = ingItem.Object.Fat, 
-                        Sugar = ingItem.Object.Sugar, 
-                        Proteins = ingItem.Object.Proteins, 
-                        Calories = ingItem.Object.Calories, 
-                        Have = ingItem.Object.Have, 
+                    .PutAsync(new IngredientModel
+                    {
+                        Name = ingItem.Object.Name,
+                        Category = ingItem.Object.Category,
+                        Fat = ingItem.Object.Fat,
+                        Sugar = ingItem.Object.Sugar,
+                        Proteins = ingItem.Object.Proteins,
+                        Calories = ingItem.Object.Calories,
+                        Have = ingItem.Object.Have,
                         Buy = ingItem.Object.Buy,
                         InCart = value,
                         ToBuy = ingItem.Object.ToBuy
                     });
             }
+        }
+
+        public async Task<List<ProfilModel>> GetProfilList()
+        {
+            return (await firebase
+              .Child("Profil")
+              .OnceAsync<ProfilModel>()).Select(item => new ProfilModel
+              {
+                  ProfilName = item.Object.ProfilName,
+                  ProfilImage = item.Object.ProfilImage,
+                  Diets = item.Object.Diets,
+                  Alergy = item.Object.Alergy,
+                  Tools = item.Object.Tools,
+                  Language = item.Object.Language,
+
+              }).ToList();
+        }
+
+        /* Funkcia pre profil vyhľadá zadanú alergiu (alergyName) ktorá je na indexe (index) a nastaví jej "Have" na hodnotu value */
+        public async Task UpdateAlergyHave(string alergyName, bool value, int index)
+        {
+            var profil = (await firebase
+                .Child("Profil")
+                .OnceAsync<ProfilModel>()).FirstOrDefault();
+
+
+            profil.Object.Alergy[index].Have = value;
+
+            await firebase
+                .Child("Profil")
+                .Child(profil.Key)
+                .PutAsync(new ProfilModel
+                {
+                    ProfilName = profil.Object.ProfilName,
+                    ProfilImage = profil.Object.ProfilImage,
+                    Alergy = profil.Object.Alergy,
+                    Diets = profil.Object.Diets,
+                    Tools = profil.Object.Tools,
+                    Language = profil.Object.Language,
+                });
+        }
+
+        /* Funkcia pre profil vyhľadá zadanú dietu (dietName) ktorá je na indexe (index) a nastaví jej "Have" na hodnotu value */
+        public async Task UpdateDietHave(string dietName, bool value, int index)
+        {
+            var profil = (await firebase
+                .Child("Profil")
+                .OnceAsync<ProfilModel>()).FirstOrDefault();
+
+
+            profil.Object.Diets[index].Have = value;
+
+            await firebase
+                .Child("Profil")
+                .Child(profil.Key)
+                .PutAsync(new ProfilModel
+                {
+                    ProfilName = profil.Object.ProfilName,
+                    ProfilImage = profil.Object.ProfilImage,
+                    Alergy = profil.Object.Alergy,
+                    Diets = profil.Object.Diets,
+                    Tools = profil.Object.Tools,
+                    Language = profil.Object.Language,
+                });
+        }
+
+        public async Task UpdateProfilName(string newName)
+        {
+            var profil = (await firebase
+                .Child("Profil")
+                .OnceAsync<ProfilModel>()).FirstOrDefault();
+
+
+            profil.Object.ProfilName = newName;
+
+            await firebase
+                .Child("Profil")
+                .Child(profil.Key)
+                .PutAsync(new ProfilModel
+                {
+                    ProfilName = profil.Object.ProfilName,
+                    ProfilImage = profil.Object.ProfilImage,
+                    Alergy = profil.Object.Alergy,
+                    Diets = profil.Object.Diets,
+                    Tools = profil.Object.Tools,
+                    Language = profil.Object.Language,
+                });
+        }
+
+        public async Task UpdateProfilImage(string path)
+        {
+            var profil = (await firebase
+                .Child("Profil")
+                .OnceAsync<ProfilModel>()).FirstOrDefault();
+
+
+            profil.Object.ProfilImage = path;
+
+            await firebase
+                .Child("Profil")
+                .Child(profil.Key)
+                .PutAsync(new ProfilModel
+                {
+                    ProfilName = profil.Object.ProfilName,
+                    ProfilImage = profil.Object.ProfilImage,
+                    Alergy = profil.Object.Alergy,
+                    Diets = profil.Object.Diets,
+                    Tools = profil.Object.Tools,
+                    Language = profil.Object.Language,
+                });
+        }
+
+        public async Task UpdateToolHave(string toolName, bool value, int index)
+        {
+            var profil = (await firebase
+                .Child("Profil")
+                .OnceAsync<ProfilModel>()).FirstOrDefault();
+
+
+            profil.Object.Tools[index].Have = value;
+
+            await firebase
+                .Child("Profil")
+                .Child(profil.Key)
+                .PutAsync(new ProfilModel
+                {
+                    ProfilName = profil.Object.ProfilName,
+                    ProfilImage = profil.Object.ProfilImage,
+                    Alergy = profil.Object.Alergy,
+                    Diets = profil.Object.Diets,
+                    Tools = profil.Object.Tools,
+                    Language = profil.Object.Language,
+                });
         }
     }
 }
