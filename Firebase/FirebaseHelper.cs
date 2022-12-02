@@ -61,7 +61,9 @@ namespace yummyCook.Firebase
                   Proteins = item.Object.Proteins,
                   Calories = item.Object.Calories,
                   Have = item.Object.Have,
-                  Buy = item.Object.Buy    
+                  Buy = item.Object.Buy,
+                  InCart = item.Object.InCart,
+                  ToBuy = item.Object.ToBuy
 
               }).ToList();
         }
@@ -94,8 +96,11 @@ namespace yummyCook.Firebase
                         Sugar = ingItem.Object.Sugar,
                         Proteins = ingItem.Object.Proteins, 
                         Calories = ingItem.Object.Calories, 
-                        Have = value, 
-                        Buy = ingItem.Object.Buy });
+                        Have = value,
+                        Buy = ingItem.Object.Buy,
+                        InCart = ingItem.Object.InCart,
+                        ToBuy = ingItem.Object.ToBuy
+                    });
             }
             else if (property == "buy")
             {
@@ -110,7 +115,29 @@ namespace yummyCook.Firebase
                         Proteins = ingItem.Object.Proteins, 
                         Calories = ingItem.Object.Calories, 
                         Have = ingItem.Object.Have, 
-                        Buy = value });
+                        Buy = value,
+                        InCart = ingItem.Object.InCart,
+                        ToBuy = ingItem.Object.ToBuy
+                    });
+            }
+            else if (property == "inCart")
+            {
+                await firebase.Child("Ingredients")
+                    .Child(category)
+                    .Child(ingItem.Key)
+                    .PutAsync(new IngredientModel
+                    {
+                        Name = ingItem.Object.Name,
+                        Category = ingItem.Object.Category,
+                        Fat = ingItem.Object.Fat,
+                        Sugar = ingItem.Object.Sugar,
+                        Proteins = ingItem.Object.Proteins,
+                        Calories = ingItem.Object.Calories,
+                        Have = ingItem.Object.Have,
+                        Buy = ingItem.Object.Buy,
+                        InCart = value,
+                        ToBuy = ingItem.Object.ToBuy
+                    });
             }
         }
 
