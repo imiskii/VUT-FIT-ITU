@@ -12,7 +12,7 @@
     
     <ScrollView>
         <VerticalStackLayout>
-            <Grid RowDefinitions="*,Auto,*,Auto" RowSpacing="10" ColumnDefinitions="*,*" ColumnSpacing="10">
+            <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="10" Margin="0,10,0,0" ColumnDefinitions="*,*" ColumnSpacing="10">
                 <ImageButton Grid.Row="0" Grid.Column="0" 
                              HeightRequest="120" 
                              WidthRequest="120" 
