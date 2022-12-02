@@ -1,5 +1,3 @@
-
-
 using yummyCook.ViewModels;
 
 namespace yummyCook.Views.Main;
