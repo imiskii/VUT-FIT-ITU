@@ -211,6 +211,8 @@ namespace yummyCook.ViewModels
                     ShoppingList.Add(item);
                 }
 
+                SavedIngredients = ShoppingList;
+
                 shoppingListCount = ShoppingList.Where(x => x.InCart.Equals(false)).Count();
 
                 if (shoppingListCount != 0)
