@@ -39,10 +39,10 @@ namespace yummyCook.Firebase
                   Favourite = item.Object.Favourite,
                   Ingredients = item.Object.Ingredients,
                   Steps = item.Object.Steps,
-                  Appliances = item.Object.Appliances,
+                  Tools = item.Object.Tools,
                   Diets = item.Object.Diets,
                   Allergies = item.Object.Allergies,
-                  Photos = item.Object.Photos
+                  Photo = item.Object.Photo
 
               }).ToList();
         }

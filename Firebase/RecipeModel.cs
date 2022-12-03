@@ -6,6 +6,18 @@ using System.Threading.Tasks;
 
 namespace yummyCook.Firebase
 {
+
+    public class Ingredients
+    {
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public int Index { get; set; }
+    }
+    public class Steps
+    {
+        public string Step { get; set; }
+        public int Index { get; set; }
+    }
     public class RecipeModel
     {
         public string Name { get; set; }
@@ -15,11 +27,12 @@ namespace yummyCook.Firebase
         public string Type { get; set; }
         public string Kitchen { get; set; }
         public bool Favourite { get; set; }
-        public string Ingredients { get; set; }
-        public string Steps { get; set; }
-        public string Appliances { get; set; }
-        public string Diets { get; set; }
-        public string Allergies { get; set; }
-        public string Photos { get; set; }
+        public Ingredients[] Ingredients { get; set; }
+        public Steps[] Steps { get; set; }
+        public Tools[] Tools { get; set; }
+        public Diets[] Diets { get; set; }
+        public Alergies[] Allergies { get; set; }
+        public string Photo { get; set; }
+        public ImageSource PhotoSource { get; set; }
     }
 }

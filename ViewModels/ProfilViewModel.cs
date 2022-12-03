@@ -15,12 +15,17 @@ namespace yummyCook.ViewModels
 
         public ProfilModel ProfilData { get; } = new();
 
+        public RecipeModel EditedRecipeData { get; set; } = new();
+
         /* COMMANDS */
         public ICommand SetAlergyHave => new Command<Alergies>(SetProfilAlergyHave);
         public ICommand SetDietHave => new Command<Diets>(SetProfileDietHave);
         public ICommand SetToolHave => new Command<Tools>(SetProfileToolHave);
         public ICommand SetNewName => new Command(SetProfilName);
         public ICommand SetNewImage => new Command(SetProfilImage);
+        public ICommand ShowShoppingList => new Command(async () => await ShowShoppingListAsync());
+        public ICommand ShowRecipeCreatePage => new Command(async () => await ShowRecipeCreateAsync());
+        public ICommand NavigateBackCommand => new Command(CreateRecipeNavigateBack);
         public Command GetProfilCommand { get; set; }
 
         public ProfilViewModel() 
@@ -28,6 +33,23 @@ namespace yummyCook.ViewModels
             GetProfilCommand = new Command(async () => await GetLocalProfileAsync());
             GetProfilCommand.Execute(this);
         }
+
+        async Task ShowShoppingListAsync()
+        {
+            await Shell.Current.GoToAsync("shoppingList");
+        }
+        async Task ShowRecipeCreateAsync()
+        {
+            /// Set default picture
+            /// EditedRecipeData.Photo = "Icons/image.png";
+            await Shell.Current.GoToAsync("recipeCreate");
+        }
+
+        public async void CreateRecipeNavigateBack()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+
         private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
