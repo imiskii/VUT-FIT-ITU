@@ -1,21 +1,58 @@
 ﻿/* ProfilViewModel.cs */
 /* Autor: Michal Ľaš */
 
+using CommunityToolkit.Mvvm.ComponentModel;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows.Input;
 using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
 {
-    public partial class ProfilViewModel : INotifyPropertyChanged
+    public partial class ProfilViewModel : BaseClass
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public ProfilModel ProfilData { get; } = new();
-
         public RecipeModel EditedRecipeData { get; set; } = new();
+
+        /* Editor vstupy */
+
+        
+        /// Postup
+        string procedure;
+        public string Procedure
+        {
+            get => procedure;
+            set
+            {
+                procedure = value;
+            }
+        }
+
+        /// Meno receptu
+        string name;
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+            }
+        }
+
+        /// Popis receptu
+        string description;
+        public string Description
+        {
+            get => description;
+            set
+            {
+                description = value;
+            }
+        }
+
 
         /* COMMANDS */
         public ICommand SetAlergyHave => new Command<Alergies>(SetProfilAlergyHave);
@@ -26,35 +63,45 @@ namespace yummyCook.ViewModels
         public ICommand ShowShoppingList => new Command(async () => await ShowShoppingListAsync());
         public ICommand ShowRecipeCreatePage => new Command(async () => await ShowRecipeCreateAsync());
         public ICommand NavigateBackCommand => new Command(CreateRecipeNavigateBack);
+        public ICommand AddOrRemoveDietRecipe => new Command<Diets>(AddOrRemoveRecipeDiet);
+        public ICommand AddOrRemoveToolRecipe => new Command<Tools>(AddOrRemoveRecipeTool);
+        public ICommand SaveNewRecipe => new Command(saveNewRecipe);
+        public ICommand ThrowRecipe => new Command(throwRecipe);
         public Command GetProfilCommand { get; set; }
 
         public ProfilViewModel() 
         {
+            EditedRecipeData = new RecipeModel();
             GetProfilCommand = new Command(async () => await GetLocalProfileAsync());
             GetProfilCommand.Execute(this);
         }
 
+        /* FUNCTIONS */
+
+        /* Otvor stránku na vytvorenie nákupného zoznamu */
         async Task ShowShoppingListAsync()
         {
             await Shell.Current.GoToAsync("shoppingList");
         }
+
+        /* Otvor stránku na vytváranie receptov a inicializuje hodnoty */
         async Task ShowRecipeCreateAsync()
         {
             /// Set default picture
             /// EditedRecipeData.Photo = "Icons/image.png";
+            /// EditedRecipeData.Steps = new List<Steps>();
+            /// EditedRecipeData.Steps.Add(new Steps { Step = "", Index= 0 });
+            EditedRecipeData.Diets = new List<Diets>();
             await Shell.Current.GoToAsync("recipeCreate");
         }
 
-        public async void CreateRecipeNavigateBack()
+        /* Vráť sa späť o jednu stránku */
+        async void CreateRecipeNavigateBack()
         {
             await Shell.Current.GoToAsync("..");
         }
 
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        /* Funkcia stiahne dáta z databázy */
         async Task GetLocalProfileAsync()
         {
 
@@ -70,25 +117,29 @@ namespace yummyCook.ViewModels
             OnPropertyChanged("ProfilData");
         }
 
-
-        public async void SetProfilAlergyHave(Alergies alergy)
+        /* Nastaví premennú konkrétnej alergie na true/false */
+        async void SetProfilAlergyHave(Alergies alergy)
         {
             await firebaseHelper.UpdateAlergyHave(alergy.Alergy, !alergy.Have, alergy.Index);
             alergy.Have = !alergy.Have;
         }
 
-        public async void SetProfileDietHave(Diets diet)
+        /* Nastaví premennú konkrétnej diéty na true/false */
+        async void SetProfileDietHave(Diets diet)
         {
             await firebaseHelper.UpdateDietHave(diet.Diet, !diet.Have, diet.Index);
             diet.Have = !diet.Have;
         }
-        public async void SetProfileToolHave(Tools tool)
+
+        /* Nastaví premennú konkrétneho náradia na true/false */
+        async void SetProfileToolHave(Tools tool)
         {
             await firebaseHelper.UpdateToolHave(tool.Tool, !tool.Have, tool.Index);
             tool.Have = !tool.Have;
         }
 
-        public async void SetProfilName()
+        /* Funkcia nastaví meno profilu */
+        async void SetProfilName()
         {
             string result = await App.Current.MainPage.DisplayPromptAsync("Zmena mena", "Nové meno (maximálne 10 znakov):");
 
@@ -107,7 +158,8 @@ namespace yummyCook.ViewModels
             OnPropertyChanged("ProfilData");
         }
 
-        public async void SetProfilImage()
+        /* Nastaví obrázok profilu */
+        async void SetProfilImage()
         {
             var result = await FilePicker.PickAsync(new PickOptions
             {
@@ -124,6 +176,77 @@ namespace yummyCook.ViewModels
             await firebaseHelper.UpdateProfilImage(result.FullPath);
             OnPropertyChanged("ProfilData");
         }
+        /* Funkcia pridá alebo odoberie dietu z receptu */
+        void AddOrRemoveRecipeDiet(Diets diet)
+        {
+            if (EditedRecipeData.Diets.Contains(diet))
+            {
+                EditedRecipeData.Diets.Remove(diet);
+            }
+            else
+            {
+                EditedRecipeData.Diets.Add(diet);
+            }
+        }
 
+        /* Funkcia pridá alebo odoberie vybavenie z receptu */
+        void AddOrRemoveRecipeTool(Tools tool)
+        {
+            if (EditedRecipeData.Tools.Contains(tool))
+            {
+                EditedRecipeData.Tools.Remove(tool);
+            }
+            else
+            {
+                EditedRecipeData.Tools.Add(tool);
+            }
+        }
+
+        /* Funkcia skontroluje a uloží novo vytvorený recept do databázi */
+        async void saveNewRecipe()
+        {
+            // Meno
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                await Shell.Current.DisplayAlert("Chyba!", $"Recept musí mať Meno", "OK");
+                return;
+            }
+            else
+            {
+                EditedRecipeData.Name = Name;
+            }
+
+            // Obrázok
+
+            // Popis (nie je vyžadovaný)
+            EditedRecipeData.Description = Description;
+
+            // Postup
+            if (string.IsNullOrWhiteSpace(Procedure))
+            {
+                await Shell.Current.DisplayAlert("Chyba!", $"Recept musí mať Postup", "OK");
+                return;
+            }
+            else
+            {
+                EditedRecipeData.Steps = new List<Steps>();
+                var splitProcedure = Procedure.Split(Environment.NewLine);
+                foreach (var item in splitProcedure)
+                {
+                    EditedRecipeData.Steps.Add( new Steps { Step = item, Index = EditedRecipeData.Steps.Count});
+                }
+            }
+        }
+
+        /* Funkcia nanovo inicializuje premenné potrebné na tvorbu receptu a vráti aplikáciu o jednu stránku naspäť */
+        void throwRecipe()
+        {
+            Name = string.Empty;
+            Description = string.Empty;
+            Procedure = string.Empty;
+            EditedRecipeData.Diets.Clear();
+
+            CreateRecipeNavigateBack();
+        }
     }
 }

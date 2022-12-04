@@ -37,7 +37,7 @@
             <Grid RowDefinitions="Auto,*" RowSpacing="10">
                 <Label Grid.Row="0" Text="Jak se Váš recept jmenuje" FontSize="16" FontAttributes="Bold"/>
                 <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
-                    <Editor Placeholder="Název receptu" AutoSize="TextChanges" Keyboard="Text"/>
+                    <Editor Text="{Binding Name}" Placeholder="Název receptu" AutoSize="TextChanges" Keyboard="Text" Margin="5,0,5,0"/>
                 </Frame>
             </Grid>
             <!-- Obrázok pre recept -->
@@ -51,11 +51,11 @@
             <Grid RowDefinitions="Auto,*" RowSpacing="10">
                 <Label Grid.Row="0" Text="Zde múžete popast svúj recept" FontSize="16" FontAttributes="Bold"/>
                 <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
-                    <Editor Text="{}" Placeholder="Popis receptu" AutoSize="TextChanges" Keyboard="Text"/>
+                    <Editor Text="{Binding Description}" Placeholder="Popis receptu" AutoSize="TextChanges" Keyboard="Text" Margin="5,0,5,0"/>
                 </Frame>
             </Grid>
             <!-- Výber ingrediencii -->
-
+            
             <!-- Výber diét -->
             <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Vyberte diéty, které vyhovují vašemu receptu" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
@@ -67,6 +67,8 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="model:Diets">
                                 <Button 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveDietRecipe}"
+                                            CommandParameter="{Binding .}"
                                             Text="{Binding Diet}"
                                             Margin="2"
                                             FlexLayout.Basis="Auto"
@@ -93,6 +95,8 @@
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="model:Tools">
                                 <Button 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveToolRecipe}"
+                                            CommandParameter="{Binding .}"
                                             Text="{Binding Tool}"
                                             Margin="2"
                                             FlexLayout.Basis="Auto"
@@ -110,29 +114,42 @@
             </Grid>
             <!-- Postup v korokoch -->
             <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
-                <Label Grid.Row="0" Text="Zadajte postup receptu v krokoch" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Label Grid.Row="0" Text="Zde zadejte postup receptu" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
                 <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
-                    <VerticalStackLayout>
-                        <CollectionView>
-
-                        </CollectionView>
-                        <Button Text="+" FontSize="24" BackgroundColor="Transparent" VerticalOptions="Center"/>
-                    </VerticalStackLayout>
+                    <Editor Text="{Binding Procedure}" Placeholder="Postup receptu" AutoSize="TextChanges" Keyboard="Text" Margin="5,0,5,0"/>
                 </Frame>
             </Grid>
             <!-- Čas na prípravu receptu -->
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Kolik času zabere príprava Vašeho receptu ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Picker Grid.Row="1" Title="Čas přípravy">
+                    <Picker.ItemsSource>
 
-            
+                    </Picker.ItemsSource>
+                </Picker>
+            </Grid>
             <!-- Typ jedla -->
-            
-            
-            <!-- Druh kuchyňe -->
-            
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Jaký typ jídla je Váš recept ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Picker Grid.Row="1" Title="Typ jídla">
+                    <Picker.ItemsSource>
 
+                    </Picker.ItemsSource>
+                </Picker>
+            </Grid>
+            <!-- Druh kuchyňe -->
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Z jeké kuchyne pochází Váš recept ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Picker Grid.Row="1" Title="Druh kuchyne">
+                    <Picker.ItemsSource>
+
+                    </Picker.ItemsSource>
+                </Picker>
+            </Grid>
             <!-- Tlačítka uložiť/zahodiť -->
-            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
-                <Button Grid.Column="0" Text="Zahodit" Style="{StaticResource HaveButton}"/>
-                <Button Grid.Column="1" Text="Uložit recept" Style="{StaticResource HaveButton}"/>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,0,0,30">
+                <Button Command="{Binding ThrowRecipe}" Grid.Column="0" Text="Zahodit" Style="{StaticResource HaveButton}"/>
+                <Button Command="{Binding SaveNewRecipe}" Grid.Column="1" Text="Uložit recept" Style="{StaticResource HaveButton}"/>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>

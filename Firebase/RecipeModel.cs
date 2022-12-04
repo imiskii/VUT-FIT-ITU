@@ -27,11 +27,11 @@ namespace yummyCook.Firebase
         public string Type { get; set; }
         public string Kitchen { get; set; }
         public bool Favourite { get; set; }
-        public Ingredients[] Ingredients { get; set; }
-        public Steps[] Steps { get; set; }
-        public Tools[] Tools { get; set; }
-        public Diets[] Diets { get; set; }
-        public Alergies[] Allergies { get; set; }
+        public List<Ingredients> Ingredients { get; set; }
+        public List<Steps> Steps { get; set; }
+        public List<Tools> Tools { get; set; }
+        public List<Diets> Diets { get; set; }
+        public List<Alergies> Allergies { get; set; }
         public string Photo { get; set; }
         public ImageSource PhotoSource { get; set; }
     }
