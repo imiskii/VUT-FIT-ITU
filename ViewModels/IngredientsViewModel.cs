@@ -71,12 +71,16 @@ namespace yummyCook.ViewModels
                 await firebaseHelper.UpdateIngredience("inCart", ing.Category, ing.Name, false);
                 ing.InCart = false;
                 shoppingListCount++;
+                Preferences.Default.Set("ShoppingListCount", shoppingListCount);
+
             }
             else
             {
                 await firebaseHelper.UpdateIngredience("inCart", ing.Category, ing.Name, true);
                 ing.InCart = true;
                 shoppingListCount--;
+                Preferences.Default.Set("ShoppingListCount", shoppingListCount);
+
             }
         }
 
@@ -219,6 +223,10 @@ namespace yummyCook.ViewModels
                 {
                     IsEmpty = false;
                 }
+
+                Preferences.Default.Set("ShoppingListCount", shoppingListCount);
+
+
 
                 IsBusy = false;
             }

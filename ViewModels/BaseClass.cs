@@ -24,13 +24,16 @@ namespace yummyCook.ViewModels
         bool isBusy;
         bool isEmpty;
 
-        public static ObservableCollection<IngredientModel> SavedIngredients;
+        public static ObservableCollection<IngredientModel> SavedIngredients {  get; set; }
         public static RecipeModel DetailRecipe { get; set; }
 
 
         public int shoppingListCount
         {
-            get { return count; }
+            get 
+            {
+                return count; 
+            }
             set
             {
                 count = value;
