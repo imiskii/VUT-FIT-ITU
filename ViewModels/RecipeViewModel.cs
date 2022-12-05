@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using yummyCook.Firebase;
+using yummyCook.Views.Main;
 
 namespace yummyCook.ViewModels
 {
@@ -27,6 +28,18 @@ namespace yummyCook.ViewModels
         public Command GetRecipesCommand { get; }
         public RecipeViewModel()
         {
+            int a = Preferences.Default.Get("ShoppingListCount", 0);
+
+            if (shoppingListCount == 0 && Preferences.Default.Get("ShoppingListCount", 0) == 0)
+            {
+                IsEmpty = true;
+            }
+            else
+            {
+                shoppingListCount = Preferences.Default.Get("ShoppingListCount", 0);
+                IsEmpty = false;
+            }
+
             GetRecipesCommand = new Command(async () => await GetRecipesAsync());
             GetRecipesCommand.Execute(this);
         }

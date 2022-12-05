@@ -60,16 +60,8 @@ namespace yummyCook.ViewModels
         /* if "Have" is false set to true */
         public async void SetIngredientHave(IngredientModel ing)
         {
-            if (ing.Have)
-            {
-                await firebaseHelper.UpdateIngredience("have", ing.Category, ing.Name, false);
-                ing.Have = false;
-            }
-            else
-            {
-                await firebaseHelper.UpdateIngredience("have", ing.Category, ing.Name, true);
-                ing.Have = true;
-            }
+            await firebaseHelper.UpdateIngredience("have", ing.Category, ing.Name, !ing.Have);
+            ing.Have = !ing.Have;
         }
 
         public async void SetInCartFirebase(IngredientModel ing)
@@ -79,12 +71,16 @@ namespace yummyCook.ViewModels
                 await firebaseHelper.UpdateIngredience("inCart", ing.Category, ing.Name, false);
                 ing.InCart = false;
                 shoppingListCount++;
+                Preferences.Default.Set("ShoppingListCount", shoppingListCount);
+
             }
             else
             {
                 await firebaseHelper.UpdateIngredience("inCart", ing.Category, ing.Name, true);
                 ing.InCart = true;
                 shoppingListCount--;
+                Preferences.Default.Set("ShoppingListCount", shoppingListCount);
+
             }
         }
 
@@ -219,12 +215,18 @@ namespace yummyCook.ViewModels
                     ShoppingList.Add(item);
                 }
 
+                SavedIngredients = ShoppingList;
+
                 shoppingListCount = ShoppingList.Where(x => x.InCart.Equals(false)).Count();
 
                 if (shoppingListCount != 0)
                 {
                     IsEmpty = false;
                 }
+
+                Preferences.Default.Set("ShoppingListCount", shoppingListCount);
+
+
 
                 IsBusy = false;
             }

@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -23,9 +24,16 @@ namespace yummyCook.ViewModels
         bool isBusy;
         bool isEmpty;
 
+        public static ObservableCollection<IngredientModel> SavedIngredients {  get; set; }
+        public static RecipeModel DetailRecipe { get; set; }
+
+
         public int shoppingListCount
         {
-            get { return count; }
+            get 
+            {
+                return count; 
+            }
             set
             {
                 count = value;
@@ -67,8 +75,6 @@ namespace yummyCook.ViewModels
             }
         }
         public bool IsNotEmpty => !IsEmpty;
-
-        public static RecipeModel DetailRecipe { get; set; }
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
