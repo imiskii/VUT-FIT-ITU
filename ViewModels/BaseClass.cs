@@ -4,6 +4,7 @@
  *
 */
 
+using Android.Text.Format;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,11 +21,23 @@ namespace yummyCook.ViewModels
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
+
+        public Command GetProfilData { get; set; }
+        public Command GetKitchenCommand { get; set; }
+        public Command GetFoodTypeCommand { get; set; }
+
+
         int count;
         bool isBusy;
         bool isEmpty;
 
-        public static ObservableCollection<IngredientModel> SavedIngredients {  get; set; }
+        public ObservableCollection<IngredientModel> SavedIngredients {  get; set; }
+
+        public static ProfilModel ProfilData { get; } = new();
+        public static List<uint> PreparationTimeData;
+        public static ObservableCollection<KitchenModel> KitchenTypeData { get; } = new();
+        public static ObservableCollection<FoodTypeModel> FootTypeData { get; } = new();
         public static RecipeModel DetailRecipe { get; set; }
 
 
@@ -79,6 +92,50 @@ namespace yummyCook.ViewModels
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+
+        /* Funkcia stiahne dáta o profile z databázy */
+        public async Task GetLocalProfileAsync()
+        {
+
+            var data = await firebaseHelper.GetProfil();
+
+            ProfilData.ProfilName = data[0].ProfilName;
+            ProfilData.ProfilImage = data[0].ProfilImage;
+            ProfilData.Alergy = data[0].Alergy;
+            ProfilData.Diets = data[0].Diets;
+            ProfilData.Tools = data[0].Tools;
+            ProfilData.Language = data[0].Language;
+            ProfilData.ProfilImageSource = ImageSource.FromFile(ProfilData.ProfilImage);
+        }
+
+        /* Funkcia inicializuje PreparationTimeData */
+        public void PreparationTimeInit()
+        {
+            PreparationTimeData = new List<uint> { 10, 20, 30, 45, 60, 90, 120 };
+        }
+
+        /* Funkcia stiahne typy kuchýň z databázy */
+        public async Task GetKitchenData()
+        {
+            var data = await firebaseHelper.GetKitchen();
+
+            foreach (var item in data)
+            {
+                KitchenTypeData.Add(item);
+            }
+        }
+
+        /* Funkcia stiahne typy jedál z databázy */
+        public async Task GetFoodTypes()
+        {
+            var data = await firebaseHelper.GetFoodTypes();
+
+            foreach (var item in data)
+            {
+                FootTypeData.Add(item);
+            }
         }
     }
 }

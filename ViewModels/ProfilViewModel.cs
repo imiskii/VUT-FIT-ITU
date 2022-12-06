@@ -14,7 +14,10 @@ namespace yummyCook.ViewModels
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
 
-        public ProfilModel ProfilData { get; } = new();
+        public ProfilModel Profil { get; } = new();
+        public List<uint> PreparationTime { get; } = new();
+        public ObservableCollection<KitchenModel> KitchenType { get; } = new();
+        public ObservableCollection<FoodTypeModel> FoodTypes { get; } = new();
         public RecipeModel EditedRecipeData { get; set; } = new();
 
         /* Editor vstupy */
@@ -71,9 +74,14 @@ namespace yummyCook.ViewModels
 
         public ProfilViewModel() 
         {
+            Profil = ProfilData;
+            PreparationTime = PreparationTimeData;
+            KitchenType = KitchenTypeData;
+            FoodTypes = FootTypeData;
+
             EditedRecipeData = new RecipeModel();
-            GetProfilCommand = new Command(async () => await GetLocalProfileAsync());
-            GetProfilCommand.Execute(this);
+            OnPropertyChanged(nameof(Profil));
+
         }
 
         /* FUNCTIONS */
@@ -99,22 +107,6 @@ namespace yummyCook.ViewModels
         async void CreateRecipeNavigateBack()
         {
             await Shell.Current.GoToAsync("..");
-        }
-
-        /* Funkcia stiahne dáta z databázy */
-        async Task GetLocalProfileAsync()
-        {
-
-            var data = await firebaseHelper.GetProfil();
-
-            ProfilData.ProfilName = data[0].ProfilName;
-            ProfilData.ProfilImage = data[0].ProfilImage;
-            ProfilData.Alergy = data[0].Alergy;
-            ProfilData.Diets = data[0].Diets;
-            ProfilData.Tools = data[0].Tools;
-            ProfilData.Language = data[0].Language;
-            ProfilData.ProfilImageSource = ImageSource.FromFile(ProfilData.ProfilImage);
-            OnPropertyChanged("ProfilData");
         }
 
         /* Nastaví premennú konkrétnej alergie na true/false */
@@ -155,7 +147,7 @@ namespace yummyCook.ViewModels
 
             await firebaseHelper.UpdateProfilName(result);
             ProfilData.ProfilName = result;
-            OnPropertyChanged("ProfilData");
+            OnPropertyChanged("Profil");
         }
 
         /* Nastaví obrázok profilu */
@@ -174,7 +166,7 @@ namespace yummyCook.ViewModels
             var stream = await result.OpenReadAsync();
             ProfilData.ProfilImageSource = ImageSource.FromStream(() => stream);
             await firebaseHelper.UpdateProfilImage(result.FullPath);
-            OnPropertyChanged("ProfilData");
+            OnPropertyChanged("Profil");
         }
         /* Funkcia pridá alebo odoberie dietu z receptu */
         void AddOrRemoveRecipeDiet(Diets diet)
