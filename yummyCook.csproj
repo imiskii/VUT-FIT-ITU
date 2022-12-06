@@ -51,15 +51,26 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\house.png" />
-	  <None Remove="Resources\Images\Icons\menu.png" />
+	  <None Remove="Resources\Images\Icons\book.svg" />
+	  <None Remove="Resources\Images\Icons\bookB.svg" />
+	  <None Remove="Resources\Images\Icons\fridge.svg" />
+	  <None Remove="Resources\Images\Icons\fridgeB.svg" />
+	  <None Remove="Resources\Images\Icons\house.svg" />
+	  <None Remove="Resources\Images\Icons\houseB.svg" />
+	  <None Remove="Resources\Images\Icons\menu.svg" />
 	  <None Remove="Resources\Images\pizza.jpg" />
 	  <None Remove="Resources\Raw\loaderDark.json" />
 	  <None Remove="Resources\Raw\loaderLight.json" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Include="Resources\Images\Icons\house.png" />
-	  <MauiImage Include="Resources\Images\Icons\menu.png" />
+	  <MauiImage Include="Resources\Images\Icons\book.svg" />
+	  <MauiImage Include="Resources\Images\Icons\bookB.svg" />
+	  <MauiImage Include="Resources\Images\Icons\fridge.svg" />
+	  <MauiImage Include="Resources\Images\Icons\fridgeB.svg" />
+	  <MauiImage Include="Resources\Images\Icons\house.svg" />
+	  <MauiImage Include="Resources\Images\Icons\houseB.svg" />
+	  <MauiImage Include="Resources\Images\Icons\menu.svg" />
 	</ItemGroup>
 
 	<ItemGroup>

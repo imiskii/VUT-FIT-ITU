@@ -12,19 +12,18 @@
         <ShellContent Title="Domů"
                       ContentTemplate="{DataTemplate local:HomePage}"
                       Route="HomePage"
-                      Icon="Icons/house.png"/>
+                      Icon="Icons/house.svg" />
         <ShellContent Title="Ingredience"
                       ContentTemplate="{DataTemplate local:IngredientsPage}"
                       Route="IngredientsPage"
-                      Icon="Icons/fridge.png" />
+                      Icon="Icons/fridge.svg" />
         <ShellContent Title="Recepty"
                       ContentTemplate="{DataTemplate local:RecipesPage}"
-                      Route="RecipesPage"
-                      Icon="Icons/cookbook.png" />
+                      Route="RecipesPage" 
+                      Icon="Icons/book.svg" />
         <ShellContent Title="Více"
                       ContentTemplate="{DataTemplate local:MorePage}"
                       Route="MorePage"
-                      Icon="Icons/menu.png" />
+                      Icon="Icons/menu.svg" />
     </TabBar>
-
 </Shell>
