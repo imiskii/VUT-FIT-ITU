@@ -1,28 +1,104 @@
-﻿using System;
+﻿/**
+ * RecipeViewModel.cs
+ * Autor: Ondřej Janečka (xjanec33)
+ *
+*/
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using yummyCook.Models;
+using System.Windows.Input;
+using yummyCook.Firebase;
+using yummyCook.Views.Main;
 
 namespace yummyCook.ViewModels
 {
-    public class RecipeViewModel : INotifyPropertyChanged
+    public partial class RecipeViewModel : BaseClass
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private RecipeModel _recipe;
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
 
-        public RecipeModel Recipe
+        public ObservableCollection<RecipeModel> Recipes { get; } = new();
+
+        public ICommand ShowShoppingList => new Command(async () => await ShowShoppingListAsync());
+        public ICommand GoToDetailCommand => new Command<RecipeModel>(GoToDetailAsync);
+
+        public Command GetRecipesCommand { get; }
+        public RecipeViewModel()
         {
-            get => _recipe;
-            set { _recipe = value; OnPropertyChanged(); }
+            GetProfilData = new Command(async () => await GetLocalProfileAsync());
+            GetProfilData.Execute(this);
+            GetKitchenCommand = new Command(async () => await GetKitchenData());
+            GetKitchenCommand.Execute(this);
+            GetFoodTypeCommand = new Command(async () => await GetFoodTypes());
+            GetFoodTypeCommand.Execute(this);
+            PreparationTimeInit();
+
+            int a = Preferences.Default.Get("ShoppingListCount", 0);
+
+            if (shoppingListCount == 0 && Preferences.Default.Get("ShoppingListCount", 0) == 0)
+            {
+                IsEmpty = true;
+            }
+            else
+            {
+                shoppingListCount = Preferences.Default.Get("ShoppingListCount", 0);
+                IsEmpty = false;
+            }
+
+            GetRecipesCommand = new Command(async () => await GetRecipesAsync());
+            GetRecipesCommand.Execute(this);
         }
 
-        public RecipeViewModel() { } // TODO
+        bool topDone = false;
 
-        public void OnPropertyChanged([CallerMemberName] string name = "") =>
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        async Task GetRecipesAsync()
+        {
+            IsBusy = true;
+
+            var recipes = await firebaseHelper.GetRecipes();
+
+            if (Recipes.Count != 0)
+            {
+                Recipes.Clear();
+            }
+
+            if (!topDone)
+                await GetTopRecipes(recipes);
+
+            IsBusy = false;
+        }
+
+        async Task GetTopRecipes(ObservableCollection<RecipeModel> recipes)
+        {
+            int counter = 0;
+
+            foreach (var recipe in recipes.OrderByDescending(o => o.Rating))
+            {
+                if (counter < 4)
+                {
+                    Recipes.Add(recipe);
+                    counter++;
+                }
+            }
+
+            topDone = true;
+            IsBusy = false;
+        }
+
+        async Task ShowShoppingListAsync()
+        {
+            await Shell.Current.GoToAsync("shoppingList");
+        }
+
+        async void GoToDetailAsync(RecipeModel recipe)
+        {
+            DetailRecipe = recipe;
+
+            await Shell.Current.GoToAsync("recipeDetail");
+        }
     }
 }

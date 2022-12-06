@@ -1,36 +1,435 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!-- IngredientPage.xaml -->
+<!-- Autor: Michal Ľaš (xlasmi00) -->
+    
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
+             xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
+             x:DataType="viewmodel:IngredientsViewModel"
              x:Class="yummyCook.Views.Main.IngredientsPage">
-    
+
     <ScrollView>
         <VerticalStackLayout>
-            <Grid ColumnDefinitions="*"
-                  RowDefinitions="*"
-                  RowSpacing="10">
-                <!-- ### Jedno pole ### -->
-                <Frame Padding="0">
-                    <Grid
-                    ColumnDefinitions="*"
-                    RowDefinitions="50, *"
-                    RowSpacing="0">
-                        <Button Grid.Row="0" Text="Ovocie" Style="{StaticResource openButton}"/>
-                        <CollectionView Grid.Row="1" HeightRequest="130" BackgroundColor="Red">
-                            <CollectionView.Shadow>
-                                <Shadow Brush="{StaticResource Black}"
-                                Radius="40"
-                                Offset="20, 20"
-                                Opacity="0.6"/>
-                            </CollectionView.Shadow>
-                        </CollectionView>
-                    </Grid>
-                </Frame>
-                <!-- ### Jedno pole ### -->
-                <Grid>
 
+            <!-- Ovoce -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Ovoce" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Fruits}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
 
-                </Grid>
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Zelenina -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Zelenina" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Vegetables}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Maso -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Maso" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Meat}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Ryby -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Ryby" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Fish}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Cestoviny -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Cestoviny" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Pasta}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Pečivo -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Pečivo" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Pastry}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Mléčné výrobky -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Mléčné výrobky" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Dairyproducts}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Huby -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Huby" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Mushrooms}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Oleje -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Oleje" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Oils}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Ořechy -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Ořechy" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Nuts}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Koření -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Koření" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Spices}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Sladké -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Sladké" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Sweeteners}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Omáčky -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                <Label Grid.Row="0" Text="Omáčky" Margin="10,10,0,10" FontSize="20"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Sauces}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=SetFruitCommand}" 
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Have}"
+                                                 Value="False">
+                                        <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
+
 </ContentPage>

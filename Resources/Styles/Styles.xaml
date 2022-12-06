@@ -21,20 +21,6 @@
                 Value="Bold" />
     </Style>
 
-    <!--<Style TargetType="Grid"
-           Class="RecCardTop">
-        <Setter Property="Background">
-            <LinearGradientBrush EndPoint="0,1">
-                <GradientStop Color="#00000000"
-                              Offset="0.25" />
-                <GradientStop Color="Black"
-                              Offset="1" />
-                --><!--<GradientStop Color="#99000000"
-                                              Offset="0.7" />--><!--
-            </LinearGradientBrush>
-        </Setter>
-    </Style>-->
-    
     <!--Styles-->
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
@@ -78,20 +64,17 @@
         </Setter>
     </Style>
 
-    <!-- ingredience -->
-    <Style x:Key="openButton" TargetType="Button">
-        <Setter Property="TextColor" Value="Black" />
-        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
-        <Setter Property="VerticalOptions" Value="Center"/>
-        <Setter Property="ImageSource" Value="Images/expand_arrow.svg"/>
-        <Setter Property="ContentLayout" Value="Right"/>
-        <Setter Property="BorderColor" Value="{StaticResource Black}"/>
-        <Setter Property="BorderWidth" Value="1"/>
-        <Setter Property="BackgroundColor" Value="{StaticResource White}" />
+    <!-- Have Button -->
+    <Style x:Key="HaveButton" TargetType="Button" Class="HaveButton">
+        <Setter Property="TextColor" Value="{StaticResource Black}" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+        <Setter Property="BorderColor" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderWidth" Value="3"/>
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontAttributes" Value="Bold" />
         <Setter Property="Padding" Value="14,10"/>
-        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="CornerRadius" Value="13"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
@@ -107,10 +90,12 @@
         </Setter>
     </Style>
 
-    <!-- Button dynamicky sa meniaci na základe výberu -->
-    <Style x:Key="dynamicButton" TargetType="Button">
-        <Setter Property="TextColor" Value="Black" />
-        <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+    <!-- Do Not Have Button -->
+    <Style x:Key="NotHaveButton" TargetType="Button" Class="NotHaveButton">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Gray100}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray900}}" />
+        <Setter Property="BorderColor" Value="{StaticResource Primary}"/>
+        <Setter Property="BorderWidth" Value="2"/>
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14"/>
         <Setter Property="FontAttributes" Value="Bold" />
@@ -438,7 +423,7 @@
     </Style>
 
     <Style TargetType="Page" ApplyToDerivedTypes="True">
-        <Setter Property="Padding" Value="20"/>
+        <Setter Property="Padding" Value="20, 0"/>
         <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
     </Style>
 
@@ -451,8 +436,8 @@
         <Setter Property="Shell.NavBarHasShadow" Value="True" />
         <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
         <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
-        <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
-        <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
+        <Setter Property="Shell.TabBarTitleColor" Value="{AppThemeBinding Light={StaticResource DarkPrimary}, Dark={StaticResource Primary}}" />
+        <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray500}, Dark={StaticResource Gray200}}" />
     </Style>
 
     <Style TargetType="NavigationPage">

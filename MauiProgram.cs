@@ -1,5 +1,10 @@
-﻿using banditoth.MAUI.Multilanguage;
+using banditoth.MAUI.Multilanguage;
+using SkiaSharp.Views.Maui.Controls.Hosting;
+using yummyCook.Firebase;
 using yummyCook.Resources.Translations;
+using yummyCook.ViewModels;
+using yummyCook.Views.Main;
+using yummyCook.Views.Others;
 
 namespace yummyCook;
 
@@ -10,7 +15,9 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
-			.ConfigureFonts(fonts =>
+            .UseSkiaSharp()
+
+            .ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
@@ -35,8 +42,28 @@ public static class MauiProgram
                 config.SetTranslationNotFoundText("Transl_Not_Found:", appendTranslationKey: true);
             });
 
+        builder.Services.AddSingleton<RecipeViewModel>();
+        builder.Services.AddTransient<RecipeDetailViewModel>();
+        builder.Services.AddSingleton<BaseClass>();
+        builder.Services.AddSingleton<HomePage>();
+        builder.Services.AddSingleton<FirebaseHelper>();
+
+        builder.Services.AddSingleton<FirebaseHelper>();
+
+        builder.Services.AddSingleton<IngredientsViewModel>();
+
+        builder.Services.AddSingleton<HomePage>();
+        builder.Services.AddSingleton<IngredientsPage>();
+
+        builder.Services.AddSingleton<ProfilViewModel>();
+        builder.Services.AddSingleton<MorePage>();
 
 
-		return builder.Build();
+        builder.Services.AddSingleton<ShoppingListPage>();
+        builder.Services.AddTransient<RecipeDetailPage>();
+
+        builder.Services.AddTransient<RecipeCreatePage>();
+
+        return builder.Build();
 	}
 }
