@@ -2,6 +2,7 @@
 /* Autor: Michal Ľaš */
 
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using yummyCook.Firebase;
 
@@ -21,12 +22,19 @@ namespace yummyCook.ViewModels
         public ICommand SetToolHave => new Command<Tools>(SetProfileToolHave);
         public ICommand SetNewName => new Command(SetProfilName);
         public ICommand SetNewImage => new Command(SetProfilImage);
+        public ICommand LightSelectedCommand => new Command(LightSelected);
+        public ICommand DarkSelectedCommand => new Command(DarkSelected);
+        public ICommand SystemSelectedCommand => new Command(SystemSelected);
         public Command GetProfilCommand { get; set; }
+        public Command LoadThemeCommand { get; set; }
 
         public ProfilViewModel() 
         {
             GetProfilCommand = new Command(async () => await GetLocalProfileAsync());
             GetProfilCommand.Execute(this);
+
+            LoadThemeCommand = new Command(async () => LoadTheme());
+            LoadThemeCommand.Execute(this);
         }
         private void OnPropertyChanged(string propertyName)
         {
@@ -103,5 +111,52 @@ namespace yummyCook.ViewModels
             OnPropertyChanged("ProfilData");
         }
 
+        public bool LightTheme;
+        public bool DarkTheme;
+        public bool SystemTheme;
+        public void LoadTheme()
+        {
+            DarkTheme = false;
+            LightTheme = false;
+            SystemTheme = false;
+
+            switch (Application.Current.UserAppTheme)
+            {
+                case AppTheme.Dark:
+                    DarkTheme = true;
+                    break;
+
+                case AppTheme.Light:
+                    LightTheme = true;
+                    break;
+
+                case AppTheme.Unspecified:
+                    SystemTheme = true;
+                    break;
+            }
+        }
+
+
+        public void LightSelected()
+        {
+            LightTheme = true;
+            Application.Current.UserAppTheme = AppTheme.Light;
+            Preferences.Default.Set("AppTheme", 1);
+            LoadTheme();
+        }
+        public void DarkSelected()
+        {
+            DarkTheme = true;
+            Application.Current.UserAppTheme = AppTheme.Dark;
+            Preferences.Default.Set("AppTheme", 2);
+            LoadTheme();
+        }
+        public void SystemSelected()
+        {
+            SystemTheme = true;
+            Application.Current.UserAppTheme = AppTheme.Unspecified;
+            Preferences.Default.Set("AppTheme", 0);
+            LoadTheme();
+        }
     }
 }

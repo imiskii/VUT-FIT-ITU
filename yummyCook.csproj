@@ -59,6 +59,12 @@
 	  <None Remove="Resources\Images\Icons\houseB.svg" />
 	  <None Remove="Resources\Images\Icons\menu.svg" />
 	  <None Remove="Resources\Images\pizza.jpg" />
+	  <None Remove="Resources\Images\themes\dark.png" />
+	  <None Remove="Resources\Images\themes\darkA.png" />
+	  <None Remove="Resources\Images\themes\light.png" />
+	  <None Remove="Resources\Images\themes\lightA.png" />
+	  <None Remove="Resources\Images\themes\system.png" />
+	  <None Remove="Resources\Images\themes\systemA.png" />
 	  <None Remove="Resources\Raw\loaderDark.json" />
 	  <None Remove="Resources\Raw\loaderLight.json" />
 	</ItemGroup>
@@ -71,6 +77,12 @@
 	  <MauiImage Include="Resources\Images\Icons\house.svg" />
 	  <MauiImage Include="Resources\Images\Icons\houseB.svg" />
 	  <MauiImage Include="Resources\Images\Icons\menu.svg" />
+	  <MauiImage Include="Resources\Images\themes\dark.png" />
+	  <MauiImage Include="Resources\Images\themes\darkA.png" />
+	  <MauiImage Include="Resources\Images\themes\light.png" />
+	  <MauiImage Include="Resources\Images\themes\lightA.png" />
+	  <MauiImage Include="Resources\Images\themes\system.png" />
+	  <MauiImage Include="Resources\Images\themes\systemA.png" />
 	</ItemGroup>
 
 	<ItemGroup>

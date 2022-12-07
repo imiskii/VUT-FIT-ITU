@@ -47,6 +47,9 @@ namespace yummyCook.ViewModels
         public ICommand NavigateBackCommand => new Command(NavigateBack);
         public ICommand ClearShoppingListCommand => new Command(ClearShoppingList);
         public ICommand RemoveCommand => new Command<IngredientModel>(Remove);
+        public ICommand EntryCompletedCommand => new Command<Entry>(EntryCompleted);
+        
+        
 
         /* VIEWMODEL */
         public IngredientsViewModel(FirebaseHelper firebaseHelper)
@@ -111,6 +114,13 @@ namespace yummyCook.ViewModels
             await firebaseHelper.UpdateIngredience("buy", obj.Category, obj.Name, false);
             await firebaseHelper.UpdateIngredience("inCart", obj.Category, obj.Name, false);
             Remove(obj);
+        }
+
+        public void EntryCompleted(Entry entry)
+        {
+
+            //obj.ToBuy = entry.Text;
+            entry.Unfocus();
         }
 
 

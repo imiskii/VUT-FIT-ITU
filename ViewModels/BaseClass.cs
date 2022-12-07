@@ -24,6 +24,10 @@ namespace yummyCook.ViewModels
         bool isBusy;
         bool isEmpty;
 
+        //public static bool LightTheme {  get; set; }
+        //public static bool DarkTheme {  get; set; }
+        //public static bool SystemTheme {  get; set; }
+
         public static ObservableCollection<IngredientModel> SavedIngredients {  get; set; }
         public static RecipeModel DetailRecipe { get; set; }
 

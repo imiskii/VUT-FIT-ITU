@@ -28,6 +28,18 @@ namespace yummyCook.ViewModels
         public Command GetRecipesCommand { get; }
         public RecipeViewModel()
         {
+            switch (Preferences.Default.Get("AppTheme", 0))
+            {
+                case 0: 
+                    Application.Current.UserAppTheme = AppTheme.Unspecified; break;
+
+                case 1:
+                    Application.Current.UserAppTheme = AppTheme.Light; break;
+
+                case 2:
+                    Application.Current.UserAppTheme = AppTheme.Dark; break;
+            }
+
             int a = Preferences.Default.Get("ShoppingListCount", 0);
 
             if (shoppingListCount == 0 && Preferences.Default.Get("ShoppingListCount", 0) == 0)
