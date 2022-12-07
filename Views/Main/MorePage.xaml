@@ -20,18 +20,18 @@
                              BorderColor="{StaticResource Primary}" 
                              BorderWidth="3" 
                              Margin="10,10,10,10"
-                             Source="{Binding ProfilData.ProfilImageSource}"
+                             Source="{Binding Profil.ProfilImageSource}"
                              Command="{Binding SetNewImage}"/>
                 <Grid Grid.Row="0" Grid.Column="1" ColumnDefinitions="Auto,Auto">
-                    <Label Grid.Column="0" Text="{Binding ProfilData.ProfilName}" LineBreakMode="WordWrap" FontSize="24" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Label Grid.Column="0" Text="{Binding Profil.ProfilName}" LineBreakMode="WordWrap" FontSize="24" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Button Grid.Column="1" Text="🖋" Command="{Binding SetNewName}" VerticalOptions="Center" FontSize="20" BackgroundColor="Transparent"/>
                 </Grid>
-                <Button Grid.Row="1" Grid.Column="0" Text="Nákupní seznam"/>
-                <Button Grid.Row="1" Grid.Column="1" Text="Vytvoř recept"/>
+                <Button Grid.Row="1" Command="{Binding ShowShoppingList}" Grid.Column="0" Text="Nákupní seznam"/>
+                <Button Grid.Row="1" Command="{Binding ShowRecipeCreatePage}" Grid.Column="1" Text="Vytvoř recept"/>
                 <Grid Grid.Row="2" Grid.ColumnSpan="2" RowDefinitions="*,*,*" RowSpacing="20">
                     <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
                         <Label Grid.Row="0" Text="Diéty" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
-                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding ProfilData.Diets}"
+                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Diets}"
                             JustifyContent="Start"
                             Wrap="Wrap"
                             AlignItems="Start">
@@ -64,7 +64,7 @@
                     </Grid>
                     <Grid Grid.Row="1" RowDefinitions="Auto,Auto" RowSpacing="5">
                         <Label Grid.Row="0" Text="Alergie" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
-                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding ProfilData.Alergy}"
+                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Alergy}"
                             JustifyContent="Start"
                             Wrap="Wrap"
                             AlignItems="Start">
@@ -97,7 +97,7 @@
                     </Grid>
                     <Grid Grid.Row="2" RowDefinitions="Auto,Auto" RowSpacing="5">
                         <Label Grid.Row="0" Text="Kuchynské nástroje" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
-                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding ProfilData.Tools}"
+                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Tools}"
                             JustifyContent="Start"
                             Wrap="Wrap"
                             AlignItems="Start">
@@ -131,7 +131,7 @@
                 </Grid>
                 <Grid Grid.Row="3" RowDefinitions="Auto, *" Grid.ColumnSpan="2">
                     <Label Grid.Row="0" Text="Jazyk" FontSize="16" FontAttributes="Bold"/>
-                    <Picker Grid.Row="1" Title="Jazyk" SelectedItem="{Binding ProfilData.Language}">
+                    <Picker Grid.Row="1" Title="Jazyk" SelectedItem="{Binding Profil.Language}">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Čeština</x:String>

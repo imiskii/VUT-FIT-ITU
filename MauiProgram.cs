@@ -62,6 +62,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<ShoppingListPage>();
         builder.Services.AddTransient<RecipeDetailPage>();
 
+        builder.Services.AddTransient<RecipeCreatePage>();
+
         return builder.Build();
 	}
 }

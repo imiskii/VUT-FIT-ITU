@@ -43,7 +43,7 @@
                         <Frame HeightRequest="200"
                                Margin="5, 10">
                             <Grid>
-                                <Image Source="{Binding Photos}"
+                                <Image Source="{Binding Photo}"
                                        Aspect="AspectFill" />
                                 <Grid>
                                     <Grid.Background>

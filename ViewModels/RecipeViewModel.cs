@@ -28,6 +28,14 @@ namespace yummyCook.ViewModels
         public Command GetRecipesCommand { get; }
         public RecipeViewModel()
         {
+            GetProfilData = new Command(async () => await GetLocalProfileAsync());
+            GetProfilData.Execute(this);
+            GetKitchenCommand = new Command(async () => await GetKitchenData());
+            GetKitchenCommand.Execute(this);
+            GetFoodTypeCommand = new Command(async () => await GetFoodTypes());
+            GetFoodTypeCommand.Execute(this);
+            PreparationTimeInit();
+
             switch (Preferences.Default.Get("AppTheme", 0))
             {
                 case 0: 

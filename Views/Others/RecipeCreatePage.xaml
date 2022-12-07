@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- RecipeCreatePage.xaml -->
+<!-- Autor: Michal Ľaš -->
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
+             xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
+             x:DataType="viewmodel:ProfilViewModel"
+             x:Class="yummyCook.Views.Others.RecipeCreatePage"
+             Title="RecipeCreatePage">
+
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="30">
+        <!-- Hlavička -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}"
+                   HeightRequest="75">
+                <StackLayout Orientation="Horizontal">
+                    <Button WidthRequest="40"
+                           HeightRequest="40"
+                           Margin="20, 20, 10, 10"
+                           BackgroundColor="Orange"
+                           Text="➜"
+                           Rotation="180"
+                           FontSize="20"
+                           Padding="0, 0, 0, 3.5"
+                           Command="{Binding NavigateBackCommand}"/>
+                    <Label StyleClass="PageH2"
+                           Text="Vytváranie receptu "
+                           VerticalOptions="Center"
+                           Margin="10, 20, 10, 10" />
+                </StackLayout>
+            </Frame>
+
+            <!-- Názov receptu -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="10">
+                <Label Grid.Row="0" Text="Jak se Váš recept jmenuje" FontSize="16" FontAttributes="Bold"/>
+                <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
+                    <Editor Text="{Binding Name}" Placeholder="Název receptu" AutoSize="TextChanges" Keyboard="Text" Margin="5,0,5,0"/>
+                </Frame>
+            </Grid>
+            <!-- Obrázok pre recept -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="10">
+                <Label Grid.Row="0" Text="Vyberte obrázek pro Váš recept" FontSize="16" FontAttributes="Bold"/>
+                <Frame Grid.Row="1">
+                    <Button Grid.Row="1" Text="🍲" FontSize="50" BackgroundColor="Transparent"/>
+                </Frame>
+            </Grid>
+            <!-- Popis receptu -->
+            <Grid RowDefinitions="Auto,*" RowSpacing="10">
+                <Label Grid.Row="0" Text="Zde múžete popast svúj recept" FontSize="16" FontAttributes="Bold"/>
+                <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
+                    <Editor Text="{Binding Description}" Placeholder="Popis receptu" AutoSize="TextChanges" Keyboard="Text" Margin="5,0,5,0"/>
+                </Frame>
+            </Grid>
+            <!-- Výber ingrediencii -->
+            
+            <!-- Výber diét -->
+            <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Vyberte diéty, které vyhovují vašemu receptu" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
+                    <FlexLayout BindableLayout.ItemsSource="{Binding ProfilData.Diets}"
+                                JustifyContent="Start"
+                                Wrap="Wrap"
+                                AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:Diets">
+                                <Button 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveDietRecipe}"
+                                            CommandParameter="{Binding .}"
+                                            Text="{Binding Diet}"
+                                            Margin="2"
+                                            FlexLayout.Basis="Auto"
+                                            Style="{StaticResource NotHaveButton}">
+                                    <Button.Triggers>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Frame>
+            </Grid>
+            <!-- Výber nástrojov -->
+            <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Vyberte potřebné kuchynské náčiní" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
+                    <FlexLayout BindableLayout.ItemsSource="{Binding ProfilData.Tools}"
+                                JustifyContent="Start"
+                                Wrap="Wrap"
+                                AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:Tools">
+                                <Button 
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveToolRecipe}"
+                                            CommandParameter="{Binding .}"
+                                            Text="{Binding Tool}"
+                                            Margin="2"
+                                            FlexLayout.Basis="Auto"
+                                            Style="{StaticResource NotHaveButton}">
+                                    <Button.Triggers>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Frame>
+            </Grid>
+            <!-- Postup v korokoch -->
+            <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Zde zadejte postup receptu" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
+                    <Editor Text="{Binding Procedure}" Placeholder="Postup receptu" AutoSize="TextChanges" Keyboard="Text" Margin="5,0,5,0"/>
+                </Frame>
+            </Grid>
+            <!-- Čas na prípravu receptu -->
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Kolik času zabere príprava Vašeho receptu ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Picker Grid.Row="1" Title="Čas přípravy">
+                    <Picker.ItemsSource>
+
+                    </Picker.ItemsSource>
+                </Picker>
+            </Grid>
+            <!-- Typ jedla -->
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Jaký typ jídla je Váš recept ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Picker Grid.Row="1" Title="Typ jídla">
+                    <Picker.ItemsSource>
+
+                    </Picker.ItemsSource>
+                </Picker>
+            </Grid>
+            <!-- Druh kuchyňe -->
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Z jeké kuchyne pochází Váš recept ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Picker Grid.Row="1" Title="Druh kuchyne">
+                    <Picker.ItemsSource>
+
+                    </Picker.ItemsSource>
+                </Picker>
+            </Grid>
+            <!-- Tlačítka uložiť/zahodiť -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,0,0,30">
+                <Button Command="{Binding ThrowRecipe}" Grid.Column="0" Text="Zahodit" Style="{StaticResource HaveButton}"/>
+                <Button Command="{Binding SaveNewRecipe}" Grid.Column="1" Text="Uložit recept" Style="{StaticResource HaveButton}"/>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

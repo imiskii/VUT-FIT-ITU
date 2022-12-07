@@ -23,6 +23,14 @@ namespace yummyCook.Firebase
         {
             return (new ObservableCollection<ProfilModel>(await GetProfilList()));
         }
+        public async Task<ObservableCollection<KitchenModel>> GetKitchen()
+        {
+            return (new ObservableCollection<KitchenModel>(await GetKitchenTypes()));
+        }
+        public async Task<ObservableCollection<FoodTypeModel>> GetFoodTypes()
+        {
+            return (new ObservableCollection<FoodTypeModel>(await GetFoodTypeList()));
+        }
 
         public async Task<List<RecipeModel>> GetRecipesList()
         {
@@ -39,10 +47,10 @@ namespace yummyCook.Firebase
                   Favourite = item.Object.Favourite,
                   Ingredients = item.Object.Ingredients,
                   Steps = item.Object.Steps,
-                  Appliances = item.Object.Appliances,
+                  Tools = item.Object.Tools,
                   Diets = item.Object.Diets,
                   Allergies = item.Object.Allergies,
-                  Photos = item.Object.Photos
+                  Photo = item.Object.Photo
 
               }).ToList();
         }
@@ -272,6 +280,26 @@ namespace yummyCook.Firebase
                     Tools = profil.Object.Tools,
                     Language = profil.Object.Language,
                 });
+        }
+
+        public async Task<List<KitchenModel>> GetKitchenTypes()
+        {
+            return (await firebase
+              .Child("Kitchen")
+              .OnceAsync<KitchenModel>()).Select(item => new KitchenModel
+              {
+                  Kitchen = item.Object.Kitchen
+              }).ToList();
+        }
+
+        public async Task<List<FoodTypeModel>> GetFoodTypeList()
+        {
+            return (await firebase
+              .Child("FoodType")
+              .OnceAsync<FoodTypeModel>()).Select(item => new FoodTypeModel
+              {
+                  Type = item.Object.Type
+              }).ToList();
         }
     }
 }
