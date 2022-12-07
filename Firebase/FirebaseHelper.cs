@@ -96,7 +96,7 @@ namespace yummyCook.Firebase
             {
                 await firebase.Child("Ingredients")
                     .Child(category)
-                    .Child(ingItem.Key)
+                    .Child(ingItem!.Key)
                     .PutAsync(new IngredientModel { 
                         Name = ingItem.Object.Name, 
                         Category = ingItem.Object.Category, 
@@ -114,7 +114,7 @@ namespace yummyCook.Firebase
             {
                 await firebase.Child("Ingredients")
                     .Child(category)
-                    .Child(ingItem.Key)
+                    .Child(ingItem!.Key)
                     .PutAsync(new IngredientModel { 
                         Name = ingItem.Object.Name, 
                         Category = ingItem.Object.Category, 
@@ -132,7 +132,7 @@ namespace yummyCook.Firebase
             {
                 await firebase.Child("Ingredients")
                     .Child(category)
-                    .Child(ingItem.Key)
+                    .Child(ingItem!.Key)
                     .PutAsync(new IngredientModel
                     {
                         Name = ingItem.Object.Name,
@@ -173,19 +173,19 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.Alergy[index].Have = value;
+            profil!.Object.Alergy[index].Have = value;
 
             await firebase
                 .Child("Profil")
                 .Child(profil.Key)
                 .PutAsync(new ProfilModel
                 {
-                    ProfilName = profil.Object.ProfilName,
-                    ProfilImage = profil.Object.ProfilImage,
-                    Alergy = profil.Object.Alergy,
-                    Diets = profil.Object.Diets,
-                    Tools = profil.Object.Tools,
-                    Language = profil.Object.Language,
+                    ProfilName = profil!.Object.ProfilName,
+                    ProfilImage = profil!.Object.ProfilImage,
+                    Alergy = profil!.Object.Alergy,
+                    Diets = profil!.Object.Diets,
+                    Tools = profil!.Object.Tools,
+                    Language = profil!.Object.Language,
                 });
         }
 
@@ -197,7 +197,7 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.Diets[index].Have = value;
+            profil!.Object.Diets[index].Have = value;
 
             await firebase
                 .Child("Profil")
@@ -220,7 +220,7 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.ProfilName = newName;
+            profil!.Object.ProfilName = newName;
 
             await firebase
                 .Child("Profil")
@@ -243,7 +243,7 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.ProfilImage = path;
+            profil!.Object.ProfilImage = path;
 
             await firebase
                 .Child("Profil")
@@ -266,7 +266,7 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.Tools[index].Have = value;
+            profil!.Object.Tools[index].Have = value;
 
             await firebase
                 .Child("Profil")

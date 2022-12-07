@@ -4,7 +4,7 @@
  *
 */
 
-using Android.Text.Format;
+//using Android.Text.Format;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

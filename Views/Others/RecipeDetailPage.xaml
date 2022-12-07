@@ -6,11 +6,87 @@
              xmlns:model="clr-namespace:yummyCook.Firebase"
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
              x:DataType="viewmodel:RecipeDetailViewModel">
-    
-    <VerticalStackLayout>
-        <Label x:DataType="model:RecipeModel"
-            Text="{Binding Name}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center"/>
-    </VerticalStackLayout>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" TranslationY="-10">
+            <!-- Hlavička -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}" HeightRequest="75">
+                <StackLayout Orientation="Horizontal">
+                    <!-- Ukončenie detailu receptu -->
+                    <Button 
+                        WidthRequest="75"
+                        HeightRequest="35"
+                        Margin="10, 10, 10, 10"
+                        BackgroundColor="Orange"
+                        Text="Ukončit"
+                        FontSize="15"
+                        Padding="0, 0, 0, 3.5"
+                        VerticalOptions="Center"/>
+                    <!-- Command="{TODO}"/> -->
+
+                    <!-- Názov receptu -->
+                    <Label 
+                        StyleClass="PageH2"
+                        x:DataType="model:RecipeModel"
+                        Text="{Binding Name}"
+                        FontSize="Title"   
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center"/>
+                    <!-- Počet krokov -->
+                    <Label x:DataType="model:RecipeModel"
+                        Text="{Binding Steps.Count, StringFormat='Krok 1 zo {0}'}"
+                        FontSize="Small"
+                        TextColor="White"
+                        VerticalOptions="Center"
+                        Margin="80, 10, 10, 5"/>
+                </StackLayout>
+            </Frame>
+
+
+            <!-- Jednotlivé kroky postupu -->
+            <CollectionView ItemsSource="{Binding Steps}"
+                      VerticalScrollBarVisibility="Never">
+
+                <!-- Krok postupu -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Steps">
+                        <Label Text="{Binding Step}"
+                               FontSize="Medium"
+                               HorizontalTextAlignment="Start"
+                               VerticalTextAlignment="Center"
+                               TextColor="White"
+                               Margin="10, 0, 0, 0"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" 
+                        Text="Zpět">
+                    <Button.Triggers>
+                        <EventTrigger Event="Clicked">
+                            
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <Button Grid.Column="1"
+                        Text="Ďalší"> 
+                    <Button.Triggers> 
+                        <EventTrigger Event="Clicked"> 
+                            
+                        </EventTrigger>  
+                    </Button.Triggers> 
+                </Button>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

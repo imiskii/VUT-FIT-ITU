@@ -13,11 +13,13 @@ namespace yummyCook.Firebase
         public string Category { get; set; }
         public int Index { get; set; }
     }
+
     public class Steps
     {
         public string Step { get; set; }
         public int Index { get; set; }
     }
+
     public class RecipeModel
     {
         public string Name { get; set; }

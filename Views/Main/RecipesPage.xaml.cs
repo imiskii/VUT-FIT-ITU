@@ -4,9 +4,9 @@ namespace yummyCook.Views.Main;
 
 public partial class RecipesPage : ContentPage
 {
-	public RecipesPage()
+	public RecipesPage(RecipeViewModel viewModel)
 	{
 		InitializeComponent();
-		BindingContext = new RecipeViewModel();
+		BindingContext = viewModel;
 	}
 }

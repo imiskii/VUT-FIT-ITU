@@ -133,7 +133,7 @@ namespace yummyCook.ViewModels
         /* Funkcia nastaví meno profilu */
         async void SetProfilName()
         {
-            string result = await App.Current.MainPage.DisplayPromptAsync("Zmena mena", "Nové meno (maximálne 10 znakov):");
+            string result = await App.Current!.MainPage!.DisplayPromptAsync("Zmena mena", "Nové meno (maximálne 10 znakov):");
 
             if (result == null) 
             {

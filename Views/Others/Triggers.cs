@@ -11,7 +11,7 @@ namespace yummyCook.IngredientTriggers
     {
         protected override void Invoke(Button btn)
         {
-            if(Application.Current.RequestedTheme == AppTheme.Dark)
+            if(Application.Current!.RequestedTheme == AppTheme.Dark)
             {
                 if (btn.Margin == 2)
                 {
