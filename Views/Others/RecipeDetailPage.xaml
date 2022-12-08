@@ -10,7 +10,8 @@
     <ScrollView>
         <VerticalStackLayout Spacing="25" TranslationY="-10">
             <!-- Hlavička -->
-            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}" HeightRequest="75">
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}" 
+                   HeightRequest="75">
                 <StackLayout Orientation="Horizontal">
                     <!-- Ukončenie detailu receptu -->
                     <Button 
@@ -18,8 +19,9 @@
                         HeightRequest="35"
                         Margin="10, 10, 10, 10"
                         BackgroundColor="Orange"
-                        Text="Ukončit"
-                        FontSize="15"
+                        Text="➜"
+                        Rotation="180"
+                        FontSize="20"
                         Padding="0, 0, 0, 3.5"
                         VerticalOptions="Center"/>
                     <!-- Command="{TODO}"/> -->
@@ -34,24 +36,63 @@
                         TextColor="White"
                         VerticalOptions="Center" 
                         HorizontalOptions="Center"/>
-                    <!-- Počet krokov -->
-                    <Label x:DataType="model:RecipeModel"
-                        Text="{Binding Steps.Count, StringFormat='Krok 1 zo {0}'}"
-                        FontSize="Small"
-                        TextColor="White"
-                        VerticalOptions="Center"
-                        Margin="80, 10, 10, 5"/>
                 </StackLayout>
             </Frame>
 
 
-            <!-- Jednotlivé kroky postupu -->
+            <!-- Zobrazenie surovín -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
+                   HeightRequest="150">
+                <Grid ColumnSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Podtitul suroviny -->
+                    <Label Grid.Row="0"
+                           Text="Suroviny"
+                           FontSize="Subtitle"
+                           TextColor="White"
+                           Margin="5, 5, 5, 5"/>
+
+                    <!-- Zobrazenie jednotlivých surovín -->
+                    <CollectionView Grid.Row="1"
+                                    ItemsLayout="{Binding Ingredients}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Ingredients">
+                    
+                                <Label Grid.Row="1"
+                                       Text="{Binding Name}"
+                                       FontSize="20"
+                                       VerticalOptions="Center" />
+
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Frame>
+
+
+            <Label Text="Postup"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="Orange"/>
+            
+            <!-- Postup -->
             <CollectionView ItemsSource="{Binding Steps}"
                       VerticalScrollBarVisibility="Never">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" 
+                                       ItemSpacing="20"/>
+                </CollectionView.ItemsLayout>
 
-                <!-- Krok postupu -->
+                <!-- Jednotlivý krok postupu -->
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:Steps">
+
+                        
                         <Label Text="{Binding Step}"
                                FontSize="Medium"
                                HorizontalTextAlignment="Start"
@@ -62,31 +103,6 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="0" 
-                        Text="Zpět">
-                    <Button.Triggers>
-                        <EventTrigger Event="Clicked">
-                            
-                        </EventTrigger>
-                    </Button.Triggers>
-                </Button>
-
-                <Button Grid.Column="1"
-                        Text="Ďalší"> 
-                    <Button.Triggers> 
-                        <EventTrigger Event="Clicked"> 
-                            
-                        </EventTrigger>  
-                    </Button.Triggers> 
-                </Button>
-            </Grid>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

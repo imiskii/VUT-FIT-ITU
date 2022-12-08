@@ -12,6 +12,7 @@ namespace yummyCook.ViewModels
     {
         public RecipeModel recipeModel { get; } = new();
         public ObservableCollection<Steps> Steps { get; } = new();
+        public ObservableCollection<Ingredients> Ingredients { get; } = new();
 
         public Command LoadRecipeDetailCommand { get; }
         public RecipeDetailViewModel() 
@@ -20,30 +21,40 @@ namespace yummyCook.ViewModels
             //LoadRecipeDetailCommand.Execute(this);
 
             recipeModel = DetailRecipe;
-            Steps = LoadStepsFromRecipe(DetailRecipe.Steps);
+            Steps = LoadListFromRecipe<Steps>(DetailRecipe.Steps);
+            Steps = FormatSteps(Steps);
+            Ingredients = LoadListFromRecipe<Ingredients>(DetailRecipe.Ingredients);
+            
         }
 
-        ObservableCollection<Steps> LoadStepsFromRecipe(List<Steps> StepsList)
+        ObservableCollection<Steps> FormatSteps(ObservableCollection<Steps> steps)
         {
-            ObservableCollection<Steps> Steps = new();
-            
-            foreach(var step in StepsList)
+            string stepFormat = "Krok ";
+            string colon = ": \n";
+            foreach(var step in steps)
             {
-                Steps.Add(step);
+                step.Step = stepFormat + step.Index.ToString() + colon + step.Step;
             }
 
-            return Steps;
+            return steps;
+        }
+
+        ObservableCollection<T> LoadListFromRecipe<T>(List<T> itemsList)
+        {
+            ObservableCollection<T> itemsCollection = new();
+            
+            foreach(T step in itemsList)
+            {
+                itemsCollection.Add(step);
+            }
+
+            return itemsCollection;
         }
         
-        async Task LoadRecipeDetailAsync()
+        async void GoToGuideAsync(RecipeModel recipe)
         {
-            IsBusy = true;
-            IsEmpty = true;
-
-            
-
-            IsBusy = false;
-            IsEmpty = false;
+            DetailRecipe = recipe;
+            await Shell.Current.GoToAsync("guide");
         }
     }
 }

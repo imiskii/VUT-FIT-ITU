@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="yummyCook.Views.Others.GuidePage"
+             Title="GuidePage"
+             xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
+             x:DataType="viewmodel:GuideViewModel">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" TranslationY="-10">
+            <!-- Hlavička -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}" HeightRequest="75">
+                <StackLayout Orientation="Horizontal">
+                    <!-- Ukončenie detailu receptu -->
+                    <Button 
+                        WidthRequest="75"
+                        HeightRequest="35"
+                        Margin="10, 10, 10, 10"
+                        BackgroundColor="Orange"
+                        Text="Ukončit"
+                        FontSize="15"
+                        Padding="0, 0, 0, 3.5"
+                        VerticalOptions="Center"/>
+                    <!-- Command="{TODO}"/> -->
+
+                    <!-- Názov receptu -->
+                    <Label 
+                        StyleClass="PageH2"
+                        x:DataType="model:RecipeModel"
+                        Text="{Binding Name}"
+                        FontSize="Title"   
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center"/>
+                    <!-- Počet krokov -->
+                    <Label x:DataType="model:RecipeModel"
+                        Text="{Binding Steps.Count, StringFormat='Krok 1 zo {0}'}"
+                        FontSize="Small"
+                        TextColor="White"
+                        VerticalOptions="Center"
+                        Margin="80, 10, 10, 5"/>
+                </StackLayout>
+            </Frame>
+
+
+            <!-- Jednotlivé kroky postupu -->
+            <CollectionView ItemsSource="{Binding Steps}"
+                      VerticalScrollBarVisibility="Never">
+
+                <!-- Krok postupu -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Steps">
+                        <Label Text="{Binding Step}"
+                               FontSize="Medium"
+                               HorizontalTextAlignment="Start"
+                               VerticalTextAlignment="Center"
+                               TextColor="White"
+                               Margin="10, 0, 0, 0"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <!-- Tlačítka pre navigáciu medzi krokmi -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Tlačítko pre vrátenie sa na predchádzajúci krok -->
+                <Button Grid.Column="0" 
+                        CornerRadius="10"
+                        WidthRequest="100"
+                        Text="Zpět">
+                    <Button.Triggers>
+                        <EventTrigger Event="Clicked">
+
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+
+                <!-- Tlačítko pre vrátenie sa na predchádzajúci krok -->
+                <Button Grid.Column="1"
+                        CornerRadius="10"
+                        WidthRequest="100"
+                        Text="Ďalší">
+                    <Button.Triggers>
+                        <EventTrigger Event="Clicked">
+
+                        </EventTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
