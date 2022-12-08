@@ -47,7 +47,7 @@ namespace yummyCook.ViewModels
         public ICommand NavigateBackCommand => new Command(NavigateBack);
         public ICommand ClearShoppingListCommand => new Command(ClearShoppingList);
         public ICommand RemoveCommand => new Command<IngredientModel>(Remove);
-        public ICommand EntryCompletedCommand => new Command<Entry>(EntryCompleted);
+        public ICommand ChangeToBuyCommand => new Command<IngredientModel>(ChangeToBuy);
         
         
 
@@ -116,11 +116,16 @@ namespace yummyCook.ViewModels
             Remove(obj);
         }
 
-        public void EntryCompleted(Entry entry)
+        public async void ChangeToBuy(IngredientModel obj)
         {
+            string result = await App.Current.MainPage!.DisplayPromptAsync("Množství", "Upravit množství k zakoupení", "OK", "Zrušit");
 
-            //obj.ToBuy = entry.Text;
-            entry.Unfocus();
+            if (result == null)
+            {
+                return;
+            }
+
+            await firebaseHelper.UpdateIngredienceAmount(obj.Category, obj.Name, result);
         }
 
 

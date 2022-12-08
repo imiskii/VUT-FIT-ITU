@@ -131,7 +131,7 @@
                 </Grid>
                 <Grid Grid.Row="3" RowDefinitions="Auto, *" Grid.ColumnSpan="2">
                     <Label Grid.Row="0" Text="Jazyk" FontSize="16" FontAttributes="Bold"/>
-                    <Picker Grid.Row="1" Title="Jazyk" SelectedItem="{Binding Profil.Language}">
+                    <Picker Grid.Row="1" Title="Jazyk" SelectedItem="{Binding Profil.Language}" >
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
                                 <x:String>Čeština</x:String>
@@ -144,29 +144,31 @@
             <Label FontSize="16" FontAttributes="Bold" Text="Téma aplikace" />
             <Grid RowDefinitions="auto, *" ColumnDefinitions="*, *, *" ColumnSpacing="40" Padding="20,0" Margin="0, -20">
                 <ImageButton Grid.Column="0"
-                             Source="themes/light.png" />
+                             Source="themes/light.png"
+                             Command="{Binding LightSelectedCommand}" />
                 <ImageButton Grid.Column="1"
-                             Source="themes/system.png" />
+                             Source="themes/system.png"
+                             Command="{Binding SystemSelectedCommand}" />
                 <ImageButton Grid.Column="2"
-                             Source="themes/dark.png" />
-
+                             Source="themes/dark.png"
+                             Command="{Binding DarkSelectedCommand}" />
                 <Button Grid.Column="0"
                         Grid.Row="0"
                         VerticalOptions="EndAndExpand"
                         Text="Světlé"
                         Padding="6"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="2"
                         Command="{Binding LightSelectedCommand}">
                     <Button.Triggers>
                         <DataTrigger TargetType="Button"
                                      Binding="{Binding LightTheme}"
                                      Value="False">
-                            <Setter Property="Style"
-                                    Value="{StaticResource NotHaveButton}" />
-
+                            <Setter Property="BackgroundColor"
+                                    Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                            <Setter Property="TextColor"
+                                    Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                         </DataTrigger>
-                        <EventTrigger Event="Clicked">
-                            <local:ChangeStyle />
-                        </EventTrigger>
                     </Button.Triggers>
 
                 </Button>
@@ -175,18 +177,18 @@
                         VerticalOptions="EndAndExpand"
                         Text="Systémové"
                         Padding="6"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="2"
                         Command="{Binding SystemSelectedCommand}">
                     <Button.Triggers>
                         <DataTrigger TargetType="Button"
                                      Binding="{Binding SystemTheme}"
                                      Value="False">
-                            <Setter Property="Style"
-                                    Value="{StaticResource NotHaveButton}" />
-
+                            <Setter Property="BackgroundColor"
+                                    Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                            <Setter Property="TextColor"
+                                    Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                         </DataTrigger>
-                        <EventTrigger Event="Clicked">
-                            <local:ChangeStyle />
-                        </EventTrigger>
                     </Button.Triggers>
 
                 </Button>
@@ -195,18 +197,18 @@
                         VerticalOptions="EndAndExpand"
                         Text="Tmavé"
                         Padding="6"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="2"
                         Command="{Binding DarkSelectedCommand}">
                     <Button.Triggers>
                         <DataTrigger TargetType="Button"
                                      Binding="{Binding DarkTheme}"
                                      Value="False">
-                            <Setter Property="Style"
-                                    Value="{StaticResource NotHaveButton}" />
-
+                            <Setter Property="BackgroundColor"
+                                    Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                            <Setter Property="TextColor"
+                                    Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
                         </DataTrigger>
-                        <EventTrigger Event="Clicked">
-                            <local:ChangeStyle />
-                        </EventTrigger>
                     </Button.Triggers>
 
                 </Button>

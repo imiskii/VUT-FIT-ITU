@@ -22,7 +22,7 @@ namespace yummyCook.ViewModels
 
         /* Editor vstupy */
 
-        
+
         /// Postup
         string procedure;
         public string Procedure
@@ -239,9 +239,6 @@ namespace yummyCook.ViewModels
             }
         }
 
-        public bool LightTheme;
-        public bool DarkTheme;
-        public bool SystemTheme;
         public void LoadTheme()
         {
             DarkTheme = false;

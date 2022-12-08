@@ -19,11 +19,13 @@ namespace yummyCook.ViewModels
     public partial class RecipeViewModel : BaseClass
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
+        FirebaseStorageHelper firestorageHelper = new FirebaseStorageHelper();
 
         public ObservableCollection<RecipeModel> Recipes { get; } = new();
 
         public ICommand ShowShoppingList => new Command(async () => await ShowShoppingListAsync());
         public ICommand GoToDetailCommand => new Command<RecipeModel>(GoToDetailAsync);
+        public ICommand UploadCommand => new Command(UploadAsync);
 
         public Command GetRecipesCommand { get; }
         public RecipeViewModel()
@@ -110,6 +112,17 @@ namespace yummyCook.ViewModels
             DetailRecipe = recipe;
 
             await Shell.Current.GoToAsync("recipeDetail");
+        }
+
+        async void UploadAsync()
+        {
+            var fileResult = await FilePicker.PickAsync();
+            if (fileResult != null)
+            {
+                Stream fileToUpload = await fileResult.OpenReadAsync();
+
+                var url = await firestorageHelper.UploadFile(fileToUpload, fileResult.FileName);
+            }
         }
     }
 }

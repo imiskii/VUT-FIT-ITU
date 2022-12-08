@@ -89,6 +89,7 @@
 	  <PackageReference Include="banditoth.MAUI.Multilanguage" Version="1.0.4" />
 	  <PackageReference Include="FirebaseDatabase.net" Version="4.1.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview1" />
+	  <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
 	  <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.61" />
 	  <PackageReference Include="System.ObjectModel" Version="4.3.0" />
 	</ItemGroup>

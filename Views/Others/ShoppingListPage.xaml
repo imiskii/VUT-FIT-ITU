@@ -81,13 +81,24 @@
                                            LineBreakMode="NoWrap"
                                            FontSize="20"
                                            VerticalOptions="Center" />
-                                    <Entry Grid.RowSpan="3"
+                                    <Label Grid.RowSpan="3"
+                                           Grid.Column="2"
+                                           FontSize="16"
+                                           Text="{Binding ToBuy}"
+                                           VerticalOptions="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=ChangeToBuyCommand }" CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+
+                                    <!--<Entry Grid.RowSpan="3"
                                            Grid.Column="2"
                                            Placeholder="Množství"
                                            FontSize="16"
                                            VerticalOptions="Center"
                                            ReturnCommand="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=EntryCompletedCommand}"
-                                           ReturnCommandParameter="{Binding .}"/>
+                                           ReturnCommandParameter="{Binding .}" 
+                                           Completed=""/>-->
                                     <Button Grid.RowSpan="3"
                                             Grid.Column="3"
                                             Text="🛒"
