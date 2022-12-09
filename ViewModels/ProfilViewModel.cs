@@ -425,10 +425,13 @@ namespace yummyCook.ViewModels
                     }
                     await firebaseHelper.UpdateLocalRecipe(EditedRecipeData ,savedName);
                 }
+                else
+                {
+                    await firebaseHelper.PushNewRecipe(EditedRecipeData);
+                }
             }
             finally
             {
-
                 LocalRecipes.Clear();
                 await GetLocalRecipes();
 
