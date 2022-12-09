@@ -44,7 +44,15 @@
             <Grid RowDefinitions="Auto,*" RowSpacing="10">
                 <Label Grid.Row="0" Text="Vyberte obrázek pro Váš recept" FontSize="16" FontAttributes="Bold"/>
                 <Frame Grid.Row="1" MinimumHeightRequest="150">
-                    <ImageButton Grid.Row="1" Source="imageimage.png" HeightRequest="50" BackgroundColor="Transparent" Margin="0,20,0,20"/>
+                    <ImageButton Grid.Row="1" Command="{Binding GetRecipePhoto}" Source="{Binding Photo}" MaximumHeightRequest="250" MaximumWidthRequest="200" BackgroundColor="Transparent" Margin="10,20,10,20">
+                        <ImageButton.Triggers>
+                            <DataTrigger TargetType="ImageButton"
+                                         Binding="{Binding Photo}"
+                                         Value="imageimage.png">
+                                <Setter Property="HeightRequest" Value="50"/>
+                            </DataTrigger>
+                        </ImageButton.Triggers>
+                    </ImageButton>
                 </Frame>
             </Grid>
             <!-- Popis receptu -->

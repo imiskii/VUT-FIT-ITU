@@ -13,6 +13,7 @@ namespace yummyCook.ViewModels
     public partial class ProfilViewModel : BaseClass
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
+        FirebaseStorageHelper firestorageHelper = new FirebaseStorageHelper();
 
         /* Ingrediencie */
         public ObservableCollection<IngredientModel> Fruits { get; } = new();
@@ -62,6 +63,18 @@ namespace yummyCook.ViewModels
             set
             {
                 name = value;
+            }
+        }
+
+        /// Fotka receptu
+        string _photo;
+        public string Photo
+        {
+            get => _photo;
+            set
+            {
+                _photo = value;
+                OnPropertyChanged(nameof(Photo));
             }
         }
 
@@ -144,6 +157,7 @@ namespace yummyCook.ViewModels
         public ICommand LightSelectedCommand => new Command(LightSelected);
         public ICommand DarkSelectedCommand => new Command(DarkSelected);
         public ICommand SystemSelectedCommand => new Command(SystemSelected);
+        public ICommand GetRecipePhoto => new Command(AddImageToRecipe);
         public Command GetProfilCommand { get; set; }
         public Command LoadThemeCommand { get; set; }
 
@@ -190,6 +204,8 @@ namespace yummyCook.ViewModels
             NewRecipeIngredience = new ObservableCollection<string>();
             EditedRecipeData = new RecipeModel();
             EditedRecipeData.Ingredients = new List<Ingredients>();
+            EditedRecipeData.Photo = "imageimage.png";
+            Photo = "imageimage.png";
             GetLocalRecipesCommand = new Command(async () => await GetLocalRecipes());
             GetLocalRecipesCommand.Execute(this);
             OnPropertyChanged(nameof(Profil));
@@ -375,6 +391,12 @@ namespace yummyCook.ViewModels
             }
 
             // Obrázok
+            if (Photo == "imageimage.png")
+            {
+                await Shell.Current.DisplayAlert("Chyba!", $"Recept musí mít Fotku", "OK");
+                return;
+            }
+            EditedRecipeData.Photo = Photo;
 
             // Popis (nie je vyžadovaný)
             EditedRecipeData.Description = Description;
@@ -495,7 +517,8 @@ namespace yummyCook.ViewModels
         void throwRecipe()
         {
             Name = string.Empty;
-            // TODO: del image
+            EditedRecipeData.Photo = "imageimage.png";
+            Photo = "imageimage.png";
             Description = string.Empty;
             Procedure = string.Empty;
             Time = 0;
@@ -623,6 +646,19 @@ namespace yummyCook.ViewModels
             {
                 LocalRecipes.Where(x => x.Name == name).FirstOrDefault()!.Public = true;
                 await firebaseHelper.LocalRecipeToGlobal(name);
+            }
+        }
+
+        /* Funkcia nahrá obrázok do databázi a vráti adresu na tento obrázok */
+        async void AddImageToRecipe()
+        {
+            var fileResult = await FilePicker.PickAsync();
+            if (fileResult != null)
+            {
+                Stream fileToUpload = await fileResult.OpenReadAsync();
+
+                Photo = await firestorageHelper.UploadFile(fileToUpload, fileResult.FileName);
+                EditedRecipeData.Photo = Photo;
             }
         }
     }
