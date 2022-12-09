@@ -7,6 +7,7 @@ namespace yummyCook.Firebase
         public string Diet { get; set; }
         public bool Have { get; set; }
         public int Index { get; set; }
+        public bool InNewRecipe { get; set; }
 
     }
 
@@ -22,6 +23,7 @@ namespace yummyCook.Firebase
         public string Tool { get; set; }
         public bool Have { get; set; }
         public int Index { get; set; }
+        public bool InNewRecipe { get; set; }
 
     }
     public class ProfilModel

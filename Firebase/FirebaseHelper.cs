@@ -14,6 +14,10 @@ namespace yummyCook.Firebase
         {
             return (new ObservableCollection<RecipeModel>(await GetRecipesList()));
         }
+        public async Task<ObservableCollection<RecipeModel>> GetPrivateRecipes()
+        {
+            return (new ObservableCollection<RecipeModel>(await GetPrivateRecipesList()));
+        }
         public async Task<ObservableCollection<IngredientModel>> GetIngredients(string category)
         {
             return (new ObservableCollection<IngredientModel>(await GetIngredientsList(category)));
@@ -54,6 +58,174 @@ namespace yummyCook.Firebase
 
               }).ToList();
         }
+
+        public async Task<List<RecipeModel>> GetPrivateRecipesList()
+        {
+            return (await firebase
+              .Child("LocalRecipe")
+              .OnceAsync<RecipeModel>()).Select(item => new RecipeModel
+              {
+                  Name = item.Object.Name,
+                  Description = item.Object.Description,
+                  Rating = item.Object.Rating,
+                  Time = item.Object.Time,
+                  Type = item.Object.Type,
+                  Kitchen = item.Object.Kitchen,
+                  Favourite = item.Object.Favourite,
+                  Ingredients = item.Object.Ingredients,
+                  Steps = item.Object.Steps,
+                  Tools = item.Object.Tools,
+                  Diets = item.Object.Diets,
+                  Allergies = item.Object.Allergies,
+                  Photo = item.Object.Photo,
+                  Public = item.Object.Public
+
+              }).ToList();
+        }
+
+        /* Funkcia vygeneruje náhodný reťazec */
+        private static Random random = new Random();
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+
+        /* Funkcia prídá do databázi nový lokálny recept */
+        public async Task PushNewRecipe(RecipeModel newRecipe)
+        {
+            await firebase.Child("LocalRecipe").Child(RandomString(10)).PutAsync(new RecipeModel
+            {
+                Name = newRecipe.Name,
+                Description = newRecipe.Description,
+                Rating = newRecipe.Rating,
+                Time = newRecipe.Time,
+                Type = newRecipe.Type,
+                Kitchen= newRecipe.Kitchen,
+                Favourite = newRecipe.Favourite,
+                Ingredients = newRecipe.Ingredients,
+                Steps = newRecipe.Steps,
+                Tools = newRecipe.Tools,
+                Diets = newRecipe.Diets,
+                Allergies = newRecipe.Allergies,
+                Photo = newRecipe.Photo,
+                Public = newRecipe.Public
+            });
+        }
+
+        /* Funkcia aktualizuje existujúci lokálny recept */
+        public async Task UpdateLocalRecipe(RecipeModel newRecipe, string name)
+        {
+            var item = (await firebase.Child("LocalRecipe").OnceAsync<RecipeModel>()).Where(x => x.Object.Name == name).FirstOrDefault();
+            await firebase.Child("LocalRecipe").Child(item!.Key).PutAsync(new RecipeModel
+            {
+                Name = newRecipe.Name,
+                Description = newRecipe.Description,
+                Rating = newRecipe.Rating,
+                Time = newRecipe.Time,
+                Type = newRecipe.Type,
+                Kitchen = newRecipe.Kitchen,
+                Favourite = newRecipe.Favourite,
+                Ingredients = newRecipe.Ingredients,
+                Steps = newRecipe.Steps,
+                Tools = newRecipe.Tools,
+                Diets = newRecipe.Diets,
+                Allergies = newRecipe.Allergies,
+                Photo = newRecipe.Photo,
+                Public = item.Object.Public,
+            });
+        }
+
+        /* Funkcia aktualizuje existujúci globálny recept  */
+        public async Task UpdateGlobalRecipe(RecipeModel newRecipe, string name)
+        {
+            var item = (await firebase.Child("Recipe").OnceAsync<RecipeModel>()).Where(x => x.Object.Name == name).FirstOrDefault();
+            await firebase.Child("Recipe").Child(item!.Key).PutAsync(new RecipeModel
+            {
+                Name = newRecipe.Name,
+                Description = newRecipe.Description,
+                Rating = newRecipe.Rating,
+                Time = newRecipe.Time,
+                Type = newRecipe.Type,
+                Kitchen = newRecipe.Kitchen,
+                Favourite = newRecipe.Favourite,
+                Ingredients = newRecipe.Ingredients,
+                Steps = newRecipe.Steps,
+                Tools = newRecipe.Tools,
+                Diets = newRecipe.Diets,
+                Allergies = newRecipe.Allergies,
+                Photo = newRecipe.Photo,
+            });
+        }
+
+        public async Task RemoveLocalRecipe(string name)
+        {
+            var item = (await firebase.Child("LocalRecipe").OnceAsync<RecipeModel>()).Where(x => x.Object.Name == name).FirstOrDefault();
+            await firebase.Child("LocalRecipe").Child(item!.Key).DeleteAsync();
+        }
+
+        public async Task RemoveGlobalRecipe(string name)
+        {
+            var item = (await firebase.Child("Recipe").OnceAsync<RecipeModel>()).Where(x => x.Object.Name == name).FirstOrDefault();
+            await firebase.Child("LocalRecipe").Child(item!.Key).PutAsync(new RecipeModel
+            {
+                Name = item.Object.Name,
+                Description = item.Object.Description,
+                Rating = item.Object.Rating,
+                Time = item.Object.Time,
+                Type = item.Object.Type,
+                Kitchen = item.Object.Kitchen,
+                Favourite = item.Object.Favourite,
+                Ingredients = item.Object.Ingredients,
+                Steps = item.Object.Steps,
+                Tools = item.Object.Tools,
+                Diets = item.Object.Diets,
+                Allergies = item.Object.Allergies,
+                Photo = item.Object.Photo,
+                Public = false,
+            });
+            await firebase.Child("Recipe").Child(item!.Key).DeleteAsync();
+        }
+
+        public async Task LocalRecipeToGlobal(string name)
+        {
+            var item = (await firebase.Child("LocalRecipe").OnceAsync<RecipeModel>()).Where(x => x.Object.Name == name).FirstOrDefault();
+            await firebase.Child("LocalRecipe").Child(item!.Key).PutAsync(new RecipeModel
+            {
+                Name = item.Object.Name,
+                Description = item.Object.Description,
+                Rating = item.Object.Rating,
+                Time = item.Object.Time,
+                Type = item.Object.Type,
+                Kitchen = item.Object.Kitchen,
+                Favourite = item.Object.Favourite,
+                Ingredients = item.Object.Ingredients,
+                Steps = item.Object.Steps,
+                Tools = item.Object.Tools,
+                Diets = item.Object.Diets,
+                Allergies = item.Object.Allergies,
+                Photo = item.Object.Photo,
+                Public = true,
+            });
+            await firebase.Child("Recipe").Child(item!.Key).PutAsync(new RecipeModel
+            {
+                Name = item.Object.Name,
+                Description = item.Object.Description,
+                Rating = item.Object.Rating,
+                Time = item.Object.Time,
+                Type = item.Object.Type,
+                Kitchen = item.Object.Kitchen,
+                Favourite = item.Object.Favourite,
+                Ingredients = item.Object.Ingredients,
+                Steps = item.Object.Steps,
+                Tools = item.Object.Tools,
+                Diets = item.Object.Diets,
+                Allergies = item.Object.Allergies,
+                Photo = item.Object.Photo,
+            });
+        }
+
         public async Task<List<IngredientModel>> GetIngredientsList(string category)
         {
             category = category.ToLower();
@@ -96,7 +268,7 @@ namespace yummyCook.Firebase
             {
                 await firebase.Child("Ingredients")
                     .Child(category)
-                    .Child(ingItem.Key)
+                    .Child(ingItem!.Key)
                     .PutAsync(new IngredientModel { 
                         Name = ingItem.Object.Name, 
                         Category = ingItem.Object.Category, 
@@ -114,7 +286,7 @@ namespace yummyCook.Firebase
             {
                 await firebase.Child("Ingredients")
                     .Child(category)
-                    .Child(ingItem.Key)
+                    .Child(ingItem!.Key)
                     .PutAsync(new IngredientModel { 
                         Name = ingItem.Object.Name, 
                         Category = ingItem.Object.Category, 
@@ -173,7 +345,7 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.Alergy[index].Have = value;
+            profil!.Object.Alergy[index].Have = value;
 
             await firebase
                 .Child("Profil")
@@ -197,7 +369,7 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.Diets[index].Have = value;
+            profil!.Object.Diets[index].Have = value;
 
             await firebase
                 .Child("Profil")
@@ -220,7 +392,7 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.ProfilName = newName;
+            profil!.Object.ProfilName = newName;
 
             await firebase
                 .Child("Profil")
@@ -243,7 +415,7 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.ProfilImage = path;
+            profil!.Object.ProfilImage = path;
 
             await firebase
                 .Child("Profil")
@@ -266,7 +438,7 @@ namespace yummyCook.Firebase
                 .OnceAsync<ProfilModel>()).FirstOrDefault();
 
 
-            profil.Object.Tools[index].Have = value;
+            profil!.Object.Tools[index].Have = value;
 
             await firebase
                 .Child("Profil")

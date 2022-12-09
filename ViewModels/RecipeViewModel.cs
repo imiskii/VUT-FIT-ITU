@@ -34,6 +34,8 @@ namespace yummyCook.ViewModels
             GetKitchenCommand.Execute(this);
             GetFoodTypeCommand = new Command(async () => await GetFoodTypes());
             GetFoodTypeCommand.Execute(this);
+            GetIngredientCommand = new Command(async () => await GetIngredietsAsync());
+            GetIngredientCommand.Execute(this);
             PreparationTimeInit();
 
             int a = Preferences.Default.Get("ShoppingListCount", 0);

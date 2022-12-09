@@ -33,6 +33,6 @@ namespace yummyCook.Firebase
         public List<Diets> Diets { get; set; }
         public List<Alergies> Allergies { get; set; }
         public string Photo { get; set; }
-        public ImageSource PhotoSource { get; set; }
+        public bool Public { get; set; }
     }
 }

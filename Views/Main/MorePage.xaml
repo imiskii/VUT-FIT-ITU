@@ -7,139 +7,274 @@
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
              xmlns:model="clr-namespace:yummyCook.Firebase"
              xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
+             xmlns:trig="clr-namespace:yummyCook.RecipeDetailTriggers"
              x:DataType="viewmodel:ProfilViewModel"
              x:Class="yummyCook.Views.Main.MorePage">
-    
-    <ScrollView>
-        <VerticalStackLayout>
-            <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="10" Margin="0,10,0,0" ColumnDefinitions="*,*" ColumnSpacing="10">
-                <ImageButton Grid.Row="0" Grid.Column="0" 
-                             HeightRequest="120" 
-                             WidthRequest="120" 
-                             CornerRadius="60" 
-                             BorderColor="{StaticResource Primary}" 
-                             BorderWidth="3" 
-                             Margin="10,10,10,10"
-                             Source="{Binding Profil.ProfilImageSource}"
-                             Command="{Binding SetNewImage}"/>
-                <Grid Grid.Row="0" Grid.Column="1" ColumnDefinitions="Auto,Auto">
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout Spacing="20">
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,20,0,0">
+                <ImageButton Grid.Column="0" 
+                            HeightRequest="120" 
+                            WidthRequest="120" 
+                            CornerRadius="60" 
+                            BorderColor="{StaticResource Primary}" 
+                            BorderWidth="3" 
+                            Margin="10,10,10,10"
+                            Source="{Binding Profil.ProfilImageSource}"
+                            Command="{Binding SetNewImage}"/>
+                <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto">
                     <Label Grid.Column="0" Text="{Binding Profil.ProfilName}" LineBreakMode="WordWrap" FontSize="24" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Button Grid.Column="1" Text="🖋" Command="{Binding SetNewName}" VerticalOptions="Center" FontSize="20" BackgroundColor="Transparent"/>
                 </Grid>
-                <Button Grid.Row="1" Command="{Binding ShowShoppingList}" Grid.Column="0" Text="Nákupní seznam"/>
-                <Button Grid.Row="1" Command="{Binding ShowRecipeCreatePage}" Grid.Column="1" Text="Vytvoř recept"/>
-                <Grid Grid.Row="2" Grid.ColumnSpan="2" RowDefinitions="*,*,*" RowSpacing="20">
-                    <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
-                        <Label Grid.Row="0" Text="Diéty" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
-                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Diets}"
-                            JustifyContent="Start"
-                            Wrap="Wrap"
-                            AlignItems="Start">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="model:Diets">
-                                    <Button 
-                                        Text="{Binding Diet}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=SetDietHave}"
-                                        CommandParameter="{Binding .}"
-                                        Margin="2"
-                                        FlexLayout.Basis="Auto"
-                                        Style="{StaticResource HaveButton}">
+            </Grid>
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,15,0,10">
+                <Button Command="{Binding ShowShoppingList}" Grid.Column="0" Text="Nákupní seznam"/>
+                <Button Command="{Binding ShowRecipeCreatePage}" Grid.Column="1" Text="Vytvoř recept"/>
+            </Grid>
+            <Grid>
+                <CollectionView ItemsSource="{Binding LocalRecipes}"
+                                MaximumHeightRequest="350"
+                                VerticalScrollBarVisibility="Never"
+                                IsVisible="{Binding IsNotBusy}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.Header>
+                        <Label Text="Vaše recepty"
+                           StyleClass="PageH2" />
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:RecipeModel">
+                            <Frame HeightRequest="200"
+                               Margin="5, 10">
+                                <Grid>
+                                    <Image Source="{Binding Photo}"
+                                       Aspect="AspectFill" />
+                                    <Grid>
+                                        <Grid.Background>
+                                            <LinearGradientBrush EndPoint="0,1">
+                                                <GradientStop Color="#00000000"
+                                                          Offset="0.25" />
+                                                <GradientStop Color="Black"
+                                                          Offset="1" />
+                                                <GradientStop Color="#99000000"
+                                                          Offset="0.7" />
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
 
-                                        <Button.Triggers>
-                                            <DataTrigger TargetType="Button"
-                                                 Binding="{Binding Have}"
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="3*" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Button Grid.Row="0"
+                                                Grid.Column="0"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=EditRecipeCommand}"
+                                                CommandParameter="{Binding .}"
+                                                Text="Upravit"
+                                                Scale="1"
+                                                HorizontalOptions="Start"
+                                                VerticalOptions="Start"
+                                                Margin="2"
+                                                BackgroundColor="Transparent"
+                                                BorderColor="{StaticResource Primary}"
+                                                BorderWidth="2"
+                                                CornerRadius="60"/>
+                                        <Button Grid.Row="0"
+                                                Grid.Column="2"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrDeleteRecipeToGlobalDatabase}"
+                                                CommandParameter="{Binding Name}"
+                                                Text="Veřejný"
+                                                Scale="1"
+                                                HorizontalOptions="End"
+                                                VerticalOptions="Start"
+                                                Margin="2"
+                                                Style="{StaticResource HaveButton}"
+                                                CornerRadius="60">
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Public}"
                                                  Value="False">
-                                                <Setter Property="Style"
-                                                Value="{StaticResource NotHaveButton}"/>
+                                                    <Setter Property="Style"
+                                                        Value="{StaticResource NotHaveButton}"/>
+                                                    <Setter Property="Text"
+                                                        Value="Zveřejnit"/>
 
-                                            </DataTrigger>
-                                            <EventTrigger Event="Clicked">
-                                                <local:ChangeStyle/>
-                                            </EventTrigger>
-                                        </Button.Triggers>
-                                    </Button>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </FlexLayout>
-                    </Grid>
-                    <Grid Grid.Row="1" RowDefinitions="Auto,Auto" RowSpacing="5">
-                        <Label Grid.Row="0" Text="Alergie" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
-                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Alergy}"
-                            JustifyContent="Start"
-                            Wrap="Wrap"
-                            AlignItems="Start">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="model:Alergies">
-                                    <Button 
-                                        Text="{Binding Alergy}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=SetAlergyHave}"
-                                        CommandParameter="{Binding .}"
-                                        Margin="2"
-                                        FlexLayout.Basis="Auto"
-                                        Style="{StaticResource HaveButton}">
+                                                </DataTrigger>
+                                                <EventTrigger Event="Clicked">
+                                                    <local:ChangeStyleAndText/>
+                                                </EventTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+                                        <Button Grid.Row="0"
+                                                Grid.Column="1"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=DeleteLocalRecipeCommand}"
+                                                CommandParameter="{Binding Name}"
+                                                Text="Vymazat"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Start"
+                                                Margin="2"
+                                                Style="{StaticResource NotHaveButton}"
+                                                CornerRadius="60"/>
 
-                                        <Button.Triggers>
-                                            <DataTrigger TargetType="Button"
-                                                 Binding="{Binding Have}"
-                                                 Value="False">
-                                                <Setter Property="Style"
-                                                Value="{StaticResource NotHaveButton}"/>
+                                        <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Name}"
+                                           FontSize="Title"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Start"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="White"
+                                           Margin="10,0,0,0" />
+                                        <Label Grid.Row="2"
+                                           Grid.Column="0"
+                                           Text="{Binding Rating}"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="LightGray" />
+                                        <Label Grid.Row="3"
+                                           Grid.Column="1"
+                                           Text="7 surovin"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="LightGray" />
+                                        <Button Grid.Row="2"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            CornerRadius="10"
+                                            Text="Do toho!"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=GoToDetailCommand}"
+                                            CommandParameter="{Binding .}">
+                                            <Button.Triggers>
+                                                <EventTrigger Event="Clicked">
+                                                    <trig:RecipeDetailTrigger />
+                                                </EventTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Diéty" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Diets}"
+                        JustifyContent="Start"
+                        Wrap="Wrap"
+                        AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:Diets">
+                                <Button 
+                                    Text="{Binding Diet}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeViewModel}}, Path=SetDietHave}"
+                                    CommandParameter="{Binding .}"
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
 
-                                            </DataTrigger>
-                                            <EventTrigger Event="Clicked">
-                                                <local:ChangeStyle/>
-                                            </EventTrigger>
-                                        </Button.Triggers>
-                                    </Button>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </FlexLayout>
-                    </Grid>
-                    <Grid Grid.Row="2" RowDefinitions="Auto,Auto" RowSpacing="5">
-                        <Label Grid.Row="0" Text="Kuchynské nástroje" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
-                        <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Tools}"
-                            JustifyContent="Start"
-                            Wrap="Wrap"
-                            AlignItems="Start">
-                            <BindableLayout.ItemTemplate>
-                                <DataTemplate x:DataType="model:Tools">
-                                    <Button 
-                                        Text="{Binding Tool}"
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=SetToolHave}"
-                                        CommandParameter="{Binding .}"
-                                        Margin="2"
-                                        FlexLayout.Basis="Auto"
-                                        Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                Binding="{Binding Have}"
+                                                Value="False">
+                                            <Setter Property="Style"
+                                            Value="{StaticResource NotHaveButton}"/>
 
-                                        <Button.Triggers>
-                                            <DataTrigger TargetType="Button"
-                                                 Binding="{Binding Have}"
-                                                 Value="False">
-                                                <Setter Property="Style"
-                                                Value="{StaticResource NotHaveButton}"/>
-
-                                            </DataTrigger>
-                                            <EventTrigger Event="Clicked">
-                                                <local:ChangeStyle/>
-                                            </EventTrigger>
-                                        </Button.Triggers>
-                                    </Button>
-                                </DataTemplate>
-                            </BindableLayout.ItemTemplate>
-                        </FlexLayout>
-                    </Grid>
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
                 </Grid>
-                <Grid Grid.Row="3" RowDefinitions="Auto, *" Grid.ColumnSpan="2">
-                    <Label Grid.Row="0" Text="Jazyk" FontSize="16" FontAttributes="Bold"/>
-                    <Picker Grid.Row="1" Title="Jazyk" SelectedItem="{Binding Profil.Language}">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Čeština</x:String>
-                                <x:String>Angličtina</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
+                <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Alergie" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Alergy}"
+                        JustifyContent="Start"
+                        Wrap="Wrap"
+                        AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:Alergies">
+                                <Button 
+                                    Text="{Binding Alergy}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=SetAlergyHave}"
+                                    CommandParameter="{Binding .}"
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                Binding="{Binding Have}"
+                                                Value="False">
+                                            <Setter Property="Style"
+                                            Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
                 </Grid>
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Kuchynské nástroje" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Tools}"
+                        JustifyContent="Start"
+                        Wrap="Wrap"
+                        AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:Tools">
+                            <Button 
+                                    Text="{Binding Tool}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=SetToolHave}"
+                                    CommandParameter="{Binding .}"
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                Binding="{Binding Have}"
+                                                Value="False">
+                                        <Setter Property="Style"
+                                            Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <Grid RowDefinitions="Auto, *" Grid.ColumnSpan="2" Margin="0,10,0,0">
+                <Label Grid.Row="0" Text="Jazyk" FontSize="16" FontAttributes="Bold"/>
+                <Picker Grid.Row="1" Title="Jazyk" SelectedItem="{Binding Profil.Language}">
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Čeština</x:String>
+                            <x:String>Angličtina</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
