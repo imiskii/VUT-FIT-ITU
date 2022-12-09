@@ -42,6 +42,7 @@ namespace yummyCook.ViewModels
 
         /* RECIPE CREATE VALUES */
 
+        
         /// Postup
         string procedure;
         public string Procedure
@@ -140,6 +141,11 @@ namespace yummyCook.ViewModels
         public ICommand AddOrDeleteRecipeToGlobalDatabase => new Command<string>(AddOrRemoveRecipeToGlobal);
         public ICommand EditRecipeCommand => new Command<RecipeModel>(EditRecipe);
         public Command GetLocalRecipesCommand { get; set; }
+        public ICommand LightSelectedCommand => new Command(LightSelected);
+        public ICommand DarkSelectedCommand => new Command(DarkSelected);
+        public ICommand SystemSelectedCommand => new Command(SystemSelected);
+        public Command GetProfilCommand { get; set; }
+        public Command LoadThemeCommand { get; set; }
 
         public ProfilViewModel() 
         {
@@ -441,6 +447,50 @@ namespace yummyCook.ViewModels
             }
         }
 
+        public void LoadTheme()
+        {
+            DarkTheme = false;
+            LightTheme = false;
+            SystemTheme = false;
+
+            switch (Application.Current.UserAppTheme)
+            {
+                case AppTheme.Dark:
+                    DarkTheme = true;
+                    break;
+
+                case AppTheme.Light:
+                    LightTheme = true;
+                    break;
+
+                case AppTheme.Unspecified:
+                    SystemTheme = true;
+                    break;
+            }
+        }
+
+        public void LightSelected()
+        {
+            LightTheme = true;
+            Application.Current!.UserAppTheme = AppTheme.Light;
+            Preferences.Default.Set("AppTheme", 1);
+            LoadTheme();
+        }
+        public void DarkSelected()
+        {
+            DarkTheme = true;
+            Application.Current!.UserAppTheme = AppTheme.Dark;
+            Preferences.Default.Set("AppTheme", 2);
+            LoadTheme();
+        }
+        public void SystemSelected()
+        {
+            SystemTheme = true;
+            Application.Current!.UserAppTheme = AppTheme.Unspecified;
+            Preferences.Default.Set("AppTheme", 0);
+            LoadTheme();
+        }
+
         /* Funkcia nanovo inicializuje premenné potrebné na tvorbu receptu a vráti aplikáciu o jednu stránku naspäť */
         void throwRecipe()
         {
@@ -497,7 +547,7 @@ namespace yummyCook.ViewModels
             {
                 foreach (var item in recipe.Diets)
                 {
-                    Profil.Diets.Where(x => x.Diet == item.Diet).FirstOrDefault().InNewRecipe = true;
+                    Profil.Diets.Where(x => x.Diet == item.Diet).FirstOrDefault()!.InNewRecipe = true;
                 }
             }
             EditedRecipeData.Tools = recipe.Tools;
@@ -505,7 +555,7 @@ namespace yummyCook.ViewModels
             {
                 foreach (var item in recipe.Tools)
                 {
-                    Profil.Tools.Where(x => x.Tool == item.Tool).FirstOrDefault().InNewRecipe = true;
+                    Profil.Tools.Where(x => x.Tool == item.Tool).FirstOrDefault()!.InNewRecipe = true;
                 }
             }
             EditedRecipeData.Time = recipe.Time;
@@ -564,14 +614,14 @@ namespace yummyCook.ViewModels
         /* Ak sa recept nachádza v globálnej databáze, tak ho odstráni inak ho pidá do globálnej databázi receptov */
         async void AddOrRemoveRecipeToGlobal(string name)
         {
-            if (LocalRecipes.Where(x => x.Name == name).FirstOrDefault().Public)
+            if (LocalRecipes.Where(x => x.Name == name).FirstOrDefault()!.Public)
             {
-                LocalRecipes.Where(x => x.Name == name).FirstOrDefault().Public = false;
+                LocalRecipes.Where(x => x.Name == name).FirstOrDefault()!.Public = false;
                 await firebaseHelper.RemoveGlobalRecipe(name);
             }
             else
             {
-                LocalRecipes.Where(x => x.Name == name).FirstOrDefault().Public = true;
+                LocalRecipes.Where(x => x.Name == name).FirstOrDefault()!.Public = true;
                 await firebaseHelper.LocalRecipeToGlobal(name);
             }
         }

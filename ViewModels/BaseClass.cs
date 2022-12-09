@@ -4,10 +4,14 @@
  *
 */
 
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
 using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
@@ -42,6 +46,48 @@ namespace yummyCook.ViewModels
         public static ObservableCollection<IngredientModel> SweetenersData { get; } = new();
         public static ObservableCollection<IngredientModel> SaucesData { get; } = new();
         public static ObservableCollection<IngredientModel> ShoppingListData { get; } = new();
+        bool light;
+        bool system;
+        bool dark;
+
+        public bool LightTheme { 
+            get 
+            {
+                return light;
+            } 
+            set 
+            { 
+                light = value;
+                OnPropertyChanged(); 
+            } 
+        }
+        public bool DarkTheme
+        {
+            get
+            {
+                return dark;
+            }
+            set
+            {
+                dark = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool SystemTheme
+        {
+            get
+            {
+                return system;
+            }
+            set
+            {
+                system = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public ObservableCollection<IngredientModel> SavedIngredients {  get; set; }
 
         public static ProfilModel ProfilData { get; } = new();
         public static List<uint> PreparationTimeData;

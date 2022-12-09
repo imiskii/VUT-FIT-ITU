@@ -321,6 +321,32 @@ namespace yummyCook.Firebase
             }
         }
 
+        public async Task UpdateIngredienceAmount(string category, string name, string value)
+        {
+            var ingItem = (await firebase
+                .Child("Ingredients")
+                .Child(category)
+                .OnceAsync<IngredientModel>())
+                .Where(x => x.Object.Name == name).FirstOrDefault();
+
+            await firebase.Child("Ingredients")
+                .Child(category)
+                .Child(ingItem.Key)
+                .PutAsync(new IngredientModel
+                {
+                    Name = ingItem.Object.Name,
+                    Category = ingItem.Object.Category,
+                    Fat = ingItem.Object.Fat,
+                    Sugar = ingItem.Object.Sugar,
+                    Proteins = ingItem.Object.Proteins,
+                    Calories = ingItem.Object.Calories,
+                    Have = ingItem.Object.Have,
+                    Buy = ingItem.Object.Buy,
+                    InCart = ingItem.Object.InCart,
+                    ToBuy = value
+                });
+        }
+
         public async Task<List<ProfilModel>> GetProfilList()
         {
             return (await firebase
