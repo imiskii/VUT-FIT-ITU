@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- MorePage.xaml -->
+<!-- ProfilPage.xaml -->
 <!-- Autor: Michal Ľaš -->
     
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -13,6 +13,7 @@
 
     <ScrollView VerticalScrollBarVisibility="Never">
         <VerticalStackLayout Spacing="20">
+            <!-- Fotka a meno -->
             <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
                 <ImageButton Grid.Column="0" 
                             HeightRequest="120" 
@@ -21,17 +22,19 @@
                             BorderColor="{StaticResource Primary}" 
                             BorderWidth="3" 
                             Margin="10,10,10,10"
-                            Source="{Binding Profil.ProfilImageSource}"
+                            Source="{Binding Profil.ProfilImage}"
                             Command="{Binding SetNewImage}"/>
                 <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto">
                     <Label Grid.Column="0" Text="{Binding Profil.ProfilName}" LineBreakMode="WordWrap" FontSize="24" FontAttributes="Bold" VerticalOptions="Center"/>
                     <Button Grid.Column="1" Text="🖋" Command="{Binding SetNewName}" VerticalOptions="Center" FontSize="20" BackgroundColor="Transparent"/>
                 </Grid>
             </Grid>
+            <!-- Tlačítka nákupný zoznam & Vytváranie receptu -->
             <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,15,0,10">
                 <Button Command="{Binding ShowShoppingList}" Grid.Column="0" Text="Nákupní seznam"/>
                 <Button Command="{Binding ShowRecipeCreatePage}" Grid.Column="1" Text="Vytvoř recept"/>
             </Grid>
+            <!-- Zobrazenie receptov vytvorených užívateľom -->
             <Grid>
                 <CollectionView ItemsSource="{Binding LocalRecipes}"
                                 MaximumHeightRequest="350"
@@ -165,6 +168,7 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </Grid>
+            <!-- Nastavenie diét pre užívateľa -->
             <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Diéty" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
                 <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Diets}"
@@ -198,6 +202,7 @@
                     </BindableLayout.ItemTemplate>
                 </FlexLayout>
             </Grid>
+            <!-- Nastavenie alergií pre užívateľa -->
             <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Alergie" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
                 <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Alergy}"
@@ -231,6 +236,7 @@
                     </BindableLayout.ItemTemplate>
                 </FlexLayout>
             </Grid>
+            <!-- Nastavenie vybavenia pre užívateľa -->
             <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Kuchynské nástroje" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
                 <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Tools}"
@@ -264,6 +270,7 @@
                     </BindableLayout.ItemTemplate>
                 </FlexLayout>
             </Grid>
+            <!-- Výber témy aplikácie -->
             <Label FontSize="16" FontAttributes="Bold" Text="Téma aplikace" />
             <Grid RowDefinitions="auto, *" ColumnDefinitions="*, *, *" ColumnSpacing="40" Padding="20,0" Margin="0, -20">
                 <ImageButton Grid.Column="0"
@@ -335,6 +342,7 @@
                     </Button.Triggers>
                 </Button>
             </Grid>
+            <!-- Výber jazyka aplikácie -->
             <Grid Grid.Row="3" RowDefinitions="Auto, *" Grid.ColumnSpan="2" Margin="0,20,0,0">
                 <Label Grid.Row="0" Text="Jazyk" FontSize="16" FontAttributes="Bold"/>
                 <Picker Grid.Row="1" Title="Jazyk" SelectedItem="{Binding Profil.Language}" >

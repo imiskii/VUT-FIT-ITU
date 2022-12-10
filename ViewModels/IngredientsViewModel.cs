@@ -4,11 +4,7 @@
  *
 */
 
-using CommunityToolkit.Mvvm.ComponentModel;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using yummyCook.Firebase;
 
@@ -19,7 +15,9 @@ namespace yummyCook.ViewModels
 
         FirebaseHelper firebaseHelper = new FirebaseHelper();
 
-        /* Observable Collections for ingredients categories */
+        /* ************************************************************************************************ */
+        /* ****************************************  ZOBRAZOVANÉ DÁTA ************************************* */
+        /* ************************************************************************************************ */
 
         public ObservableCollection<IngredientModel> Fruits { get; } = new();
         public ObservableCollection<IngredientModel> Vegetables { get; } = new();
@@ -38,7 +36,9 @@ namespace yummyCook.ViewModels
 
 
 
-        /* Commands */
+        /* ************************************************************************************************ */
+        /* ********************************************** COMMANDS **************************************** */
+        /* ************************************************************************************************ */
 
         public ICommand SetFruitCommand => new Command<IngredientModel>(SetIngredientHave);
         public ICommand SetInCartCommand => new Command<IngredientModel>(SetInCartFirebase);
@@ -46,10 +46,12 @@ namespace yummyCook.ViewModels
         public ICommand ClearShoppingListCommand => new Command(ClearShoppingList);
         public ICommand RemoveCommand => new Command<IngredientModel>(Remove);
         public ICommand ChangeToBuyCommand => new Command<IngredientModel>(ChangeToBuy);
-        
-        
 
-        /* VIEWMODEL */
+
+        /* ************************************************************************************************ */
+        /* ******************************************* VIEWMODEL ****************************************** */
+        /* ************************************************************************************************ */
+
         public IngredientsViewModel(FirebaseHelper firebaseHelper)
         {
             Fruits = FruitsData;
@@ -67,8 +69,12 @@ namespace yummyCook.ViewModels
             Sauces = SaucesData;
             ShoppingList = ShoppingListData;
         }
-        
-        /* Set Ingredient "Have" property */
+
+        /* ************************************************************************************************ */
+        /* ********************************************* FUNKCIE ****************************************** */
+        /* ************************************************************************************************ */
+
+        /* Funkcia nastaví vlastnosť ingredience "have" (vlastnenú) na true/false */
         /* If "Have" is true set to false */
         /* if "Have" is false set to true */
         public async void SetIngredientHave(IngredientModel ing)
@@ -128,7 +134,7 @@ namespace yummyCook.ViewModels
 
         public async void ChangeToBuy(IngredientModel obj)
         {
-            string result = await App.Current.MainPage!.DisplayPromptAsync("Množství", "Upravit množství k zakoupení", "OK", "Zrušit");
+            string result = await App.Current!.MainPage!.DisplayPromptAsync("Množství", "Upravit množství k zakoupení", "OK", "Zrušit");
 
             if (result == null)
             {

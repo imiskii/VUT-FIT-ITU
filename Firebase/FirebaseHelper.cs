@@ -304,7 +304,7 @@ namespace yummyCook.Firebase
             {
                 await firebase.Child("Ingredients")
                     .Child(category)
-                    .Child(ingItem.Key)
+                    .Child(ingItem!.Key)
                     .PutAsync(new IngredientModel
                     {
                         Name = ingItem.Object.Name,
@@ -331,7 +331,7 @@ namespace yummyCook.Firebase
 
             await firebase.Child("Ingredients")
                 .Child(category)
-                .Child(ingItem.Key)
+                .Child(ingItem!.Key)
                 .PutAsync(new IngredientModel
                 {
                     Name = ingItem.Object.Name,

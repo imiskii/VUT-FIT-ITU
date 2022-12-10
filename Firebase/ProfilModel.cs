@@ -30,7 +30,6 @@ namespace yummyCook.Firebase
     {
         public string ProfilName { get; set; }
         public string ProfilImage { get; set; }
-        public ImageSource ProfilImageSource { get; set; }
         public Diets[] Diets { get; set; }
         public Alergies[] Alergy { get; set; }
         public Tools[] Tools { get; set; }

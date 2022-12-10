@@ -90,7 +90,6 @@ namespace yummyCook.ViewModels
         public ObservableCollection<IngredientModel> SavedIngredients {  get; set; }
 
         public static ProfilModel ProfilData { get; } = new();
-        public static List<uint> PreparationTimeData;
         public static ObservableCollection<KitchenModel> KitchenTypeData { get; } = new();
         public static ObservableCollection<FoodTypeModel> FootTypeData { get; } = new();
         public static RecipeModel DetailRecipe { get; set; }
@@ -162,14 +161,8 @@ namespace yummyCook.ViewModels
             ProfilData.Diets = data[0].Diets;
             ProfilData.Tools = data[0].Tools;
             ProfilData.Language = data[0].Language;
-            ProfilData.ProfilImageSource = ImageSource.FromFile(ProfilData.ProfilImage);
         }
 
-        /* Funkcia inicializuje PreparationTimeData */
-        public void PreparationTimeInit()
-        {
-            PreparationTimeData = new List<uint> { 10, 20, 30, 45, 60, 90, 120 };
-        }
 
         /* Funkcia stiahne typy kuchýň z databázy */
         public async Task GetKitchenData()

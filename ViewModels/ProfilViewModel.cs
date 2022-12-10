@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using yummyCook.Firebase;
 using yummyCook.Views.Others;
+using yummyCook.Models;
+using RecipeModel = yummyCook.Firebase.RecipeModel;
 
 namespace yummyCook.ViewModels
 {
@@ -14,6 +16,11 @@ namespace yummyCook.ViewModels
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
         FirebaseStorageHelper firestorageHelper = new FirebaseStorageHelper();
+        RecipeCreateModel createRecipeModel = new RecipeCreateModel();
+
+        /* ************************************************************************************************ */
+        /* **************************************** ZOBRAZOVANÉ DÁTA ************************************** */
+        /* ************************************************************************************************ */
 
         /* Ingrediencie */
         public ObservableCollection<IngredientModel> Fruits { get; } = new();
@@ -34,24 +41,25 @@ namespace yummyCook.ViewModels
 
         public List<ObservableCollection<IngredientModel>> Categories { get; set; } = new();
         public ProfilModel Profil { get; } = new();
-        public List<uint> PreparationTime { get; } = new();
         public List<string> FoodTypes { get; } = new();
         public List<string> KitchenType { get; } = new();
         public RecipeModel EditedRecipeData { get; set; } = new();
         public IngrediencePopUp newPopUpIngrediencePage { get; set; }
         public ObservableCollection<RecipeModel> LocalRecipes { get; set; } = new();
 
-        /* RECIPE CREATE VALUES */
+
+        /* Dáta pre vytváranie receptu */
 
         
         /// Postup
-        string procedure;
-        public string Procedure
+        ObservableCollection<Steps> _procedure;
+        public ObservableCollection<Steps> Procedure
         {
-            get => procedure;
+            get => _procedure;
             set
             {
-                procedure = value;
+                _procedure = value;
+                OnPropertyChanged(nameof(Procedure));
             }
         }
 
@@ -121,8 +129,8 @@ namespace yummyCook.ViewModels
             }
         }
 
-        private ObservableCollection<string> _NewRecipeIngredience;
-        public ObservableCollection<string> NewRecipeIngredience
+        private ObservableCollection<Ingredients> _NewRecipeIngredience;
+        public ObservableCollection<Ingredients> NewRecipeIngredience
         {
             get { return _NewRecipeIngredience; }
             set
@@ -132,7 +140,10 @@ namespace yummyCook.ViewModels
             }
         }
 
-        /* COMMANDS */
+        /* ************************************************************************************************ */
+        /* ******************************************** COMMANDS ****************************************** */
+        /* ************************************************************************************************ */
+
         public ICommand SetAlergyHave => new Command<Alergies>(SetProfilAlergyHave);
         public ICommand SetDietHave => new Command<Diets>(SetProfileDietHave);
         public ICommand SetToolHave => new Command<Tools>(SetProfileToolHave);
@@ -147,7 +158,9 @@ namespace yummyCook.ViewModels
         public ICommand OpenIngrediencePopUpPageCommand => new Command(OpenIngrediencePopUp);
         public ICommand CloseIngrediencePopUpPageCommand => new Command(CloseIngrediencePopUp);
         public ICommand AddOrRemoveIngredienceRecipe => new Command<IngredientModel>(AddOrRemoveIngRecipe);
-        public ICommand RemoveIngredienceRecipe => new Command<string>(RemoveIngRecipe);
+        public ICommand AddRecipeStepEntry => new Command(AddStepEditor);
+        public ICommand DeleteRecipeStepEntry => new Command(DeleteStepEditor);
+        public ICommand RemoveIngredienceRecipe => new Command<Ingredients>(RemoveIngRecipe);
         public ICommand SaveNewRecipe => new Command(saveNewRecipe);
         public ICommand ThrowRecipe => new Command(throwRecipe);
         public ICommand DeleteLocalRecipeCommand => new Command<string>(DeleteLocalRecipe);
@@ -160,6 +173,11 @@ namespace yummyCook.ViewModels
         public ICommand GetRecipePhoto => new Command(AddImageToRecipe);
         public Command GetProfilCommand { get; set; }
         public Command LoadThemeCommand { get; set; }
+
+
+        /* ************************************************************************************************ */
+        /* ******************************************* VIEWMODEL ****************************************** */
+        /* ************************************************************************************************ */
 
         public ProfilViewModel() 
         {
@@ -191,7 +209,6 @@ namespace yummyCook.ViewModels
             Categories.Add(Sauces);
 
             Profil = ProfilData;
-            PreparationTime = PreparationTimeData;
             foreach (var item in FootTypeData)
             {
                 FoodTypes.Add(item.Type);
@@ -201,7 +218,8 @@ namespace yummyCook.ViewModels
                 KitchenType.Add(item.Kitchen);
             }
 
-            NewRecipeIngredience = new ObservableCollection<string>();
+            NewRecipeIngredience = new ObservableCollection<Ingredients>();
+            Procedure = new ObservableCollection<Steps>();
             EditedRecipeData = new RecipeModel();
             EditedRecipeData.Ingredients = new List<Ingredients>();
             EditedRecipeData.Photo = "imageimage.png";
@@ -211,21 +229,63 @@ namespace yummyCook.ViewModels
             OnPropertyChanged(nameof(Profil));
         }
 
-        /* FUNCTIONS */
+        /* ************************************************************************************************ */
+        /* ******************************************** FUNKCIE ******************************************* */
+        /* ************************************************************************************************ */
 
-        /* Otvor stránku na vytvorenie nákupného zoznamu */
+        public void LoadTheme()
+        {
+            DarkTheme = false;
+            LightTheme = false;
+            SystemTheme = false;
+
+            switch (Application.Current!.UserAppTheme)
+            {
+                case AppTheme.Dark:
+                    DarkTheme = true;
+                    break;
+
+                case AppTheme.Light:
+                    LightTheme = true;
+                    break;
+
+                case AppTheme.Unspecified:
+                    SystemTheme = true;
+                    break;
+            }
+        }
+
+        public void LightSelected()
+        {
+            LightTheme = true;
+            Application.Current!.UserAppTheme = AppTheme.Light;
+            Preferences.Default.Set("AppTheme", 1);
+            LoadTheme();
+        }
+        public void DarkSelected()
+        {
+            DarkTheme = true;
+            Application.Current!.UserAppTheme = AppTheme.Dark;
+            Preferences.Default.Set("AppTheme", 2);
+            LoadTheme();
+        }
+        public void SystemSelected()
+        {
+            SystemTheme = true;
+            Application.Current!.UserAppTheme = AppTheme.Unspecified;
+            Preferences.Default.Set("AppTheme", 0);
+            LoadTheme();
+        }
+
+        /* Funkcia otvorí stránku na s vytváraním nákupného zoznamu */
         async Task ShowShoppingListAsync()
         {
             await Shell.Current.GoToAsync("shoppingList");
         }
 
-        /* Otvor stránku na vytváranie receptov a inicializuje hodnoty */
+        /* Funkcia otvorí stránku na vytváranie receptov a inicializuje hodnoty */
         async Task ShowRecipeCreateAsync()
         {
-            /// Set default picture
-            /// EditedRecipeData.Photo = "Icons/image.png";
-            /// EditedRecipeData.Steps = new List<Steps>();
-            /// EditedRecipeData.Steps.Add(new Steps { Step = "", Index= 0 });
             if (EditedRecipeData.Diets == null) { EditedRecipeData.Diets = new List<Diets>(); }
             if (EditedRecipeData.Tools == null) { EditedRecipeData.Tools = new List<Tools>(); }
             if (EditedRecipeData.Ingredients == null) { EditedRecipeData.Ingredients = new List<Ingredients>(); }
@@ -233,13 +293,14 @@ namespace yummyCook.ViewModels
             await Shell.Current.GoToAsync("recipeCreate");
         }
 
-        /* Vráť sa späť o jednu stránku */
+        /* Funkcia vráti aplikáciu jednu stránku späť */
         async void CreateRecipeNavigateBack()
         {
             await Shell.Current.GoToAsync("..");
         }
 
-        /* Nastaví premennú konkrétnej alergie na true/false */
+        /* Funkcia nastaví premennú konkrétnej alergie na true/false */
+        /* Ak je alergia nastavená na true, tak nastaví jej hodnotu na false a opačne */
         async void SetProfilAlergyHave(Alergies alergy)
         {
             await firebaseHelper.UpdateAlergyHave(alergy.Alergy, !alergy.Have, alergy.Index);
@@ -247,6 +308,7 @@ namespace yummyCook.ViewModels
         }
 
         /* Nastaví premennú konkrétnej diéty na true/false */
+        /* Ak je diéta nastavená na true, tak nastaví jej hodnotu na false a opačne */
         async void SetProfileDietHave(Diets diet)
         {
             await firebaseHelper.UpdateDietHave(diet.Diet, !diet.Have, diet.Index);
@@ -254,6 +316,7 @@ namespace yummyCook.ViewModels
         }
 
         /* Nastaví premennú konkrétneho náradia na true/false */
+        /* Ak je náradie nastavená na true, tak nastaví jejho hodnotu na false a opačne */
         async void SetProfileToolHave(Tools tool)
         {
             await firebaseHelper.UpdateToolHave(tool.Tool, !tool.Have, tool.Index);
@@ -283,21 +346,18 @@ namespace yummyCook.ViewModels
         /* Nastaví obrázok profilu */
         async void SetProfilImage()
         {
-            var result = await FilePicker.PickAsync(new PickOptions
+            var fileResult = await FilePicker.PickAsync();
+            if (fileResult != null)
             {
-                FileTypes = FilePickerFileType.Images
-            }); 
+                Stream fileToUpload = await fileResult.OpenReadAsync();
 
-            if (result == null)
-            {
-                return;
+                ProfilData.ProfilImage = await firestorageHelper.UploadFile(fileToUpload, fileResult.FileName);
             }
 
-            var stream = await result.OpenReadAsync();
-            ProfilData.ProfilImageSource = ImageSource.FromStream(() => stream);
-            await firebaseHelper.UpdateProfilImage(result.FullPath);
+            await firebaseHelper.UpdateProfilImage(ProfilData.ProfilImage);
             OnPropertyChanged("Profil");
         }
+
         /* Funkcia pridá alebo odoberie dietu z receptu */
         void AddOrRemoveRecipeDiet(Diets diet)
         {
@@ -312,6 +372,7 @@ namespace yummyCook.ViewModels
         }
 
         /* Funkcia pridá alebo odoberie vybavenie z receptu */
+        /* Ak sa vybavenie nachádza v recepte, tak ho odoberie ináč pridá */
         void AddOrRemoveRecipeTool(Tools tool)
         {
             if (EditedRecipeData.Tools.Contains(tool))
@@ -324,20 +385,21 @@ namespace yummyCook.ViewModels
             }
         }
 
-        /* Funkcia otvorí IngrediencePopUpPage */
+        /* Funkcia otvorí IngrediencePopUpPage (stránku na výber ingrediencií pre recept) */
         void OpenIngrediencePopUp()
         {
             newPopUpIngrediencePage = new IngrediencePopUp();
             Application.Current!.MainPage!.ShowPopup(newPopUpIngrediencePage);
         }
 
-        /* Funkcia zatvorí IngrediencePopUpPage */
+        /* Funkcia zatvorí IngrediencePopUpPag (stránku na výber ingrediencií pre recept) */
         void CloseIngrediencePopUp()
         {
             newPopUpIngrediencePage.Close();
         }
 
-        /* Funkcia pridá/odoberie ingredienciu do EditedRecipeData.Ingredients */
+        /* Funkcia pridá/odoberie ingredienciu do/z EditedRecipeData.Ingredients */
+        /* Ak sa ingrediencia nachádza v EditedRecipeData.Ingredients, tak ho odoberie ináč pridá */
         void AddOrRemoveIngRecipe(IngredientModel Ing)
         {
             Ingredients newIng = new Ingredients { Name = Ing.Name, Category = Ing.Category };
@@ -347,32 +409,44 @@ namespace yummyCook.ViewModels
                 if (item.Name == newIng.Name)
                 {
                     Ing.InNewRecipe = false;
-                    NewRecipeIngredience.Remove(Ing.Name);
+                    NewRecipeIngredience.Remove(NewRecipeIngredience.Where(x => x.Name == Ing.Name).FirstOrDefault());
                     EditedRecipeData.Ingredients.Remove(item);
                     return;
                 }
             }
             Ing.InNewRecipe = true;
-            NewRecipeIngredience.Add(newIng.Name);
+            NewRecipeIngredience.Add(newIng);
             EditedRecipeData.Ingredients.Add(newIng);
         }
 
         /* Funkcia odoberie ingredienciu z EditedRecipeData.Ingredients */
-        void RemoveIngRecipe(string Ing)
+        void RemoveIngRecipe(Ingredients Ing)
         {
-            EditedRecipeData.Ingredients.Remove(EditedRecipeData.Ingredients.Where(x => x.Name == Ing).FirstOrDefault());
-            NewRecipeIngredience.Remove(Ing);
+            EditedRecipeData.Ingredients.Remove(EditedRecipeData.Ingredients.Where(x => x.Name == Ing.Name).FirstOrDefault());
+            NewRecipeIngredience.Remove(NewRecipeIngredience.Where(x => x.Name == Ing.Name).FirstOrDefault());
             foreach (var list in Categories)
             {
                 foreach(var item in list)
                 {
-                    if (item.Name == Ing)
+                    if (item.Name == Ing.Name)
                     {
                         item.InNewRecipe = false;
                         return;
                     }
                 }
             }
+        }
+
+        /* Funkcia pridá vstup (editor) pre nový krok postupu */
+        void AddStepEditor()
+        {
+            Procedure.Add(new Steps { Step = "", Index = Procedure.Count + 1 });
+        }
+
+        /* Funkcia odstráni posledný vstup (editor) pre vytváranie krokov receptu */
+        void DeleteStepEditor()
+        {
+            Procedure.Remove(Procedure.LastOrDefault());
         }
 
         /* Funkcia skontroluje a uloží novo vytvorený recept do databázi */
@@ -407,9 +481,15 @@ namespace yummyCook.ViewModels
                 await Shell.Current.DisplayAlert("Chyba!", $"Recept musí mít nějaké ingredience", "OK");
                 return;
             }
+            // Ingrediece weight
+            foreach (var ing in NewRecipeIngredience)
+            {
+                EditedRecipeData.Ingredients.Where(x => x.Name == ing.Name).FirstOrDefault()!.Weight = ing.Weight;
+                EditedRecipeData.Ingredients.Where(x => x.Name == ing.Name).FirstOrDefault()!.Index = EditedRecipeData.Ingredients.Count;
+            }
 
             // Postup
-            if (string.IsNullOrWhiteSpace(Procedure))
+            if (Procedure.Count == 0)
             {
                 await Shell.Current.DisplayAlert("Chyba!", $"Recept musí mít Postup", "OK");
                 return;
@@ -417,12 +497,15 @@ namespace yummyCook.ViewModels
             else
             {
                 EditedRecipeData.Steps = new List<Steps>();
-                var splitProcedure = Procedure.Split(Environment.NewLine);
-                foreach (var item in splitProcedure)
+                foreach (var step in Procedure)
                 {
-                    EditedRecipeData.Steps.Add( new Steps { Step = item, Index = EditedRecipeData.Steps.Count});
+                    EditedRecipeData.Steps.Add(new Steps { Step = step.Step, Index = step.Index - 1 });
                 }
             }
+
+            // Vyber alergie
+            EditedRecipeData.Allergies = new List<Alergies>();
+            EditedRecipeData.Allergies = createRecipeModel.FigureOutAlregies(Profil.Alergy, EditedRecipeData.Ingredients);
 
             // Čas prípravy
             if (Time == 0)
@@ -469,50 +552,6 @@ namespace yummyCook.ViewModels
             }
         }
 
-        public void LoadTheme()
-        {
-            DarkTheme = false;
-            LightTheme = false;
-            SystemTheme = false;
-
-            switch (Application.Current.UserAppTheme)
-            {
-                case AppTheme.Dark:
-                    DarkTheme = true;
-                    break;
-
-                case AppTheme.Light:
-                    LightTheme = true;
-                    break;
-
-                case AppTheme.Unspecified:
-                    SystemTheme = true;
-                    break;
-            }
-        }
-
-        public void LightSelected()
-        {
-            LightTheme = true;
-            Application.Current!.UserAppTheme = AppTheme.Light;
-            Preferences.Default.Set("AppTheme", 1);
-            LoadTheme();
-        }
-        public void DarkSelected()
-        {
-            DarkTheme = true;
-            Application.Current!.UserAppTheme = AppTheme.Dark;
-            Preferences.Default.Set("AppTheme", 2);
-            LoadTheme();
-        }
-        public void SystemSelected()
-        {
-            SystemTheme = true;
-            Application.Current!.UserAppTheme = AppTheme.Unspecified;
-            Preferences.Default.Set("AppTheme", 0);
-            LoadTheme();
-        }
-
         /* Funkcia nanovo inicializuje premenné potrebné na tvorbu receptu a vráti aplikáciu o jednu stránku naspäť */
         void throwRecipe()
         {
@@ -520,7 +559,7 @@ namespace yummyCook.ViewModels
             EditedRecipeData.Photo = "imageimage.png";
             Photo = "imageimage.png";
             Description = string.Empty;
-            Procedure = string.Empty;
+            Procedure.Clear();
             Time = 0;
             FType = string.Empty;
             KitchenT = string.Empty;
@@ -557,13 +596,15 @@ namespace yummyCook.ViewModels
             EditedRecipeData.Name = recipe.Name;
             Name = recipe.Name;
             savedName = recipe.Name;
-            // TODO: add image
+            EditedRecipeData.Photo = recipe.Photo;
+            Photo = recipe.Photo;
             EditedRecipeData.Description= recipe.Description;
             Description = recipe.Description;
             EditedRecipeData.Steps = recipe.Steps;
             foreach (var step in recipe.Steps)
             {
-                Procedure = Procedure + step.Step + "\n";
+                step.Index += 1;
+                Procedure.Add(step);
             }
             EditedRecipeData.Diets = recipe.Diets;
             if (recipe.Diets != null)
@@ -590,19 +631,19 @@ namespace yummyCook.ViewModels
             EditedRecipeData.Ingredients = recipe.Ingredients;
             foreach (var ing in recipe.Ingredients)
             {
-                NewRecipeIngredience.Add(ing.Name);
+                NewRecipeIngredience.Add(ing);
             }
             foreach (var list in Categories)
             {
                 foreach (var item in list)
                 {
-                    if (NewRecipeIngredience.Contains(item.Name))
+                    if (NewRecipeIngredience.Contains(NewRecipeIngredience.Where(x => x.Name == item.Name).FirstOrDefault()))
                     {
                         item.InNewRecipe = true;
                     }
                 }
             }
-            /* Zobraziť recept */
+            /* Zobraziť stránku na úpravu recept */
             await ShowRecipeCreateAsync();
         }
 
