@@ -37,7 +37,8 @@ namespace yummyCook.ViewModels
             GetKitchenCommand.Execute(this);
             GetFoodTypeCommand = new Command(async () => await GetFoodTypes());
             GetFoodTypeCommand.Execute(this);
-            PreparationTimeInit();
+            GetIngredientCommand = new Command(async () => await GetIngredietsAsync());
+            GetIngredientCommand.Execute(this);
 
             switch (Preferences.Default.Get("AppTheme", 0))
             {

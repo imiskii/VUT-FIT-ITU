@@ -43,8 +43,16 @@
             <!-- Obrázok pre recept -->
             <Grid RowDefinitions="Auto,*" RowSpacing="10">
                 <Label Grid.Row="0" Text="Vyberte obrázek pro Váš recept" FontSize="16" FontAttributes="Bold"/>
-                <Frame Grid.Row="1">
-                    <Button Grid.Row="1" Text="🍲" FontSize="50" BackgroundColor="Transparent"/>
+                <Frame Grid.Row="1" MinimumHeightRequest="150">
+                    <ImageButton Grid.Row="1" Command="{Binding GetRecipePhoto}" Source="{Binding Photo}" MaximumHeightRequest="250" MaximumWidthRequest="200" BackgroundColor="Transparent" Margin="10,20,10,20">
+                        <ImageButton.Triggers>
+                            <DataTrigger TargetType="ImageButton"
+                                         Binding="{Binding Photo}"
+                                         Value="imageimage.png">
+                                <Setter Property="HeightRequest" Value="50"/>
+                            </DataTrigger>
+                        </ImageButton.Triggers>
+                    </ImageButton>
                 </Frame>
             </Grid>
             <!-- Popis receptu -->
@@ -55,25 +63,70 @@
                 </Frame>
             </Grid>
             <!-- Výber ingrediencii -->
-            
+            <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Vyberte ingredience pro Váš recept" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
+                    <StackLayout>
+                        <CollectionView ItemsSource="{Binding NewRecipeIngredience}" MaximumHeightRequest="225">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.Header>
+                                <Grid ColumnDefinitions="*,*" Margin="10,10,10,10">
+                                    <Label Text="Ingrediencie" Grid.Column="0" HorizontalTextAlignment="Start" VerticalTextAlignment="Center" TextColor="{StaticResource Primary}" FontAttributes="Bold"/>
+                                    <Label Text="Množstvo [g]" Grid.Column="1" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" TextColor="{StaticResource Primary}" FontAttributes="Bold"/>
+                                </Grid>
+                            </CollectionView.Header>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Ingredients">
+                                    <Grid ColumnDefinitions="*,*" Margin="5,5,5,5">
+                                        <Button
+                                            Grid.Column="0"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center"
+                                            Margin="2"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=RemoveIngredienceRecipe}"
+                                            CommandParameter="{Binding .}"
+                                            Text="{Binding Name}"
+                                            FlexLayout.Basis="Auto"
+                                            Style="{StaticResource HaveButton}">
+                                        </Button>
+                                        <Frame Grid.Column="1" HorizontalOptions="Center" VerticalOptions="Center" WidthRequest="80">
+                                            <Entry Text="{Binding Weight}" Placeholder="0" HorizontalTextAlignment="Center" Keyboard="Numeric"/>
+                                        </Frame>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Button Text="+" Command="{Binding OpenIngrediencePopUpPageCommand}" FontSize="16" HeightRequest="40"  WidthRequest="40" CornerRadius="60" Margin="5,10,5,5"/>
+                    </StackLayout>
+                </Frame>
+            </Grid>
             <!-- Výber diét -->
             <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Vyberte diéty, které vyhovují vašemu receptu" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
                 <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
-                    <FlexLayout BindableLayout.ItemsSource="{Binding ProfilData.Diets}"
+                    <FlexLayout BindableLayout.ItemsSource="{Binding Profil.Diets}"
                                 JustifyContent="Start"
                                 Wrap="Wrap"
                                 AlignItems="Start">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="model:Diets">
-                                <Button 
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveDietRecipe}"
-                                            CommandParameter="{Binding .}"
-                                            Text="{Binding Diet}"
-                                            Margin="2"
-                                            FlexLayout.Basis="Auto"
-                                            Style="{StaticResource NotHaveButton}">
+                                <Button
+                                    Margin="2"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveDietRecipe}"
+                                    CommandParameter="{Binding .}"
+                                    Text="{Binding Diet}"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
                                     <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
                                         <EventTrigger Event="Clicked">
                                             <local:ChangeStyle/>
                                         </EventTrigger>
@@ -88,20 +141,27 @@
             <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Vyberte potřebné kuchynské náčiní" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
                 <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
-                    <FlexLayout BindableLayout.ItemsSource="{Binding ProfilData.Tools}"
+                    <FlexLayout BindableLayout.ItemsSource="{Binding Profil.Tools}"
                                 JustifyContent="Start"
                                 Wrap="Wrap"
                                 AlignItems="Start">
                         <BindableLayout.ItemTemplate>
                             <DataTemplate x:DataType="model:Tools">
-                                <Button 
-                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveToolRecipe}"
-                                            CommandParameter="{Binding .}"
-                                            Text="{Binding Tool}"
-                                            Margin="2"
-                                            FlexLayout.Basis="Auto"
-                                            Style="{StaticResource NotHaveButton}">
+                                <Button
+                                    Margin="2"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveToolRecipe}"
+                                    CommandParameter="{Binding .}"
+                                    Text="{Binding Tool}"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
                                     <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
                                         <EventTrigger Event="Clicked">
                                             <local:ChangeStyle/>
                                         </EventTrigger>
@@ -116,34 +176,49 @@
             <Grid Grid.Row="0" RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Zde zadejte postup receptu" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
                 <Frame Grid.Row="1" BorderColor="{StaticResource Gray100}">
-                    <Editor Text="{Binding Procedure}" Placeholder="Postup receptu" AutoSize="TextChanges" Keyboard="Text" Margin="5,0,5,0"/>
+                    <StackLayout>
+                        <CollectionView ItemsSource="{Binding Procedure}" MaximumHeightRequest="325">
+                            <CollectionView.ItemsLayout>
+                                <LinearItemsLayout Orientation="Vertical"/>
+                            </CollectionView.ItemsLayout>
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="model:Steps">
+                                    <Grid RowDefinitions="Auto,*" RowSpacing="5" Margin="5,5,5,5">
+                                        <Label Grid.Row="0" Text="{Binding Index, StringFormat='{}{0}. Krok'}" FontAttributes="Italic"/>
+                                        <Frame Grid.Row="1" HorizontalOptions="Fill" VerticalOptions="Center" BorderColor="{StaticResource Gray100}">
+                                            <Editor Text="{Binding Step}" AutoSize="TextChanges" Keyboard="Text" Margin="5,0,5,0"/>
+                                        </Frame>
+                                    </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                        <Grid ColumnDefinitions="Auto, Auto" ColumnSpacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                            <Button Grid.Column="0" Text="+" Command="{Binding AddRecipeStepEntry}" FontSize="16" HeightRequest="40"  WidthRequest="40" CornerRadius="60" Margin="5,10,5,5"/>
+                            <Button Grid.Column="1" Text="-" Command="{Binding DeleteRecipeStepEntry}" FontSize="16" HeightRequest="40"  WidthRequest="40" CornerRadius="60" Margin="5,10,5,5"/>
+                        </Grid>
+                    </StackLayout>
                 </Frame>
             </Grid>
             <!-- Čas na prípravu receptu -->
-            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
-                <Label Grid.Row="0" Text="Kolik času zabere príprava Vašeho receptu ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
-                <Picker Grid.Row="1" Title="Čas přípravy">
-                    <Picker.ItemsSource>
-
-                    </Picker.ItemsSource>
-                </Picker>
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5" ColumnDefinitions="*,4*">
+                <Label Grid.ColumnSpan="2" Grid.Row="0" Text="Kolik času zabere príprava Vašeho receptu ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Frame Grid.ColumnSpan="2" Grid.Row="1" WidthRequest="60" HorizontalOptions="Start" VerticalOptions="Center" BorderColor="{StaticResource Gray100}">
+                    <Entry Grid.Row="1" Text="{Binding Time}" HorizontalTextAlignment="Center" Keyboard="Numeric" Margin="5,0,5,0"/>
+                </Frame>
+                <Label Grid.Column="1" Grid.Row="1" Text="minut" FontSize="16" FontAttributes="Italic" HorizontalOptions="Start" VerticalOptions="Center"/>
             </Grid>
             <!-- Typ jedla -->
             <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Jaký typ jídla je Váš recept ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
-                <Picker Grid.Row="1" Title="Typ jídla">
-                    <Picker.ItemsSource>
-
-                    </Picker.ItemsSource>
+                <Picker Grid.Row="1" Title="Typ jídla" 
+                        ItemsSource="{Binding FoodTypes}" SelectedItem="{Binding FType}">
                 </Picker>
             </Grid>
             <!-- Druh kuchyňe -->
             <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
-                <Label Grid.Row="0" Text="Z jeké kuchyne pochází Váš recept ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
-                <Picker Grid.Row="1" Title="Druh kuchyne">
-                    <Picker.ItemsSource>
-
-                    </Picker.ItemsSource>
+                <Label Grid.Row="0" Text="Z jaké kuchyne pochází Váš recept ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Picker Grid.Row="1" Title="Druh kuchyne"
+                        ItemsSource="{Binding KitchenType}" SelectedItem="{Binding KitchenT}">
                 </Picker>
             </Grid>
             <!-- Tlačítka uložiť/zahodiť -->

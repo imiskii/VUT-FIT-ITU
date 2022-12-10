@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- ProfilPage.xaml -->
+<!-- Autor: Michal Ľaš -->
+    
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
+             xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
+             xmlns:trig="clr-namespace:yummyCook.RecipeDetailTriggers"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
+             x:DataType="viewmodel:ProfilViewModel"
+             x:Class="yummyCook.Views.Main.MorePage">
+
+    <ScrollView VerticalScrollBarVisibility="Never">
+        <VerticalStackLayout Spacing="20">
+            <!-- Fotka a meno -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="5">
+                <ImageButton Grid.Column="0" 
+                            HeightRequest="120" 
+                            WidthRequest="120" 
+                            CornerRadius="60" 
+                            BorderColor="{StaticResource Primary}" 
+                            BorderWidth="3" 
+                            Margin="10,10,10,10"
+                            Source="{Binding Profil.ProfilImage}"
+                            Command="{Binding SetNewImage}"/>
+                <Grid Grid.Column="1" ColumnDefinitions="Auto,Auto">
+                    <Label Grid.Column="0" Text="{Binding Profil.ProfilName}" LineBreakMode="WordWrap" FontSize="24" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Button Grid.Column="1" Text="🖋" Command="{Binding SetNewName}" VerticalOptions="Center" FontSize="20" BackgroundColor="Transparent"/>
+                </Grid>
+            </Grid>
+            <!-- Tlačítka nákupný zoznam & Vytváranie receptu -->
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,15,0,10">
+                <Button Command="{Binding ShowShoppingList}" Grid.Column="0" Text="Nákupní seznam"/>
+                <Button Command="{Binding ShowRecipeCreatePage}" Grid.Column="1" Text="Vytvoř recept"/>
+            </Grid>
+            <!-- Zobrazenie receptov vytvorených užívateľom -->
+            <Grid>
+                <CollectionView ItemsSource="{Binding LocalRecipes}"
+                                MaximumHeightRequest="350"
+                                VerticalScrollBarVisibility="Never"
+                                IsVisible="{Binding IsNotBusy}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.Header>
+                        <Label Text="Vaše recepty"
+                           StyleClass="PageH2" />
+                    </CollectionView.Header>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:RecipeModel">
+                            <Frame HeightRequest="200"
+                               Margin="5, 10">
+                                <Grid>
+                                    <Image Source="{Binding Photo}"
+                                       Aspect="AspectFill" />
+                                    <Grid>
+                                        <Grid.Background>
+                                            <LinearGradientBrush EndPoint="0,1">
+                                                <GradientStop Color="#00000000"
+                                                          Offset="0.25" />
+                                                <GradientStop Color="Black"
+                                                          Offset="1" />
+                                                <GradientStop Color="#99000000"
+                                                          Offset="0.7" />
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="3*" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Button Grid.Row="0"
+                                                Grid.Column="0"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=EditRecipeCommand}"
+                                                CommandParameter="{Binding .}"
+                                                Text="Upravit"
+                                                Scale="1"
+                                                HorizontalOptions="Start"
+                                                VerticalOptions="Start"
+                                                Margin="2"
+                                                Style="{StaticResource NotHaveButton}"
+                                                BorderWidth="2"
+                                                CornerRadius="60"/>
+                                        <Button Grid.Row="0"
+                                                Grid.Column="2"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrDeleteRecipeToGlobalDatabase}"
+                                                CommandParameter="{Binding Name}"
+                                                Text="Veřejný"
+                                                Scale="1"
+                                                HorizontalOptions="End"
+                                                VerticalOptions="Start"
+                                                Margin="2"
+                                                Style="{StaticResource HaveButton}"
+                                                CornerRadius="60">
+                                            <Button.Triggers>
+                                                <DataTrigger TargetType="Button"
+                                                 Binding="{Binding Public}"
+                                                 Value="False">
+                                                    <Setter Property="Style"
+                                                        Value="{StaticResource NotHaveButton}"/>
+                                                    <Setter Property="Text"
+                                                        Value="Zveřejnit"/>
+
+                                                </DataTrigger>
+                                                <EventTrigger Event="Clicked">
+                                                    <local:ChangeStyleAndText/>
+                                                </EventTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+                                        <Button Grid.Row="0"
+                                                Grid.Column="1"
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=DeleteLocalRecipeCommand}"
+                                                CommandParameter="{Binding Name}"
+                                                Text="Vymazat"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Start"
+                                                Margin="2"
+                                                Style="{StaticResource NotHaveButton}"
+                                                CornerRadius="60"/>
+
+                                        <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Name}"
+                                           FontSize="Title"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Start"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="White"
+                                           Margin="10,0,0,0" />
+                                        <Label Grid.Row="2"
+                                           Grid.Column="0"
+                                           Text="{Binding Rating}"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="LightGray" />
+                                        <Label Grid.Row="3"
+                                           Grid.Column="1"
+                                           Text="7 surovin"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="LightGray" />
+                                        <Button Grid.Row="2"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            CornerRadius="10"
+                                            Text="Do toho!"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=GoToDetailCommand}"
+                                            CommandParameter="{Binding .}">
+                                            <Button.Triggers>
+                                                <EventTrigger Event="Clicked">
+                                                    <trig:RecipeDetailTrigger />
+                                                </EventTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+            <!-- Nastavenie diét pre užívateľa -->
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Diéty" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Diets}"
+                    JustifyContent="Start"
+                    Wrap="Wrap"
+                    AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:Diets">
+                            <Button 
+                                Text="{Binding Diet}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeViewModel}}, Path=SetDietHave}"
+                                CommandParameter="{Binding .}"
+                                Margin="2"
+                                FlexLayout.Basis="Auto"
+                                Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                            Binding="{Binding Have}"
+                                            Value="False">
+                                        <Setter Property="Style"
+                                        Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Nastavenie alergií pre užívateľa -->
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Alergie" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Alergy}"
+                    JustifyContent="Start"
+                    Wrap="Wrap"
+                    AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:Alergies">
+                            <Button 
+                                Text="{Binding Alergy}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=SetAlergyHave}"
+                                CommandParameter="{Binding .}"
+                                Margin="2"
+                                FlexLayout.Basis="Auto"
+                                Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                            Binding="{Binding Have}"
+                                            Value="False">
+                                        <Setter Property="Style"
+                                        Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Nastavenie vybavenia pre užívateľa -->
+            <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
+                <Label Grid.Row="0" Text="Kuchynské nástroje" FontSize="16" FontAttributes="Bold" Margin="0,0,10,0"/>
+                <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Profil.Tools}"
+                        JustifyContent="Start"
+                        Wrap="Wrap"
+                        AlignItems="Start">
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate x:DataType="model:Tools">
+                            <Button 
+                                    Text="{Binding Tool}"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=SetToolHave}"
+                                    CommandParameter="{Binding .}"
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+
+                                <Button.Triggers>
+                                    <DataTrigger TargetType="Button"
+                                                Binding="{Binding Have}"
+                                                Value="False">
+                                        <Setter Property="Style"
+                                            Value="{StaticResource NotHaveButton}"/>
+
+                                    </DataTrigger>
+                                    <EventTrigger Event="Clicked">
+                                        <local:ChangeStyle/>
+                                    </EventTrigger>
+                                </Button.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </BindableLayout.ItemTemplate>
+                </FlexLayout>
+            </Grid>
+            <!-- Výber témy aplikácie -->
+            <Label FontSize="16" FontAttributes="Bold" Text="Téma aplikace" />
+            <Grid RowDefinitions="auto, *" ColumnDefinitions="*, *, *" ColumnSpacing="40" Padding="20,0" Margin="0, -20">
+                <ImageButton Grid.Column="0"
+                             Source="themes/light.png"
+                             Command="{Binding LightSelectedCommand}" />
+                <ImageButton Grid.Column="1"
+                             Source="themes/system.png"
+                             Command="{Binding SystemSelectedCommand}" />
+                <ImageButton Grid.Column="2"
+                             Source="themes/dark.png"
+                             Command="{Binding DarkSelectedCommand}" />
+                <Button Grid.Column="0"
+                        Grid.Row="0"
+                        VerticalOptions="EndAndExpand"
+                        Text="Světlé"
+                        Padding="6"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="2"
+                        Command="{Binding LightSelectedCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding LightTheme}"
+                                     Value="False">
+                            <Setter Property="BackgroundColor"
+                                    Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                            <Setter Property="TextColor"
+                                    Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+
+                </Button>
+                <Button Grid.Column="1"
+                        Grid.Row="0"
+                        VerticalOptions="EndAndExpand"
+                        Text="Systémové"
+                        Padding="6"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="2"
+                        Command="{Binding SystemSelectedCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding SystemTheme}"
+                                     Value="False">
+                            <Setter Property="BackgroundColor"
+                                    Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                            <Setter Property="TextColor"
+                                    Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+
+                </Button>
+                <Button Grid.Column="2"
+                        Grid.Row="0"
+                        VerticalOptions="EndAndExpand"
+                        Text="Tmavé"
+                        Padding="6"
+                        BorderColor="{StaticResource Primary}"
+                        BorderWidth="2"
+                        Command="{Binding DarkSelectedCommand}">
+                    <Button.Triggers>
+                        <DataTrigger TargetType="Button"
+                                     Binding="{Binding DarkTheme}"
+                                     Value="False">
+                            <Setter Property="BackgroundColor"
+                                    Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
+                            <Setter Property="TextColor"
+                                    Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+                        </DataTrigger>
+                    </Button.Triggers>
+                </Button>
+            </Grid>
+            <!-- Výber jazyka aplikácie -->
+            <Grid Grid.Row="3" RowDefinitions="Auto, *" Grid.ColumnSpan="2" Margin="0,20,0,0">
+                <Label Grid.Row="0" Text="Jazyk" FontSize="16" FontAttributes="Bold"/>
+                <Picker Grid.Row="1" Title="Jazyk" SelectedItem="{Binding Profil.Language}" >
+                    <Picker.ItemsSource>
+                        <x:Array Type="{x:Type x:String}">
+                            <x:String>Čeština</x:String>
+                            <x:String>Angličtina</x:String>
+                        </x:Array>
+                    </Picker.ItemsSource>
+                </Picker>
+            </Grid>
+            <!-- Aktivity indikátor -->
+            <skia:SKLottieView Source="{AppThemeBinding Light=loaderLight.json, Dark=loaderDark.json}"
+                               RepeatCount="-1"
+                               HeightRequest="200"
+                               WidthRequest="200"
+                               HorizontalOptions="Center"
+                               VerticalOptions="CenterAndExpand"
+                               IsVisible="{Binding IsBusy}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

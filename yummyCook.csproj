@@ -58,6 +58,7 @@
 	  <None Remove="Resources\Images\Icons\house.svg" />
 	  <None Remove="Resources\Images\Icons\houseB.svg" />
 	  <None Remove="Resources\Images\Icons\menu.svg" />
+	  <None Remove="Resources\Images\imageImage.png" />
 	  <None Remove="Resources\Images\pizza.jpg" />
 	  <None Remove="Resources\Images\themes\dark.png" />
 	  <None Remove="Resources\Images\themes\darkA.png" />
@@ -87,6 +88,7 @@
 
 	<ItemGroup>
 	  <PackageReference Include="banditoth.MAUI.Multilanguage" Version="1.0.4" />
+	  <PackageReference Include="CommunityToolkit.Maui" Version="2.0.0" />
 	  <PackageReference Include="FirebaseDatabase.net" Version="4.1.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview1" />
 	  <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
@@ -99,6 +101,9 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>AppTranslations.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\Main\ProfilPage.xaml.cs">
+	    <DependentUpon>ProfilPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -119,13 +124,16 @@
 	  <MauiXaml Update="Views\Main\IngredientsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Main\MorePage.xaml">
+	  <MauiXaml Update="Views\Main\ProfilPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Main\RecipesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Others\GuidePage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\Others\IngrediencePopUp.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Others\RecipeCreatePage.xaml">

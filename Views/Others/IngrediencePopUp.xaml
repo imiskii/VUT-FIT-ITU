@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- IngrediencePopUp.xaml -->
+<!-- Autor: Michal Ľaš -->
+
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+             xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
+             xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
+             x:DataType="viewmodel:ProfilViewModel"
+             x:Class="yummyCook.Views.Others.IngrediencePopUp"
+             CanBeDismissedByTappingOutsideOfPopup="False"
+             Size="350,700">
+
+    <Grid BackgroundColor="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Content -->
+        <ScrollView Grid.Row="1">
+            <VerticalStackLayout>
+                <!-- Nadpis -->
+                <Label StyleClass="PageH2"
+                        Text="Výběr ingrediencií"
+                        VerticalOptions="Center"
+                        Margin="10, 20, 10, 10" />
+                <!-- Ovoce -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Ovoce" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Fruits}"
+                                    JustifyContent="Start"
+                                    Wrap="Wrap"
+                                    AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button 
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Zelenina -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Zelenina" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Vegetables}"
+                                    JustifyContent="Start"
+                                    Wrap="Wrap"
+                                    AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Maso -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Maso a vajíčka" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Meat}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Ryby -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Ryby a mořské plody" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Fish}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Cestoviny -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Cestoviny" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Pasta}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Pečivo -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Pečivo" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Pastry}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Mléčné výrobky -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Mléčné výrobky" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Dairyproducts}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Huby -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Huby" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Mushrooms}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Oleje -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Oleje" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Oils}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Ořechy -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Ořechy" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Nuts}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Koření -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Koření" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Spices}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Sladké -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Sladké" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Sweeteners}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+                <!-- Omáčky -->
+                <Grid RowDefinitions="Auto,*" RowSpacing="5">
+                    <Label Grid.Row="0" Text="Omáčky" Margin="10,10,0,10" FontSize="20"/>
+                    <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Sauces}"
+                            JustifyContent="Start"
+                            Wrap="Wrap"
+                            AlignItems="Start">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ProfilViewModel}}, Path=AddOrRemoveIngredienceRecipe}"
+                                    CommandParameter="{Binding .}" Text="{Binding Name}" 
+                                    Margin="2"
+                                    FlexLayout.Basis="Auto"
+                                    Style="{StaticResource HaveButton}">
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button"
+                                                 Binding="{Binding InNewRecipe}"
+                                                 Value="False">
+                                            <Setter Property="Style"
+                                                Value="{StaticResource NotHaveButton}"/>
+
+                                        </DataTrigger>
+                                        <EventTrigger Event="Clicked">
+                                            <local:ChangeStyle/>
+                                        </EventTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+                </Grid>
+            </VerticalStackLayout>
+        </ScrollView>
+        <!-- Footer -->
+        <Button Text="Uložit"
+                Command="{Binding CloseIngrediencePopUpPageCommand}"
+                Padding="20,16"
+                Grid.Row="2"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                Margin="10,30,10,10"/>
+    </Grid>
+</mct:Popup>

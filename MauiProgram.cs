@@ -1,4 +1,5 @@
 using banditoth.MAUI.Multilanguage;
+using CommunityToolkit.Maui;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using yummyCook.Firebase;
 using yummyCook.Resources.Translations;
@@ -15,6 +16,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+            .UseMauiCommunityToolkit()
             .UseSkiaSharp()
 
             .ConfigureFonts(fonts =>

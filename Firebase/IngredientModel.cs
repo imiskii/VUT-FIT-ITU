@@ -18,5 +18,6 @@ namespace yummyCook.Firebase
         public bool Buy { get; set; }
         public bool InCart { get; set; }
         public string ToBuy { get; set; }
+        public bool InNewRecipe { get; set; }
     }
 }
