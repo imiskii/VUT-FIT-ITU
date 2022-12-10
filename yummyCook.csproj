@@ -59,6 +59,12 @@
 	  <None Remove="Resources\Images\Icons\houseB.svg" />
 	  <None Remove="Resources\Images\Icons\menu.svg" />
 	  <None Remove="Resources\Images\pizza.jpg" />
+	  <None Remove="Resources\Images\themes\dark.png" />
+	  <None Remove="Resources\Images\themes\darkA.png" />
+	  <None Remove="Resources\Images\themes\light.png" />
+	  <None Remove="Resources\Images\themes\lightA.png" />
+	  <None Remove="Resources\Images\themes\system.png" />
+	  <None Remove="Resources\Images\themes\systemA.png" />
 	  <None Remove="Resources\Raw\loaderDark.json" />
 	  <None Remove="Resources\Raw\loaderLight.json" />
 	</ItemGroup>
@@ -71,12 +77,19 @@
 	  <MauiImage Include="Resources\Images\Icons\house.svg" />
 	  <MauiImage Include="Resources\Images\Icons\houseB.svg" />
 	  <MauiImage Include="Resources\Images\Icons\menu.svg" />
+	  <MauiImage Include="Resources\Images\themes\dark.png" />
+	  <MauiImage Include="Resources\Images\themes\darkA.png" />
+	  <MauiImage Include="Resources\Images\themes\light.png" />
+	  <MauiImage Include="Resources\Images\themes\lightA.png" />
+	  <MauiImage Include="Resources\Images\themes\system.png" />
+	  <MauiImage Include="Resources\Images\themes\systemA.png" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <PackageReference Include="banditoth.MAUI.Multilanguage" Version="1.0.4" />
 	  <PackageReference Include="FirebaseDatabase.net" Version="4.1.0" />
 	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview1" />
+	  <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
 	  <PackageReference Include="SkiaSharp.Extended.UI.Maui" Version="2.0.0-preview.61" />
 	  <PackageReference Include="System.ObjectModel" Version="4.3.0" />
 	</ItemGroup>

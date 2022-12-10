@@ -32,6 +32,47 @@ namespace yummyCook.ViewModels
         bool isBusy;
         bool isEmpty;
 
+        bool light;
+        bool system;
+        bool dark;
+
+        public bool LightTheme { 
+            get 
+            {
+                return light;
+            } 
+            set 
+            { 
+                light = value;
+                OnPropertyChanged(); 
+            } 
+        }
+        public bool DarkTheme
+        {
+            get
+            {
+                return dark;
+            }
+            set
+            {
+                dark = value;
+                OnPropertyChanged();
+            }
+        }
+        public bool SystemTheme
+        {
+            get
+            {
+                return system;
+            }
+            set
+            {
+                system = value;
+                OnPropertyChanged();
+            }
+        }
+
+
         public ObservableCollection<IngredientModel> SavedIngredients {  get; set; }
 
         public static ProfilModel ProfilData { get; } = new();

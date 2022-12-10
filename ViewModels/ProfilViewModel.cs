@@ -22,7 +22,7 @@ namespace yummyCook.ViewModels
 
         /* Editor vstupy */
 
-        
+
         /// Postup
         string procedure;
         public string Procedure
@@ -70,7 +70,11 @@ namespace yummyCook.ViewModels
         public ICommand AddOrRemoveToolRecipe => new Command<Tools>(AddOrRemoveRecipeTool);
         public ICommand SaveNewRecipe => new Command(saveNewRecipe);
         public ICommand ThrowRecipe => new Command(throwRecipe);
+        public ICommand LightSelectedCommand => new Command(LightSelected);
+        public ICommand DarkSelectedCommand => new Command(DarkSelected);
+        public ICommand SystemSelectedCommand => new Command(SystemSelected);
         public Command GetProfilCommand { get; set; }
+        public Command LoadThemeCommand { get; set; }
 
         public ProfilViewModel() 
         {
@@ -82,6 +86,11 @@ namespace yummyCook.ViewModels
             EditedRecipeData = new RecipeModel();
             OnPropertyChanged(nameof(Profil));
 
+            GetProfilCommand = new Command(async () => await GetLocalProfileAsync());
+            GetProfilCommand.Execute(this);
+
+            LoadThemeCommand = new Command(async () => LoadTheme());
+            LoadThemeCommand.Execute(this);
         }
 
         /* FUNCTIONS */
@@ -230,6 +239,50 @@ namespace yummyCook.ViewModels
             }
         }
 
+        public void LoadTheme()
+        {
+            DarkTheme = false;
+            LightTheme = false;
+            SystemTheme = false;
+
+            switch (Application.Current.UserAppTheme)
+            {
+                case AppTheme.Dark:
+                    DarkTheme = true;
+                    break;
+
+                case AppTheme.Light:
+                    LightTheme = true;
+                    break;
+
+                case AppTheme.Unspecified:
+                    SystemTheme = true;
+                    break;
+            }
+        }
+
+
+        public void LightSelected()
+        {
+            LightTheme = true;
+            Application.Current.UserAppTheme = AppTheme.Light;
+            Preferences.Default.Set("AppTheme", 1);
+            LoadTheme();
+        }
+        public void DarkSelected()
+        {
+            DarkTheme = true;
+            Application.Current.UserAppTheme = AppTheme.Dark;
+            Preferences.Default.Set("AppTheme", 2);
+            LoadTheme();
+        }
+        public void SystemSelected()
+        {
+            SystemTheme = true;
+            Application.Current.UserAppTheme = AppTheme.Unspecified;
+            Preferences.Default.Set("AppTheme", 0);
+            LoadTheme();
+        }
         /* Funkcia nanovo inicializuje premenné potrebné na tvorbu receptu a vráti aplikáciu o jednu stránku naspäť */
         void throwRecipe()
         {
