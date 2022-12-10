@@ -95,7 +95,7 @@
                 </Grid>
                 <!-- Maso -->
                 <Grid RowDefinitions="Auto,*" RowSpacing="5">
-                    <Label Grid.Row="0" Text="Maso" Margin="10,10,0,10" FontSize="20"/>
+                    <Label Grid.Row="0" Text="Maso a vajíčka" Margin="10,10,0,10" FontSize="20"/>
                     <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Meat}"
                             JustifyContent="Start"
                             Wrap="Wrap"
@@ -127,7 +127,7 @@
                 </Grid>
                 <!-- Ryby -->
                 <Grid RowDefinitions="Auto,*" RowSpacing="5">
-                    <Label Grid.Row="0" Text="Ryby" Margin="10,10,0,10" FontSize="20"/>
+                    <Label Grid.Row="0" Text="Ryby a mořské plody" Margin="10,10,0,10" FontSize="20"/>
                     <FlexLayout Grid.Row="1" BindableLayout.ItemsSource="{Binding Fish}"
                             JustifyContent="Start"
                             Wrap="Wrap"
