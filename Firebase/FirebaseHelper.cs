@@ -378,12 +378,12 @@ namespace yummyCook.Firebase
                 .Child(profil.Key)
                 .PutAsync(new ProfilModel
                 {
-                    ProfilName = profil.Object.ProfilName,
-                    ProfilImage = profil.Object.ProfilImage,
-                    Alergy = profil.Object.Alergy,
-                    Diets = profil.Object.Diets,
-                    Tools = profil.Object.Tools,
-                    Language = profil.Object.Language,
+                    ProfilName = profil!.Object.ProfilName,
+                    ProfilImage = profil!.Object.ProfilImage,
+                    Alergy = profil!.Object.Alergy,
+                    Diets = profil!.Object.Diets,
+                    Tools = profil!.Object.Tools,
+                    Language = profil!.Object.Language,
                 });
         }
 

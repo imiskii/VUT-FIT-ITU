@@ -6,11 +6,103 @@
              xmlns:model="clr-namespace:yummyCook.Firebase"
              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
              x:DataType="viewmodel:RecipeDetailViewModel">
-    
-    <VerticalStackLayout>
-        <Label x:DataType="model:RecipeModel"
-            Text="{Binding Name}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center"/>
-    </VerticalStackLayout>
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" TranslationY="-10">
+            <!-- Hlavička -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}" 
+                   HeightRequest="75">
+                <StackLayout Orientation="Horizontal">
+                    <!-- Ukončenie detailu receptu -->
+                    <Button 
+                        WidthRequest="75"
+                        HeightRequest="35"
+                        Margin="10, 10, 10, 10"
+                        BackgroundColor="Orange"
+                        Text="➜"
+                        Rotation="180"
+                        FontSize="20"
+                        Padding="0, 0, 0, 3.5"
+                        VerticalOptions="Center"/>
+                    <!-- Command="{TODO}"/> -->
+
+                    <!-- Názov receptu -->
+                    <Label 
+                        StyleClass="PageH2"
+                        x:DataType="model:RecipeModel"
+                        Text="{Binding Name}"
+                        FontSize="Title"   
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        VerticalOptions="Center" 
+                        HorizontalOptions="Center"/>
+                </StackLayout>
+            </Frame>
+
+
+            <!-- Zobrazenie surovín -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
+                   HeightRequest="150">
+                <Grid ColumnSpacing="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Podtitul suroviny -->
+                    <Label Grid.Row="0"
+                           Text="Suroviny"
+                           FontSize="Subtitle"
+                           TextColor="White"
+                           Margin="5, 5, 5, 5"/>
+
+                    <!-- Zobrazenie jednotlivých surovín -->
+                    <CollectionView Grid.Row="1"
+                                    ItemsLayout="{Binding Ingredients}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="model:Ingredients">
+                    
+                                <Label Grid.Row="1"
+                                       Text="{Binding Name}"
+                                       FontSize="20"
+                                       VerticalOptions="Center" />
+
+
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Grid>
+            </Frame>
+
+
+            <Label Text="Postup"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="Orange"/>
+            
+            <!-- Postup -->
+            <CollectionView ItemsSource="{Binding Steps}"
+                      VerticalScrollBarVisibility="Never">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" 
+                                       ItemSpacing="20"/>
+                </CollectionView.ItemsLayout>
+
+                <!-- Jednotlivý krok postupu -->
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Steps">
+
+                        
+                        <Label Text="{Binding Step}"
+                               FontSize="Medium"
+                               HorizontalTextAlignment="Start"
+                               VerticalTextAlignment="Center"
+                               TextColor="White"
+                               Margin="10, 0, 0, 0"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

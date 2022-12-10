@@ -1,12 +1,99 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="yummyCook.Views.Main.RecipesPage">
+              xmlns:viewmodel="clr-namespace:yummyCook.ViewModels"
+             xmlns:model="clr-namespace:yummyCook.Firebase"
+             xmlns:local="clr-namespace:yummyCook.RecipeDetailTriggers"
+             x:DataType="viewmodel:RecipeViewModel"
+             x:Class="yummyCook.Views.Main.RecipesPage"
+             Title="RecipesPage">     
+             
     
     <ScrollView>
         <VerticalStackLayout>
-            <Label Text="Welcome to .NET MAUI!"
-                   HorizontalOptions="Center" />
+            <CollectionView ItemsSource="{Binding Recipes}"
+                            VerticalScrollBarVisibility="Never"
+                            IsVisible="{Binding IsNotBusy}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.Header>
+                    <Label Text="Právě trendy"
+                           StyleClass="PageH2" />
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:RecipeModel">
+                        <Frame HeightRequest="200"
+                               Margin="5, 10">
+                            <Grid>
+                                <Image Source="{Binding Photo}"
+                                       Aspect="AspectFill" />
+                                <Grid>
+                                    <Grid.Background>
+                                        <LinearGradientBrush EndPoint="0,1">
+                                            <GradientStop Color="#00000000"
+                                                          Offset="0.25" />
+                                            <GradientStop Color="Black"
+                                                          Offset="1" />
+                                            <GradientStop Color="#99000000"
+                                                          Offset="0.7" />
+                                        </LinearGradientBrush>
+                                    </Grid.Background>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="3*" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Grid.Row="1"
+                                           Grid.Column="0"
+                                           Grid.ColumnSpan="2"
+                                           Text="{Binding Name}"
+                                           FontSize="Title"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Start"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="White"
+                                           Margin="10,0,0,0" />
+                                    <Label Grid.Row="2"
+                                           Grid.Column="0"
+                                           Text="{Binding Rating}"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="LightGray" />
+                                    <Label Grid.Row="3"
+                                           Grid.Column="1"
+                                           Text="7 surovin"
+                                           HorizontalTextAlignment="Center"
+                                           VerticalTextAlignment="Center"
+                                           TextColor="LightGray" />
+                                    <Button Grid.Row="2"
+                                            Grid.RowSpan="2"
+                                            Grid.Column="2"
+                                            CornerRadius="10"
+                                            Text="Do toho!"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeViewModel}}, Path=GoToDetailCommand}"
+                                            CommandParameter="{Binding .}">
+                                        <Button.Triggers>
+                                            <EventTrigger Event="Clicked">
+                                                <local:RecipeDetailTrigger />
+                                            </EventTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+           
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
