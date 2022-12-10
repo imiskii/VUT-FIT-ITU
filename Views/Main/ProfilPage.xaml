@@ -8,6 +8,7 @@
              xmlns:model="clr-namespace:yummyCook.Firebase"
              xmlns:local="clr-namespace:yummyCook.IngredientTriggers"
              xmlns:trig="clr-namespace:yummyCook.RecipeDetailTriggers"
+             xmlns:skia="clr-namespace:SkiaSharp.Extended.UI.Controls;assembly=SkiaSharp.Extended.UI"
              x:DataType="viewmodel:ProfilViewModel"
              x:Class="yummyCook.Views.Main.MorePage">
 
@@ -354,6 +355,14 @@
                     </Picker.ItemsSource>
                 </Picker>
             </Grid>
+            <!-- Aktivity indikátor -->
+            <skia:SKLottieView Source="{AppThemeBinding Light=loaderLight.json, Dark=loaderDark.json}"
+                               RepeatCount="-1"
+                               HeightRequest="200"
+                               WidthRequest="200"
+                               HorizontalOptions="Center"
+                               VerticalOptions="CenterAndExpand"
+                               IsVisible="{Binding IsBusy}" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
