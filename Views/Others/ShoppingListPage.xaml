@@ -30,12 +30,82 @@
                        Margin="10, 20, 10, 10" />
             </StackLayout>
         </Frame>
+
+        <Frame  Margin="20"
+                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
+                IsVisible="{Binding IsNotBusy}">
+            <StackLayout>
+                <StackLayout Orientation="Horizontal" Margin="10">
+                    <Label Text="Přidat položku"
+                           VerticalTextAlignment="Center"
+                           HorizontalOptions="StartAndExpand"
+                           FontSize="16"
+                           FontAttributes="Bold" />
+                    <Button Text="ᐯ"
+                            HorizontalOptions="End"
+                            Command="{Binding ExpandSearchCommand}"
+                            VerticalOptions="Center">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button"
+                                         Binding="{Binding IsNotCollapsed}"
+                                         Value="true">
+                                <Setter Property="Text"
+                                        Value="ᐱ" />
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsNotCollapsed}">
+                    <SearchBar x:Name="IngredienceSearchBar"
+                               SearchCommand="{Binding GetSearchCommand}"
+                               SearchCommandParameter="{Binding Text, Source={x:Reference IngredienceSearchBar}}"
+                               BackgroundColor="Transparent"
+                               CancelButtonColor="{StaticResource Primary}"
+                               Placeholder="Vyhledat ingredienci"
+                               FontSize="17" />
+
+                    <FlexLayout Grid.Row="1"
+                                BindableLayout.ItemsSource="{Binding SearchResults}"
+                                JustifyContent="Start"
+                                Wrap="Wrap"
+                                AlignItems="Start"
+                                Margin="10">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate x:DataType="model:IngredientModel">
+                                <Button Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:IngredientsViewModel}}, Path=AddToShoppingListCommand}"
+                                        CommandParameter="{Binding .}"
+                                        Text="{Binding Name}"
+                                        Margin="2"
+                                        FlexLayout.Basis="Auto"
+                                        BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray600}}"
+                                        TextColor="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"
+                                        BorderColor="{StaticResource Primary}"
+                                        BorderWidth="2" />
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </FlexLayout>
+
+                    <!--<ListView ItemsSource="{Binding ShoppingListData}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="model:IngredientModel">
+                            <ViewCell>
+                                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="20">
+                                    <Label Text="{Binding Name}" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" FontSize="23" />
+                                    <Button Text="Přidat" />
+                                </HorizontalStackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>-->
+                </StackLayout>
+            </StackLayout>
+        </Frame>
         
-        <Frame Margin="20"
+        <Frame Margin="20, 0"
                BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
                IsVisible="{Binding IsNotBusy}">
             <StackLayout>
-                <ListView ItemsSource="{Binding ShoppingList}"
+                <ListView ItemsSource="{Binding ShoppingListData}"
                           SelectionMode="None"
                           HasUnevenRows="True"
                           VerticalOptions="Start"

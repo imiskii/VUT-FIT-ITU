@@ -46,6 +46,9 @@ namespace yummyCook.ViewModels
         public ICommand ClearShoppingListCommand => new Command(ClearShoppingList);
         public ICommand RemoveCommand => new Command<IngredientModel>(Remove);
         public ICommand ChangeToBuyCommand => new Command<IngredientModel>(ChangeToBuy);
+        public ICommand GetSearchCommand => new Command<string>(GetSearch);
+        public ICommand AddToShoppingListCommand => new Command<IngredientModel>(AddToShoppingList);
+        public ICommand ExpandSearchCommand => new Command(ExpandSearch);
 
 
         /* ************************************************************************************************ */
@@ -68,6 +71,8 @@ namespace yummyCook.ViewModels
             Sweeteners = SweetenersData;
             Sauces = SaucesData;
             ShoppingList = ShoppingListData;
+
+            IsCollapsed = true;
         }
 
         /* ************************************************************************************************ */
@@ -129,20 +134,72 @@ namespace yummyCook.ViewModels
         {
             await firebaseHelper.UpdateIngredience("buy", obj.Category, obj.Name, false);
             await firebaseHelper.UpdateIngredience("inCart", obj.Category, obj.Name, false);
-            Remove(obj);
+            obj.InCart = false;
+            obj.Buy = false;
+
+            ShoppingListData.Remove(obj);
+            if (obj.InCart == false)
+                shoppingListCount--;
+            if (ShoppingListData.Where(x => x.Buy == true).Count() == 0)
+            {
+                shoppingListCount = 0;
+                IsEmpty = true;
+            }
         }
 
         public async void ChangeToBuy(IngredientModel obj)
         {
-            string result = await App.Current!.MainPage!.DisplayPromptAsync("Množství", "Upravit množství k zakoupení", "OK", "Zrušit");
+            string result = await Application.Current!.MainPage!.DisplayPromptAsync("Množství", "Upravit množství k zakoupení", "OK", "Zrušit");
 
             if (result == null)
             {
                 return;
             }
 
+            int oldIndex = ShoppingListData.IndexOf(obj);
+            ShoppingListData.Remove(obj);
+            obj.ToBuy = result;
+            ShoppingListData.Add(obj);
+
+            ShoppingListData.Move(oldIndex, ShoppingListData.IndexOf(obj));
+
             await firebaseHelper.UpdateIngredienceAmount(obj.Category, obj.Name, result);
         }
 
+        public void GetSearch(string querry)
+        {
+            ObservableCollection<IngredientModel> filtered = new ObservableCollection<IngredientModel>();
+
+            foreach (var item in JoinedIngredients.Where(x => x.Name.ToLower().Contains(querry.ToLower()) || 
+                                                              x.Category.ToLower().Contains(querry.ToLower()))) 
+            {
+                if (item.Buy == false)
+                    filtered.Add(item);
+            }
+
+            SearchResults.Clear();
+
+            SearchResults = filtered;
+        }
+
+        public async void AddToShoppingList(IngredientModel obj)
+        {
+            await firebaseHelper.UpdateIngredience("buy", obj.Category, obj.Name, true);
+            obj.Buy = true;
+            shoppingListCount++;
+            IsEmpty = false;
+            SearchResults.Remove(obj);
+            ShoppingListData.Add(obj);
+
+            ShoppingListData = new ObservableCollection<IngredientModel>(ShoppingListData.Distinct());
+        }
+
+        public void ExpandSearch()
+        {
+            if (IsCollapsed == true)
+                IsCollapsed = false;
+            else
+                IsCollapsed = true;
+        }
     }
 }

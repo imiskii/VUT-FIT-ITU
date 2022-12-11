@@ -296,7 +296,7 @@ namespace yummyCook.Firebase
                         Calories = ingItem.Object.Calories, 
                         Have = ingItem.Object.Have, 
                         Buy = value,
-                        InCart = ingItem.Object.InCart,
+                        InCart = false,
                         ToBuy = ingItem.Object.ToBuy
                     });
             }

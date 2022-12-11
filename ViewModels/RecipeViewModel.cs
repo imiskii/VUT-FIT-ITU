@@ -26,8 +26,6 @@ namespace yummyCook.ViewModels
 
         public ICommand ShowShoppingList => new Command(async () => await ShowShoppingListAsync());
         public ICommand GoToDetailCommand => new Command<RecipeModel>(GoToDetailAsync);
-        public ICommand UploadCommand => new Command(UploadAsync);
-
         public Command GetRecipesCommand { get; }
         public RecipeViewModel()
         {
@@ -82,12 +80,12 @@ namespace yummyCook.ViewModels
             }
 
             if (!topDone)
-                await GetTopRecipes(recipes);
+                GetTopRecipes(recipes);
 
             IsBusy = false;
         }
 
-        async Task GetTopRecipes(ObservableCollection<RecipeModel> recipes)
+        void GetTopRecipes(ObservableCollection<RecipeModel> recipes)
         {
             int counter = 0;
 
@@ -114,17 +112,6 @@ namespace yummyCook.ViewModels
             DetailRecipe = recipe;
 
             await Shell.Current.GoToAsync("recipeDetail");
-        }
-
-        async void UploadAsync()
-        {
-            var fileResult = await FilePicker.PickAsync();
-            if (fileResult != null)
-            {
-                Stream fileToUpload = await fileResult.OpenReadAsync();
-
-                var url = await firestorageHelper.UploadFile(fileToUpload, fileResult.FileName);
-            }
         }
     }
 }

@@ -29,7 +29,7 @@ namespace yummyCook.ViewModels
         public Command GetFoodTypeCommand { get; set; }
 
 
-        int count;
+        static int count;
         bool isBusy;
         bool isEmpty;
 
@@ -46,10 +46,53 @@ namespace yummyCook.ViewModels
         public static ObservableCollection<IngredientModel> SpicesData { get; } = new();
         public static ObservableCollection<IngredientModel> SweetenersData { get; } = new();
         public static ObservableCollection<IngredientModel> SaucesData { get; } = new();
-        public static ObservableCollection<IngredientModel> ShoppingListData { get; } = new();
+        //public static ObservableCollection<IngredientModel> ShoppingListData { get; } = new();
+
         bool light;
         bool system;
         bool dark;
+        static ObservableCollection<IngredientModel> shoppingListData = new();
+
+        public ObservableCollection<IngredientModel> ShoppingListData 
+        { 
+            get 
+            {
+                return shoppingListData;
+            }
+            set
+            {
+                shoppingListData = value;
+                OnPropertyChanged();
+            }
+        }
+        static ObservableCollection<IngredientModel> joinedIngredients = new();
+
+        public ObservableCollection<IngredientModel> JoinedIngredients
+        { 
+            get 
+            {
+                return joinedIngredients;
+            }
+            set
+            {
+                joinedIngredients = value;
+                OnPropertyChanged();
+            }
+        }
+        static ObservableCollection<IngredientModel> searchResults = new();
+
+        public ObservableCollection<IngredientModel> SearchResults
+        { 
+            get 
+            {
+                return searchResults;
+            }
+            set
+            {
+                searchResults = value;
+                OnPropertyChanged();
+            }
+        }
 
         public bool LightTheme { 
             get 
@@ -94,7 +137,6 @@ namespace yummyCook.ViewModels
         public static ObservableCollection<KitchenModel> KitchenTypeData { get; } = new();
         public static ObservableCollection<FoodTypeModel> FootTypeData { get; } = new();
         public static RecipeModel DetailRecipe { get; set; }
-
 
         public int shoppingListCount
         {
@@ -143,6 +185,24 @@ namespace yummyCook.ViewModels
             }
         }
         public bool IsNotEmpty => !IsEmpty;
+
+        bool isCollapsed;
+        public bool IsCollapsed
+        {
+            get => isCollapsed;
+
+            set
+            {
+                if (isCollapsed == value)
+                    return;
+
+                isCollapsed = value;
+                OnPropertyChanged();
+
+                OnPropertyChanged(nameof(IsNotCollapsed));
+            }
+        }
+        public bool IsNotCollapsed => !isCollapsed;
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
@@ -280,10 +340,10 @@ namespace yummyCook.ViewModels
                     SaucesData.Add(item);
                 }
 
-                var joined = new ObservableCollection<IngredientModel>(FruitsData.Concat(VegetablesData.Concat(MeatData.Concat(FishData.Concat(PastaData.Concat(PastryData.Concat(DairyproductsData.Concat(MushroomsData.Concat(OilsData.Concat(NutsData.Concat(SpicesData.Concat(SweetenersData))))))))))));
-
+                JoinedIngredients = new ObservableCollection<IngredientModel>(FruitsData.Concat(VegetablesData.Concat(MeatData.Concat(FishData.Concat(PastaData.Concat(PastryData.Concat(DairyproductsData.Concat(MushroomsData.Concat(OilsData.Concat(NutsData.Concat(SpicesData.Concat(SweetenersData))))))))))));
+                
                 ShoppingListData.Clear();
-                foreach (var item in joined.Where(x => x.Buy.Equals(true)))
+                foreach (var item in JoinedIngredients.Where(x => x.Buy.Equals(true)))
                 {
                     ShoppingListData.Add(item);
                 }
