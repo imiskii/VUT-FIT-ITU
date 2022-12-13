@@ -42,44 +42,82 @@
 
             <!-- Zobrazenie surovín -->
             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
-                   HeightRequest="150">
-                <Grid ColumnSpacing="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+                    >
+                <!-- Zobrazenie jednotlivých surovín -->
+                <CollectionView ItemsSource="{Binding Ingredients}"
+                            VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
+                                       ItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Ingredients">
 
-                    <!-- Podtitul suroviny -->
-                    <Label Grid.Row="0"
-                           Text="Suroviny"
-                           FontSize="Subtitle"
-                           TextColor="White"
-                           Margin="5, 5, 5, 5"/>
+                            <Grid ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="0.1*" />
+                                    <ColumnDefinition Width="0.1*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                    <!-- Zobrazenie jednotlivých surovín -->
-                    <CollectionView Grid.Row="1"
-                                    ItemsLayout="{Binding Ingredients}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate x:DataType="model:Ingredients">
-                    
-                                <Label Grid.Row="1"
-                                       Text="{Binding Name}"
-                                       FontSize="20"
+                                <BoxView Grid.Row="0"
+                                             HeightRequest="5"
+                                             WidthRequest="5"
+                                             Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray500}}"
+                                             CornerRadius="10"
+                                             Margin="5" />
+                                <BoxView Grid.Row="1"
+                                             HeightRequest="5"
+                                             WidthRequest="5"
+                                             Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray500}}"
+                                             CornerRadius="10"
+                                             Margin="5" />
+                                <BoxView Grid.Row="2"
+                                             HeightRequest="5"
+                                             WidthRequest="5"
+                                             Color="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray500}}"
+                                             CornerRadius="10"
+                                             Margin="5" />
+
+                                <Label Grid.RowSpan="3"
+                                       Grid.Column="1" 
+                                       Text="{Binding Weight}"
+                                       LineBreakMode="NoWrap"
+                                       FontSize="15"
+                                       VerticalOptions="Center"
+                                       Margin="7,2,0,0"/>
+
+                                <Label Grid.RowSpan="3"
+                                       Grid.Column="2"
+                                       Text="{Binding Unit}"
+                                       FontSize="12"
                                        VerticalOptions="Center" />
 
+                                <Label Grid.RowSpan="3"
+                                       Grid.Column="3"
+                                       Text="{Binding Name}"
+                                       FontSize="15"
+                                       VerticalOptions="Center" /> 
 
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </Frame>
 
-
             <Label Text="Postup"
-                   FontSize="Large"
-                   FontAttributes="Bold"
-                   TextColor="Orange"/>
-            
+                FontSize="Large"
+                FontAttributes="Bold"
+                TextColor="Orange"/>
+
             <!-- Postup -->
             <CollectionView ItemsSource="{Binding Steps}"
                       VerticalScrollBarVisibility="Never">

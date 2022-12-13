@@ -21,9 +21,9 @@ namespace yummyCook.ViewModels
             //LoadRecipeDetailCommand.Execute(this);
 
             recipeModel = DetailRecipe;
-            Steps = LoadListFromRecipe<Steps>(DetailRecipe.Steps);
+            Steps = LoadListFromRecipe(DetailRecipe.Steps);
             Steps = FormatSteps(Steps);
-            Ingredients = LoadListFromRecipe<Ingredients>(DetailRecipe.Ingredients);
+            Ingredients = LoadListFromRecipe(DetailRecipe.Ingredients);
             
         }
 
