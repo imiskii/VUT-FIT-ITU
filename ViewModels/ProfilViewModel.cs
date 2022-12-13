@@ -227,6 +227,8 @@ namespace yummyCook.ViewModels
             GetLocalRecipesCommand = new Command(async () => await GetLocalRecipes());
             GetLocalRecipesCommand.Execute(this);
             OnPropertyChanged(nameof(Profil));
+
+            LoadTheme();
         }
 
         /* ************************************************************************************************ */

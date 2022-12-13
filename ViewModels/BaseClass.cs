@@ -1,6 +1,7 @@
 ﻿/**
  * BaseClass.cs
  * Autor: Ondřej Janečka (xjanec33)
+ * Autor: Michal Ľaš (xlasmi00)
  *
 */
 
@@ -46,7 +47,6 @@ namespace yummyCook.ViewModels
         public static ObservableCollection<IngredientModel> SpicesData { get; } = new();
         public static ObservableCollection<IngredientModel> SweetenersData { get; } = new();
         public static ObservableCollection<IngredientModel> SaucesData { get; } = new();
-        //public static ObservableCollection<IngredientModel> ShoppingListData { get; } = new();
 
         bool light;
         bool system;
@@ -130,6 +130,7 @@ namespace yummyCook.ViewModels
             }
         }
 
+        public string Greeting { get; set; }
 
         public ObservableCollection<IngredientModel> SavedIngredients {  get; set; }
 

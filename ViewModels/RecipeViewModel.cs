@@ -20,7 +20,6 @@ namespace yummyCook.ViewModels
     public partial class RecipeViewModel : BaseClass
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
-        FirebaseStorageHelper firestorageHelper = new FirebaseStorageHelper();
 
         public ObservableCollection<RecipeModel> Recipes { get; } = new();
 
@@ -29,6 +28,7 @@ namespace yummyCook.ViewModels
         public Command GetRecipesCommand { get; }
         public RecipeViewModel()
         {
+            GetGreeting();
             GetProfilData = new Command(async () => await GetLocalProfileAsync());
             GetProfilData.Execute(this);
             GetKitchenCommand = new Command(async () => await GetKitchenData());
@@ -102,6 +102,31 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        void GetGreeting()
+        {
+            var hour = DateTime.Now.Hour;
+
+            if (hour >= 4 && hour < 10)
+            {
+                Greeting = "Dobré ráno 🥣 🧇";
+            }
+            else if (hour >= 10 && hour < 12)
+            {
+                Greeting = "Dobré dopoledne 🥪";
+            }
+            else if (hour == 12)
+            {
+                Greeting = "Dobré poledne 🍗 🍔";
+            }
+            else if (hour > 12 && hour < 19)
+            {
+                Greeting = "Dobré odpoledne 🍕 🥗";
+            }
+            else
+            {
+                Greeting = "Dobrý večer 🌙 🌯";
+            }
+        }
         async Task ShowShoppingListAsync()
         {
             await Shell.Current.GoToAsync("shoppingList");

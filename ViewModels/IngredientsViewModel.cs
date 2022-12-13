@@ -1,6 +1,7 @@
 ﻿/**
  * IngredientViewModel.cs
  * Autor: Michal Ľaš (xlasmi00)
+ * Autor: Ondřej Janečka (xjanec33)
  *
 */
 
@@ -112,6 +113,7 @@ namespace yummyCook.ViewModels
         {
             await Shell.Current.GoToAsync("..");
         }
+
         public async void ClearShoppingList()
         {
             bool answer = await Shell.Current.DisplayAlert("Pozor", "Opravdu si přejete vymazat nákupní seznam?", "Ano", "Ne");
