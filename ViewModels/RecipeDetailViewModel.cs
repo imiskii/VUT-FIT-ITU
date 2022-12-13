@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
@@ -14,17 +15,27 @@ namespace yummyCook.ViewModels
         public ObservableCollection<Steps> Steps { get; } = new();
         public ObservableCollection<Ingredients> Ingredients { get; } = new();
 
-        public Command LoadRecipeDetailCommand { get; }
+        public ICommand NavigateBackCommand => new Command(NavigateBackFromDetail);
+        public ICommand GoToRecipeGuideCommand => new Command<RecipeModel>(GoToGuideAsync);
+        
         public RecipeDetailViewModel() 
         {
-            //LoadRecipeDetailCommand = new Command(async () => await LoadRecipeDetailAsync());
-            //LoadRecipeDetailCommand.Execute(this);
-
             recipeModel = DetailRecipe;
             Steps = LoadListFromRecipe(DetailRecipe.Steps);
             Steps = FormatSteps(Steps);
             Ingredients = LoadListFromRecipe(DetailRecipe.Ingredients);
             
+        }
+
+        public async void NavigateBackFromDetail()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+
+        async void GoToGuideAsync(RecipeModel recipe)
+        {
+            DetailRecipe = recipe;
+            await Shell.Current.GoToAsync("guide");
         }
 
         ObservableCollection<Steps> FormatSteps(ObservableCollection<Steps> steps)
@@ -49,12 +60,6 @@ namespace yummyCook.ViewModels
             }
 
             return itemsCollection;
-        }
-        
-        async void GoToGuideAsync(RecipeModel recipe)
-        {
-            DetailRecipe = recipe;
-            await Shell.Current.GoToAsync("guide");
         }
     }
 }

@@ -13,32 +13,76 @@
             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}" 
                    HeightRequest="75">
                 <StackLayout Orientation="Horizontal">
-                    <!-- Ukončenie detailu receptu -->
-                    <Button 
-                        WidthRequest="75"
-                        HeightRequest="35"
-                        Margin="10, 10, 10, 10"
-                        BackgroundColor="Orange"
-                        Text="➜"
-                        Rotation="180"
-                        FontSize="20"
-                        Padding="0, 0, 0, 3.5"
-                        VerticalOptions="Center"/>
-                    <!-- Command="{TODO}"/> -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="75" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <!-- Ukončenie detailu receptu -->
+                        <Button Grid.Column="0"
+                                WidthRequest="75"
+                                HeightRequest="35"
+                                Margin="25, 10, 10, 10"
+                                BackgroundColor="Orange"
+                                Text="➜"
+                                Rotation="180"
+                                FontSize="20"
+                                Padding="0, 0, 0, 3.5"
+                                VerticalOptions="Center"
+                                Command="{Binding NavigateBackCommand}" />
+                        
 
-                    <!-- Názov receptu -->
-                    <Label 
-                        StyleClass="PageH2"
-                        x:DataType="model:RecipeModel"
-                        Text="{Binding Name}"
-                        FontSize="Title"   
-                        FontAttributes="Bold"
-                        TextColor="White"
-                        VerticalOptions="Center" 
-                        HorizontalOptions="Center"/>
+                        <!-- Názov receptu -->
+                        <Label Grid.Column="1" 
+                               StyleClass="PageH2"
+                               x:DataType="model:RecipeModel"
+                               Text="{Binding Name}"
+                               Margin="60, 0, 0, 0"
+                               FontSize="Title"   
+                               FontAttributes="Bold"
+                               TextColor="White"
+                               VerticalOptions="Center" 
+                               HorizontalOptions="Center"/>
+                    </Grid>
                 </StackLayout>
             </Frame>
 
+            <!-- Obrázok receptu -->
+            <Frame HeightRequest="150">
+                <Grid>
+                    <Image x:DataType="model:RecipeModel" 
+                        Source="{Binding Photo}" Aspect="AspectFill"/>
+                </Grid>
+            </Frame>
+
+            <!-- Navigačné menu -->
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0"
+                        BackgroundColor="Orange"
+                        Margin="0, 0, 0, 2"
+                        Text="Popis a Suroviny" />
+                        <!-- Command="{Binding NavigateBackCommand}" -->
+                <Button Grid.Column="1"
+                        BackgroundColor="Orange"
+                        Margin="2, 0, 0, 0"
+                        Text="Postup" 
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeViewModel}}, Path=GoToRecipeGuideCommand}"
+                        CommandParameter="{Binding recipeModel}">
+                    
+                </Button>
+
+                <Button Grid.Column="2"
+                        BackgroundColor="Orange"
+                        Margin="2, 0, 0, 0"
+                        Text="Nutriční hodnoty" />
+
+            </Grid>
 
             <!-- Zobrazenie surovín -->
             <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
@@ -63,7 +107,7 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="0.1*" />
                                     <ColumnDefinition Width="0.1*" />
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="0.2*" />
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
@@ -105,7 +149,26 @@
                                        Grid.Column="3"
                                        Text="{Binding Name}"
                                        FontSize="15"
-                                       VerticalOptions="Center" /> 
+                                       VerticalOptions="Center" />
+
+                                <Button Grid.RowSpan="3"
+                                        Grid.Column="4"
+                                        Text="✔"
+                                        Padding="4.3, 3"
+                                        FontSize="12"
+                                        VerticalOptions="Center"
+                                        BackgroundColor="{StaticResource Primary}"
+                                        BorderColor="{StaticResource Primary}"
+                                        BorderWidth="2">
+                                </Button>
+
+                                <Button Grid.RowSpan="3"
+                                        Grid.Column="5"
+                                        Text="Na seznam"
+                                        FontSize="12"
+                                        Margin="0, 0, 15, 0"
+                                        Padding="5"
+                                        VerticalOptions="Center"/>
 
                             </Grid>
                         </DataTemplate>
@@ -113,33 +176,18 @@
                 </CollectionView>
             </Frame>
 
-            <Label Text="Postup"
-                FontSize="Large"
-                FontAttributes="Bold"
-                TextColor="Orange"/>
-
             <!-- Postup -->
-            <CollectionView ItemsSource="{Binding Steps}"
-                      VerticalScrollBarVisibility="Never">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" 
-                                       ItemSpacing="20"/>
-                </CollectionView.ItemsLayout>
+            <Label Text="Popis"
+                   FontSize="Large"
+                   FontAttributes="Bold"
+                   TextColor="Orange"/>
 
-                <!-- Jednotlivý krok postupu -->
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:Steps">
+            <Grid>
+                <Label x:DataType="model:RecipeModel"
+                       Text="{Binding Description}"
+                       FontSize="16"/>
+            </Grid>
 
-                        
-                        <Label Text="{Binding Step}"
-                               FontSize="Medium"
-                               HorizontalTextAlignment="Start"
-                               VerticalTextAlignment="Center"
-                               TextColor="White"
-                               Margin="10, 0, 0, 0"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
 
         </VerticalStackLayout>
     </ScrollView>

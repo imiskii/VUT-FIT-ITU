@@ -45,11 +45,10 @@ public static class MauiProgram
             });
 
         builder.Services.AddSingleton<RecipeViewModel>();
-        builder.Services.AddTransient<RecipeDetailViewModel>();
+        builder.Services.AddSingleton<RecipeDetailViewModel>();
+        builder.Services.AddSingleton<GuideViewModel>();
         builder.Services.AddSingleton<BaseClass>();
         builder.Services.AddSingleton<HomePage>();
-        builder.Services.AddSingleton<FirebaseHelper>();
-
         builder.Services.AddSingleton<FirebaseHelper>();
 
         builder.Services.AddSingleton<IngredientsViewModel>();
@@ -62,9 +61,10 @@ public static class MauiProgram
 
 
         builder.Services.AddSingleton<ShoppingListPage>();
-        builder.Services.AddSingleton<RecipesPage>();
+        builder.Services.AddTransient<RecipesPage>();
         builder.Services.AddTransient<RecipeDetailPage>();
         builder.Services.AddTransient<RecipeCreatePage>();
+        builder.Services.AddTransient<GuidePage>();
 
         return builder.Build();
 	}
