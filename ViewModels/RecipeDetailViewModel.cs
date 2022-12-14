@@ -30,13 +30,13 @@ namespace yummyCook.ViewModels
         public async void GoToGuideAsync(RecipeModel recipeModel)
         {
             DetailRecipe = recipeModel;
-            await Shell.Current.GoToAsync("guide");
+            await Shell.Current.GoToAsync("/guide");
         }
 
         public async void GoToNutritionAsync(RecipeModel recipeModel)
         {
             DetailRecipe = recipeModel;
-            await Shell.Current.GoToAsync("recipeNutrition");
+            await Shell.Current.GoToAsync("/recipeNutrition");
         }
 
 

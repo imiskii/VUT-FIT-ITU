@@ -55,6 +55,7 @@
                 </Grid>
             </Frame>
 
+
             <!-- Navigačné menu -->
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -76,6 +77,7 @@
                         Text="Postup" 
                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=GoToRecipeGuideCommand}"
                         CommandParameter="{Binding .}" />
+
 
                 <!-- Nutricne hodnoty -->
                 <Button Grid.Column="2"
