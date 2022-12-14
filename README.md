@@ -7,6 +7,20 @@ Aplikace doporuèující recepty podle dostupných ingrediencí
 ### yammyCook.csproj
 - Základní nastavení app (jméno, verze, ikony, splashScreen, fonty)
 
+### folder: Firebase
+- Obsahuje tøídy pro komunikaci s Firebase a modely pro jednotlivé typy objektù
+
+### folder: Models
+
+
+### folder: ViewModels
+- Obsahuje view modely pro jednotlivé stránky (nìkteré stránky používají stejné, èi více více rùzných view modelù)
+
+### folder: Views
+- Obsahuje views všech stránek používaných v aplikaci 
+	- Main obsahuje views stránek, které využívá Shell navigace v tab bar
+	- Others obsahuje všechny ostatní views stránek aplikace
+
 ### folder: Platforms
 - Specifický kód pro dané platformy
 
@@ -17,22 +31,19 @@ Aplikace doporuèující recepty podle dostupných ingrediencí
 		- Styles - styly všech stavebních prvkù app (Buttons, Pickers, Frames, Labels...)
 		- Definujeme si vše na jednom místì, což ušetøí dost øádkù v XAMLu
 
-## Tipy
-- Jednoduchá implementace dark mode
-```Xaml
-<Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" />
-```
 
-## Užiteèné odkazy
-- [.NET MAUI MVVM and Data Binding](https://youtu.be/XmdBXuNPShs)
-- [.NET MAUI Full course](https://www.youtube.com/watch?v=DuNLR_NJv8U&list=WL&index=8)
-- [Pøednáška IW5 2021](https://youtu.be/YpxtzUXLgCs)
+### AppShell
+- Soubor slouží pro implementaci navigace
+
+### AppShell
+- 
+
 
 ## Debugging
 - Emulátor nebo fyzické zaøízení
 - USB nebo Wifi
 
-### Aktivace
+### Aktivace bezdrátového debuggingu
 Nastavení -> vývojaøské možnosti (nutné altivovat: Informace o softwaru -> 7x kliknou na èíslo sestavení) -> Ladìní
 - bezdrátové ladìní: (telefon) Android >= 11, (VS) Android SDK >= 30
 	- ve VS otevøít Android Adb Command Prompt

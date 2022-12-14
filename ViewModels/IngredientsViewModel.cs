@@ -1,6 +1,7 @@
 ﻿/**
  * IngredientViewModel.cs
  * Autor: Michal Ľaš (xlasmi00)
+ * Autor: Ondřej Janečka (xjanec33)
  *
 */
 
@@ -112,6 +113,10 @@ namespace yummyCook.ViewModels
         {
             await Shell.Current.GoToAsync("..");
         }
+
+        /// <summary>
+        /// Funkce vymaže nákpní seznam
+        /// </summary>
         public async void ClearShoppingList()
         {
             bool answer = await Shell.Current.DisplayAlert("Pozor", "Opravdu si přejete vymazat nákupní seznam?", "Ano", "Ne");
@@ -130,6 +135,10 @@ namespace yummyCook.ViewModels
             }
         }
 
+        /// <summary>
+        /// Funkce odebere vybranou položku z nákupního seznamu
+        /// </summary>
+        /// <param name="obj"></param>
         public async void Remove(IngredientModel obj)
         {
             await firebaseHelper.UpdateIngredience("buy", obj.Category, obj.Name, false);
@@ -147,6 +156,10 @@ namespace yummyCook.ViewModels
             }
         }
 
+        /// <summary>
+        /// Funkce změní stav položky, zda je či není vložena do košíku
+        /// </summary>
+        /// <param name="obj"></param>
         public async void ChangeToBuy(IngredientModel obj)
         {
             string result = await Application.Current!.MainPage!.DisplayPromptAsync("Množství", "Upravit množství k zakoupení", "OK", "Zrušit");
@@ -166,6 +179,10 @@ namespace yummyCook.ViewModels
             await firebaseHelper.UpdateIngredienceAmount(obj.Category, obj.Name, result);
         }
 
+        /// <summary>
+        /// Funkce vyhledá položky dle shody a uloží je do SearchResults
+        /// </summary>
+        /// <param name="querry"></param>
         public void GetSearch(string querry)
         {
             ObservableCollection<IngredientModel> filtered = new ObservableCollection<IngredientModel>();
@@ -182,6 +199,10 @@ namespace yummyCook.ViewModels
             SearchResults = filtered;
         }
 
+        /// <summary>
+        /// Funkce přidá vybranou položku do nákupního seznamu a odtraní ji z výsledků vyhledávání
+        /// </summary>
+        /// <param name="obj"></param>
         public async void AddToShoppingList(IngredientModel obj)
         {
             await firebaseHelper.UpdateIngredience("buy", obj.Category, obj.Name, true);
