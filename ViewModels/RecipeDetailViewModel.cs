@@ -12,7 +12,6 @@ namespace yummyCook.ViewModels
     public partial class RecipeDetailViewModel : BaseClass
     {
         public RecipeModel recipeModel { get; } = new();
-        public ObservableCollection<Steps> Steps { get; } = new();
         public ObservableCollection<Ingredients> Ingredients { get; } = new();
 
         public ICommand NavigateBackCommand => new Command(NavigateBackFromDetail);
@@ -21,8 +20,6 @@ namespace yummyCook.ViewModels
         public RecipeDetailViewModel() 
         {
             recipeModel = DetailRecipe;
-            Steps = LoadListFromRecipe(DetailRecipe.Steps);
-            Steps = FormatSteps(Steps);
             Ingredients = LoadListFromRecipe(DetailRecipe.Ingredients);
             
         }
@@ -32,23 +29,12 @@ namespace yummyCook.ViewModels
             await Shell.Current.GoToAsync("..");
         }
 
-        async void GoToGuideAsync(RecipeModel recipe)
+        public async void GoToGuideAsync(RecipeModel recipeModel)
         {
-            DetailRecipe = recipe;
+            DetailRecipe = recipeModel;
             await Shell.Current.GoToAsync("guide");
         }
 
-        ObservableCollection<Steps> FormatSteps(ObservableCollection<Steps> steps)
-        {
-            string stepFormat = "Krok ";
-            string colon = ": \n";
-            foreach(var step in steps)
-            {
-                step.Step = stepFormat + step.Index.ToString() + colon + step.Step;
-            }
-
-            return steps;
-        }
 
         ObservableCollection<T> LoadListFromRecipe<T>(List<T> itemsList)
         {

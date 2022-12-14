@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
@@ -13,14 +14,24 @@ namespace yummyCook.ViewModels
         public RecipeModel recipeModel { get; } = new();
         public ObservableCollection<Steps> Steps { get; } = new();
 
-        public Command LoadRecipeDetailCommand { get; }
+        public ICommand GoToRecipeDetailCommand => new Command<RecipeModel>(GoToDetailAsync);
+        public ICommand GoToRecipesCommand => new Command(GoToRecipesAsync);
+
         public GuideViewModel()
         {
-            //LoadRecipeDetailCommand = new Command(async () => await LoadRecipeDetailAsync());
-            //LoadRecipeDetailCommand.Execute(this);
-
             recipeModel = DetailRecipe;
             Steps = LoadStepsFromRecipe(DetailRecipe.Steps);
+        }
+
+        public async void GoToDetailAsync(RecipeModel recipeModel)
+        {
+            DetailRecipe = recipeModel;
+            await Shell.Current.GoToAsync("recipeDetail");
+        }
+
+        public async void GoToRecipesAsync()
+        {
+            await Shell.Current.GoToAsync("recipesList");
         }
 
         ObservableCollection<Steps> LoadStepsFromRecipe(List<Steps> StepsList)
@@ -35,15 +46,17 @@ namespace yummyCook.ViewModels
             return Steps;
         }
 
-        async Task LoadRecipeDetailAsync()
+        ObservableCollection<Steps> FormatSteps(ObservableCollection<Steps> steps)
         {
-            IsBusy = true;
-            IsEmpty = true;
+            string stepFormat = "Krok ";
+            string colon = ": \n";
+            foreach (var step in steps)
+            {
+                step.Step = stepFormat + step.Index.ToString() + colon + step.Step;
+            }
 
-
-
-            IsBusy = false;
-            IsEmpty = false;
+            return steps;
         }
+
     }
 }
