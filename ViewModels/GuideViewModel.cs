@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/* GuideViewModel.cs */
+/* Autor: Peter Čellár */
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using yummyCook.Firebase;
 
@@ -14,6 +11,7 @@ namespace yummyCook.ViewModels
         public RecipeModel recipeModel { get; } = new();
         public ObservableCollection<Steps> Steps { get; } = new();
 
+        // Commandy na presmerovanie
         public ICommand GoToRecipeDetailCommand => new Command<RecipeModel>(GoToDetailAsync);
         public ICommand GoToRecipesCommand => new Command(GoToRecipesAsync);
         public ICommand GoToRecipeNutritionCommand => new Command<RecipeModel>(GoToNutritionAsync);
@@ -24,25 +22,40 @@ namespace yummyCook.ViewModels
             Steps = LoadStepsFromRecipe(DetailRecipe.Steps);
         }
 
+        /// <summary>
+        /// Presmerovanie na stránku so surovinami a popisom receptu
+        /// </summary>
+        /// <param name="recipeModel"></param>
         public async void GoToDetailAsync(RecipeModel recipeModel)
         {
             DetailRecipe = recipeModel;
             await Shell.Current.GoToAsync("recipeDetail");
         }
 
+        /// <summary>
+        /// Presmerovanie na stránku s nutričnými hodnotami
+        /// </summary>
+        /// <param name="recipeModel"></param>
         public async void GoToNutritionAsync(RecipeModel recipeModel)
         {
             DetailRecipe = recipeModel;
             await Shell.Current.GoToAsync("/recipeNutrition");
         }
 
+        /// <summary>
+        /// Presmerovanie na zoznam receptov
+        /// </summary>
         public async void GoToRecipesAsync()
         {
             await Shell.Current.GoToAsync("recipesList");
         }
 
 
-
+        /// <summary>
+        /// Načíta zoznam do observable collection
+        /// </summary>
+        /// <param name="StepsList"></param>
+        /// <returns></returns>
         ObservableCollection<Steps> LoadStepsFromRecipe(List<Steps> StepsList)
         {
             ObservableCollection<Steps> Steps = new();
@@ -55,6 +68,11 @@ namespace yummyCook.ViewModels
             return Steps;
         }
 
+        /// <summary>
+        /// Naformátujú sa kroky receptu
+        /// </summary>
+        /// <param name="steps"></param>
+        /// <returns></returns>
         ObservableCollection<Steps> FormatSteps(ObservableCollection<Steps> steps)
         {
             string stepFormat = "Krok ";
