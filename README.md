@@ -31,13 +31,11 @@ Aplikace doporuèující recepty podle dostupných ingrediencí
 		- Styles - styly všech stavebních prvkù app (Buttons, Pickers, Frames, Labels...)
 		- Definujeme si vše na jednom místì, což ušetøí dost øádkù v XAMLu
 
-
 ### AppShell
 - Soubor slouží pro implementaci navigace
 
-### AppShell
-- 
-
+### MauiProgram
+- Inicializace balíèkù
 
 ## Debugging
 - Emulátor nebo fyzické zaøízení
