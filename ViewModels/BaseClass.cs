@@ -18,6 +18,11 @@ using yummyCook.Firebase;
 
 namespace yummyCook.ViewModels
 {
+    /// <summary>
+    /// Třída slouží pro sdílení proměnných v celém řešení
+    /// Implementace IsBusy stavu, na kterém je závyslí activity indicator
+    /// Dále se zde uskutečňuje načtení dat z Firebase
+    /// </summary>
     public partial class BaseClass : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -29,24 +34,23 @@ namespace yummyCook.ViewModels
         public Command GetKitchenCommand { get; set; }
         public Command GetFoodTypeCommand { get; set; }
 
-
         static int count;
         bool isBusy;
         bool isEmpty;
 
-        public static ObservableCollection<IngredientModel> FruitsData { get; } = new();
-        public static ObservableCollection<IngredientModel> VegetablesData { get; } = new();
-        public static ObservableCollection<IngredientModel> MeatData { get; } = new();
-        public static ObservableCollection<IngredientModel> FishData { get; } = new();
-        public static ObservableCollection<IngredientModel> PastaData { get; } = new();
-        public static ObservableCollection<IngredientModel> PastryData { get; } = new();
-        public static ObservableCollection<IngredientModel> DairyproductsData { get; } = new();
-        public static ObservableCollection<IngredientModel> MushroomsData { get; } = new();
-        public static ObservableCollection<IngredientModel> OilsData { get; } = new();
-        public static ObservableCollection<IngredientModel> NutsData { get; } = new();
-        public static ObservableCollection<IngredientModel> SpicesData { get; } = new();
-        public static ObservableCollection<IngredientModel> SweetenersData { get; } = new();
-        public static ObservableCollection<IngredientModel> SaucesData { get; } = new();
+        public static ObservableCollection<IngredientModel> FruitsData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> VegetablesData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> MeatData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> FishData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> PastaData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> PastryData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> DairyproductsData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> MushroomsData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> OilsData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> NutsData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> SpicesData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> SweetenersData { get; set; } = new();
+        public static ObservableCollection<IngredientModel> SaucesData { get; set; } = new();
 
         bool light;
         bool system;
@@ -292,54 +296,79 @@ namespace yummyCook.ViewModels
                 {
                     FruitsData.Add(item);
                 }
+                FruitsData = new ObservableCollection<IngredientModel>(FruitsData.OrderBy(i => i.Name));
+
                 foreach (var item in vagetables)
                 {
                     VegetablesData.Add(item);
                 }
+                VegetablesData = new ObservableCollection<IngredientModel>(VegetablesData.OrderBy(i => i.Name));
+
                 foreach (var item in meat)
                 {
                     MeatData.Add(item);
                 }
+                MeatData = new ObservableCollection<IngredientModel>(MeatData.OrderBy(i => i.Name));
+
                 foreach (var item in fish)
                 {
                     FishData.Add(item);
                 }
+                FishData = new ObservableCollection<IngredientModel>(FishData.OrderBy(i => i.Name));
+
                 foreach (var item in pasta)
                 {
                     PastaData.Add(item);
                 }
+                PastaData = new ObservableCollection<IngredientModel>(PastaData.OrderBy(i => i.Name));
+
                 foreach (var item in pastry)
                 {
                     PastryData.Add(item);
                 }
+                PastryData = new ObservableCollection<IngredientModel>(PastryData.OrderBy(i => i.Name));
+
                 foreach (var item in dairyproducts)
                 {
                     DairyproductsData.Add(item);
                 }
+                DairyproductsData = new ObservableCollection<IngredientModel>(DairyproductsData.OrderBy(i => i.Name));
+
                 foreach (var item in mushrooms)
                 {
                     MushroomsData.Add(item);
                 }
+                MushroomsData = new ObservableCollection<IngredientModel>(MushroomsData.OrderBy(i => i.Name));
+
                 foreach (var item in oils)
                 {
                     OilsData.Add(item);
                 }
+                OilsData = new ObservableCollection<IngredientModel>(OilsData.OrderBy(i => i.Name));
+
                 foreach (var item in nuts)
                 {
                     NutsData.Add(item);
                 }
+                NutsData = new ObservableCollection<IngredientModel>(NutsData.OrderBy(i => i.Name));
+
                 foreach (var item in spices)
                 {
                     SpicesData.Add(item);
                 }
+                SpicesData = new ObservableCollection<IngredientModel>(SpicesData.OrderBy(i => i.Name));
+
                 foreach (var item in sweeteners)
                 {
                     SweetenersData.Add(item);
                 }
+                SweetenersData = new ObservableCollection<IngredientModel>(SweetenersData.OrderBy(i => i.Name));
+
                 foreach (var item in sauces)
                 {
                     SaucesData.Add(item);
                 }
+                SaucesData = new ObservableCollection<IngredientModel>(SaucesData.OrderBy(i => i.Name));
 
                 JoinedIngredients = new ObservableCollection<IngredientModel>(FruitsData.Concat(VegetablesData.Concat(MeatData.Concat(FishData.Concat(PastaData.Concat(PastryData.Concat(DairyproductsData.Concat(MushroomsData.Concat(OilsData.Concat(NutsData.Concat(SpicesData.Concat(SweetenersData))))))))))));
                 
@@ -357,8 +386,6 @@ namespace yummyCook.ViewModels
                 }
 
                 Preferences.Default.Set("ShoppingListCount", shoppingListCount);
-
-
 
                 IsBusy = false;
             }

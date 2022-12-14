@@ -38,16 +38,17 @@ namespace yummyCook.ViewModels
             GetIngredientCommand = new Command(async () => await GetIngredietsAsync());
             GetIngredientCommand.Execute(this);
 
+            /// Načtení uloženého tématu aplikace
             switch (Preferences.Default.Get("AppTheme", 0))
             {
                 case 0: 
-                    Application.Current.UserAppTheme = AppTheme.Unspecified; break;
+                    Application.Current!.UserAppTheme = AppTheme.Unspecified; break;
 
                 case 1:
-                    Application.Current.UserAppTheme = AppTheme.Light; break;
+                    Application.Current!.UserAppTheme = AppTheme.Light; break;
 
                 case 2:
-                    Application.Current.UserAppTheme = AppTheme.Dark; break;
+                    Application.Current!.UserAppTheme = AppTheme.Dark; break;
             }
 
             int a = Preferences.Default.Get("ShoppingListCount", 0);
@@ -85,6 +86,10 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        /// <summary>
+        /// Funkce pro získání čtyř nejlépe hjodnocených receptů
+        /// </summary>
+        /// <param name="recipes"></param>
         void GetTopRecipes(ObservableCollection<RecipeModel> recipes)
         {
             int counter = 0;
@@ -102,6 +107,9 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        /// <summary>
+        /// Funkce generuje pozdrav na hlavní stránce
+        /// </summary>
         void GetGreeting()
         {
             var hour = DateTime.Now.Hour;
@@ -127,6 +135,8 @@ namespace yummyCook.ViewModels
                 Greeting = "Dobrý večer 🌙 🌯";
             }
         }
+
+        
         async Task ShowShoppingListAsync()
         {
             await Shell.Current.GoToAsync("shoppingList");
