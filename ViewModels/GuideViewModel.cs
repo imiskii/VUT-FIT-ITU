@@ -16,6 +16,7 @@ namespace yummyCook.ViewModels
 
         public ICommand GoToRecipeDetailCommand => new Command<RecipeModel>(GoToDetailAsync);
         public ICommand GoToRecipesCommand => new Command(GoToRecipesAsync);
+        public ICommand GoToRecipeNutritionCommand => new Command<RecipeModel>(GoToNutritionAsync);
 
         public GuideViewModel()
         {
@@ -29,10 +30,18 @@ namespace yummyCook.ViewModels
             await Shell.Current.GoToAsync("recipeDetail");
         }
 
+        public async void GoToNutritionAsync(RecipeModel recipeModel)
+        {
+            DetailRecipe = recipeModel;
+            await Shell.Current.GoToAsync("recipeNutrition");
+        }
+
         public async void GoToRecipesAsync()
         {
             await Shell.Current.GoToAsync("recipesList");
         }
+
+
 
         ObservableCollection<Steps> LoadStepsFromRecipe(List<Steps> StepsList)
         {

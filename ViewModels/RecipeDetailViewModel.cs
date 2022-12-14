@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using yummyCook.Firebase;
 
@@ -16,6 +13,7 @@ namespace yummyCook.ViewModels
 
         public ICommand NavigateBackCommand => new Command(NavigateBackFromDetail);
         public ICommand GoToRecipeGuideCommand => new Command<RecipeModel>(GoToGuideAsync);
+        public ICommand GoToRecipeNutritionCommand => new Command<RecipeModel>(GoToNutritionAsync);
         
         public RecipeDetailViewModel() 
         {
@@ -33,6 +31,12 @@ namespace yummyCook.ViewModels
         {
             DetailRecipe = recipeModel;
             await Shell.Current.GoToAsync("guide");
+        }
+
+        public async void GoToNutritionAsync(RecipeModel recipeModel)
+        {
+            DetailRecipe = recipeModel;
+            await Shell.Current.GoToAsync("recipeNutrition");
         }
 
 

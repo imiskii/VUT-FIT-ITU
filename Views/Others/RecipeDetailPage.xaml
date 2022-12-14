@@ -63,25 +63,27 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
+                <!-- Popis a Suroviny -->
                 <Button Grid.Column="0"
                         BackgroundColor="Orange"
                         Margin="0, 0, 0, 2"
                         Text="Popis a Suroviny" />
-                        <!-- Command="{Binding NavigateBackCommand}" -->
+
+                <!-- Postup -->
                 <Button Grid.Column="1"
                         BackgroundColor="Orange"
                         Margin="2, 0, 0, 0"
                         Text="Postup" 
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeViewModel}}, Path=GoToRecipeGuideCommand}"
-                        CommandParameter="{Binding .}">
-                    
-                </Button>
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=GoToRecipeGuideCommand}"
+                        CommandParameter="{Binding .}" />
 
+                <!-- Nutricne hodnoty -->
                 <Button Grid.Column="2"
                         BackgroundColor="Orange"
                         Margin="2, 0, 0, 0"
-                        Text="Nutriční hodnoty" />
-
+                        Text="Nutriční hodnoty" 
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=GoToRecipeNutritionCommand}"
+                        CommandParameter="{Binding .}" />
             </Grid>
 
             <!-- Zobrazenie surovín -->
