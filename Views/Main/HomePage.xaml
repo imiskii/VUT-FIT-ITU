@@ -87,7 +87,7 @@
                                            TextColor="LightGray" />
                                     <Label Grid.Row="3"
                                            Grid.Column="1"
-                                           Text="7 surovin"
+                                           Text="{Binding Rating, StringFormat='{0} ⭐'}"
                                            HorizontalTextAlignment="Center"
                                            VerticalTextAlignment="Center"
                                            TextColor="LightGray" />
