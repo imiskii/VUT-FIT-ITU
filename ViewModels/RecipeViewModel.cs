@@ -111,7 +111,7 @@ namespace yummyCook.ViewModels
         {
             DetailRecipe = recipe;
 
-            await Shell.Current.GoToAsync("guide");
+            await Shell.Current.GoToAsync("recipeNutrition");
         }
     }
 }
