@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/* RecipeDetailViewModel.cs */
+/* Autor: Peter Čellár */
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using yummyCook.Firebase;
@@ -11,6 +11,7 @@ namespace yummyCook.ViewModels
         public RecipeModel recipeModel { get; } = new();
         public ObservableCollection<Ingredients> Ingredients { get; } = new();
 
+        // Commandy na presmerovanie
         public ICommand NavigateBackCommand => new Command(NavigateBackFromDetail);
         public ICommand GoToRecipeGuideCommand => new Command<RecipeModel>(GoToGuideAsync);
         public ICommand GoToRecipeNutritionCommand => new Command<RecipeModel>(GoToNutritionAsync);
@@ -22,24 +23,40 @@ namespace yummyCook.ViewModels
             
         }
 
+        /// <summary>
+        /// Vrátenie sa na zoznam receptov
+        /// </summary>
         public async void NavigateBackFromDetail()
         {
             await Shell.Current.GoToAsync("..");
         }
 
+        /// <summary>
+        /// Presmerovanie na stránku postupu receptu
+        /// </summary>
+        /// <param name="recipeModel">Model receptu</param>
         public async void GoToGuideAsync(RecipeModel recipeModel)
         {
             DetailRecipe = recipeModel;
             await Shell.Current.GoToAsync("/guide");
         }
 
+        /// <summary>
+        /// Presmerovanie na stránku s nutričnými hodnotami
+        /// </summary>
+        /// <param name="recipeModel">Model receptu</param>
         public async void GoToNutritionAsync(RecipeModel recipeModel)
         {
             DetailRecipe = recipeModel;
             await Shell.Current.GoToAsync("/recipeNutrition");
         }
 
-
+        /// <summary>
+        /// Generická metóda na prevedenie listu na kolekciu
+        /// </summary>
+        /// <typeparam name="T">Model itemu</typeparam>
+        /// <param name="itemsList">Zoznam itemov</param>
+        /// <returns></returns>
         ObservableCollection<T> LoadListFromRecipe<T>(List<T> itemsList)
         {
             ObservableCollection<T> itemsCollection = new();
