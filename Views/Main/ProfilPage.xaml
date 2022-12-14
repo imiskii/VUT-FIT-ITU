@@ -138,17 +138,17 @@
                                            TextColor="White"
                                            Margin="10,0,0,0" />
                                         <Label Grid.Row="2"
-                                           Grid.Column="0"
-                                           Text="{Binding Rating}"
-                                           HorizontalTextAlignment="Center"
-                                           VerticalTextAlignment="Center"
-                                           TextColor="LightGray" />
+                                               Grid.Column="0"
+                                               Text="{Binding Time, StringFormat='{0} minut'}"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center"
+                                               TextColor="LightGray" />
                                         <Label Grid.Row="3"
-                                           Grid.Column="1"
-                                           Text="7 surovin"
-                                           HorizontalTextAlignment="Center"
-                                           VerticalTextAlignment="Center"
-                                           TextColor="LightGray" />
+                                               Grid.Column="1"
+                                               Text="{Binding Rating, StringFormat='{0} ⭐'}"
+                                               HorizontalTextAlignment="Center"
+                                               VerticalTextAlignment="Center"
+                                               TextColor="LightGray" />
                                         <Button Grid.Row="2"
                                             Grid.RowSpan="2"
                                             Grid.Column="2"

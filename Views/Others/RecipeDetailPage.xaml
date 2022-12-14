@@ -89,8 +89,7 @@
             </Grid>
 
             <!-- Zobrazenie surovín -->
-            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
-                    >
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
                 <!-- Zobrazenie jednotlivých surovín -->
                 <CollectionView ItemsSource="{Binding Ingredients}"
                             VerticalScrollBarVisibility="Never">
@@ -157,7 +156,7 @@
 
                                 <Button Grid.RowSpan="3"
                                         Grid.Column="4"
-                                        Text="✔"
+                                        Text="🛒"
                                         Padding="4.3, 3"
                                         FontSize="12"
                                         VerticalOptions="Center"

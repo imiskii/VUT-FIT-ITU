@@ -45,7 +45,7 @@ public static class MauiProgram
             });
 
         builder.Services.AddSingleton<RecipeViewModel>();
-        builder.Services.AddSingleton<RecipeDetailViewModel>();
+        builder.Services.AddTransient<RecipeDetailViewModel>();
         builder.Services.AddSingleton<GuideViewModel>();
         builder.Services.AddSingleton<RecipeNutritionViewModel>();
         builder.Services.AddSingleton<BaseClass>();

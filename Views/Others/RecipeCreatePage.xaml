@@ -210,15 +210,20 @@
             <!-- Typ jedla -->
             <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Jaký typ jídla je Váš recept ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
-                <Picker Grid.Row="1" Title="Typ jídla" 
-                        ItemsSource="{Binding FoodTypes}" SelectedItem="{Binding FType}">
+                <Picker Grid.Row="1" Title="Typ jídla"
+                        ItemsSource="{Binding FoodTypes}"
+                        SelectedItem="{Binding FType}"
+                        TextColor="{StaticResource Gray100}">
                 </Picker>
             </Grid>
             <!-- Druh kuchyňe -->
             <Grid RowDefinitions="Auto,Auto" RowSpacing="5">
                 <Label Grid.Row="0" Text="Z jaké kuchyne pochází Váš recept ?" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0"/>
-                <Picker Grid.Row="1" Title="Druh kuchyne"
-                        ItemsSource="{Binding KitchenType}" SelectedItem="{Binding KitchenT}">
+                <Picker Grid.Row="1"
+                        Title="Druh kuchyne"
+                        ItemsSource="{Binding KitchenType}"
+                        SelectedItem="{Binding KitchenT}"
+                        TextColor="{StaticResource Gray100}">
                 </Picker>
             </Grid>
             <!-- Tlačítka uložiť/zahodiť -->
