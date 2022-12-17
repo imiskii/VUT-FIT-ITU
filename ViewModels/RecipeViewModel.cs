@@ -21,10 +21,12 @@ namespace yummyCook.ViewModels
     {
         FirebaseHelper firebaseHelper = new FirebaseHelper();
 
-        public ObservableCollection<RecipeModel> Recipes { get; } = new();
+        public ObservableCollection<RecipeModel> Recipes { get; set; } = new();
 
         public ICommand ShowShoppingList => new Command(async () => await ShowShoppingListAsync());
         public ICommand GoToDetailCommand => new Command<RecipeModel>(GoToDetailAsync);
+
+
         public Command GetRecipesCommand { get; }
         public RecipeViewModel()
         {
@@ -68,6 +70,29 @@ namespace yummyCook.ViewModels
         }
 
         bool topDone = false;
+
+        private string searchText;
+        public string SearchText
+        {
+            get
+            {
+                return searchText;
+            }
+            set
+            {
+                searchText = value;
+                if (searchText.Length == 0 || searchText == " ")
+                {
+                    topDone = false;
+                    Task.Run(async () => { await GetRecipesAsync(); }).Wait();
+                }
+                else if(searchText.Length > 4)
+                {
+                    Task.Run(async () => { await GetRecipeBySearchAsync(searchText); }).Wait();
+                }
+            }
+        }
+
 
         async Task GetRecipesAsync()
         {
@@ -135,8 +160,38 @@ namespace yummyCook.ViewModels
                 Greeting = "Dobrý večer 🌙 🌯";
             }
         }
+      
+        async Task GetRecipeBySearchAsync(string query)
+        {
+            IsBusy = true;
 
-        
+            if (query != null)
+            {
+                ObservableCollection<RecipeModel> recipes = new();
+                
+
+                foreach (var recipe in Recipes)
+                {
+                    recipes.Add(recipe);
+                }
+
+                Recipes.Clear();
+
+                foreach (var recipe in recipes)
+                {
+                    if (recipe.Name.ToLower().Contains(query.ToLower()))
+                        Recipes.Add(recipe);
+                }
+            }
+            else
+            {
+                 await GetRecipesAsync();
+            }
+
+            IsBusy = false;
+        }
+
+
         async Task ShowShoppingListAsync()
         {
             await Shell.Current.GoToAsync("shoppingList");
@@ -148,5 +203,6 @@ namespace yummyCook.ViewModels
 
             await Shell.Current.GoToAsync("recipeDetail");
         }
+
     }
 }

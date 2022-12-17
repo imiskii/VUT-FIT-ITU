@@ -11,6 +11,8 @@
     
     <ScrollView>
         <VerticalStackLayout>
+            <Label Text="Recepty"
+                   StyleClass="PageH1" />
             <CollectionView ItemsSource="{Binding Recipes}"
                             VerticalScrollBarVisibility="Never"
                             IsVisible="{Binding IsNotBusy}">
@@ -18,8 +20,36 @@
                     <LinearItemsLayout Orientation="Vertical" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.Header>
-                    <Label Text="Právě trendy"
-                           StyleClass="PageH2" />
+
+                    <!-- Hladanie a filtrovanie receptov -->
+                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
+                           HeightRequest="75">
+                        <StackLayout>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                            </Grid>
+                            
+                            <!-- Vyhladanie receptu -->
+                            <SearchBar Grid.Row="0"
+                                   Grid.ColumnSpan="4"
+                                   x:Name="FilterSearchBar"
+                                   Text="{Binding SearchText, Mode=TwoWay}"
+                                   BackgroundColor="Transparent"
+                                   CancelButtonColor="{StaticResource Primary}"
+                                   Placeholder="Hledat"
+                                   FontSize="17" />
+                        </StackLayout>
+                    </Frame>
+
                 </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="model:RecipeModel">

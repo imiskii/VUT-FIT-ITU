@@ -98,6 +98,22 @@ namespace yummyCook.ViewModels
             }
         }
 
+        static ObservableCollection<RecipeModel> recipeSearchResults = new();
+
+        public ObservableCollection<RecipeModel> RecipeSearchResults
+        {
+            get
+            {
+                return recipeSearchResults;
+            }
+
+            set
+            {
+                recipeSearchResults = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool LightTheme { 
             get 
             {
