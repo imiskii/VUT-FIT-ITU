@@ -25,6 +25,7 @@ namespace yummyCook.ViewModels
 
         public ICommand ShowShoppingList => new Command(async () => await ShowShoppingListAsync());
         public ICommand GoToDetailCommand => new Command<RecipeModel>(GoToDetailAsync);
+        public ICommand FavoriteRecipesCommand => new Command(GetFavoriteRecipes);
 
 
         public Command GetRecipesCommand { get; }
@@ -160,6 +161,8 @@ namespace yummyCook.ViewModels
                 Greeting = "Dobrý večer 🌙 🌯";
             }
         }
+
+       
       
         async Task GetRecipeBySearchAsync(string query)
         {
@@ -191,6 +194,27 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        private void GetFavoriteRecipes()
+        {
+            IsBusy = true;
+
+            ObservableCollection<RecipeModel> recipes = new();
+
+            foreach (var recipe in Recipes)
+            {
+                recipes.Add(recipe);
+            }
+
+            Recipes.Clear();
+
+            foreach(var recipe in recipes)
+            {
+                if (recipe.Favourite)
+                    Recipes.Add(recipe);
+            }
+
+            IsBusy = false;
+        }
 
         async Task ShowShoppingListAsync()
         {
