@@ -26,9 +26,15 @@ namespace yummyCook.ViewModels
         public ICommand ShowShoppingList => new Command(async () => await ShowShoppingListAsync());
         public ICommand GoToDetailCommand => new Command<RecipeModel>(GoToDetailAsync);
         public ICommand FavoriteRecipesCommand => new Command(GetFavoriteRecipes);
-
+        public ICommand ExpandRatingMenuCommand => new Command(SetRatingExpandMenu);
+        public ICommand FilterBestRecipesCommand => new Command(GetFiveStarRecipes);
+        public ICommand FilterForRatingCommand => new Command(GetFourStarAndAboveRecipes);
+        public ICommand FilterThreeRatingCommand => new Command(GetThreeStarAndAboveRecipes);
+        public ICommand CollapseRatingMenuCommand => new Command(UnsetRatingExpandMenu);
 
         public Command GetRecipesCommand { get; }
+
+        #region Constructor
         public RecipeViewModel()
         {
             GetGreeting();
@@ -70,6 +76,8 @@ namespace yummyCook.ViewModels
             GetRecipesCommand.Execute(this);
         }
 
+        #endregion
+
         bool topDone = false;
 
         private string searchText;
@@ -94,6 +102,37 @@ namespace yummyCook.ViewModels
             }
         }
 
+
+        /// <summary>
+        /// Funkce generuje pozdrav na hlavní stránce
+        /// </summary>
+        void GetGreeting()
+        {
+            var hour = DateTime.Now.Hour;
+
+            if (hour >= 4 && hour < 10)
+            {
+                Greeting = "Dobré ráno 🥣 🧇";
+            }
+            else if (hour >= 10 && hour < 12)
+            {
+                Greeting = "Dobré dopoledne 🥪";
+            }
+            else if (hour == 12)
+            {
+                Greeting = "Dobré poledne 🍗 🍔";
+            }
+            else if (hour > 12 && hour < 19)
+            {
+                Greeting = "Dobré odpoledne 🍕 🥗";
+            }
+            else
+            {
+                Greeting = "Dobrý večer 🌙 🌯";
+            }
+        }
+
+        #region Command Methods
 
         async Task GetRecipesAsync()
         {
@@ -133,51 +172,14 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
-        /// <summary>
-        /// Funkce generuje pozdrav na hlavní stránce
-        /// </summary>
-        void GetGreeting()
-        {
-            var hour = DateTime.Now.Hour;
 
-            if (hour >= 4 && hour < 10)
-            {
-                Greeting = "Dobré ráno 🥣 🧇";
-            }
-            else if (hour >= 10 && hour < 12)
-            {
-                Greeting = "Dobré dopoledne 🥪";
-            }
-            else if (hour == 12)
-            {
-                Greeting = "Dobré poledne 🍗 🍔";
-            }
-            else if (hour > 12 && hour < 19)
-            {
-                Greeting = "Dobré odpoledne 🍕 🥗";
-            }
-            else
-            {
-                Greeting = "Dobrý večer 🌙 🌯";
-            }
-        }
-
-       
-      
         async Task GetRecipeBySearchAsync(string query)
         {
             IsBusy = true;
 
             if (query != null)
             {
-                ObservableCollection<RecipeModel> recipes = new();
-                
-
-                foreach (var recipe in Recipes)
-                {
-                    recipes.Add(recipe);
-                }
-
+                ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
                 Recipes.Clear();
 
                 foreach (var recipe in recipes)
@@ -194,16 +196,88 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        private void SetRatingExpandMenu()
+        {
+            if (IsCollapsed)
+                IsCollapsed = false;
+            else
+                IsCollapsed = true;
+        }
+
+        private void UnsetRatingExpandMenu()
+        {
+            IsCollapsed = false;
+        }
+
+        private void GetFiveStarRecipes()
+        {
+            IsBusy = true;
+
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
+            float topRating = 5;
+
+            Recipes.Clear();
+
+            foreach(var recipe in recipes)
+            {
+                if(recipe.Rating == topRating)
+                {
+                    Recipes.Add(recipe);
+                }
+            }
+
+            IsCollapsed = false;
+            IsBusy = false;
+        }
+
+        private void GetFourStarAndAboveRecipes()
+        {
+            IsBusy = true;
+
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
+            float fourStar = 4;
+
+            Recipes.Clear();
+
+            foreach(var recipe in recipes)
+            {
+                if(recipe.Rating >= fourStar)
+                {
+                    Recipes.Add(recipe);
+                }
+            }
+
+            IsCollapsed = false;
+            IsBusy = false;
+        }
+
+        private void GetThreeStarAndAboveRecipes()
+        {
+            IsBusy = true;
+
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
+            float threeStar = 3;
+
+            Recipes.Clear();
+
+            foreach (var recipe in recipes)
+            {
+                if (recipe.Rating >= threeStar)
+                {
+                    Recipes.Add(recipe);
+                }
+            }
+
+            IsCollapsed = false;
+            IsBusy = false;
+        }
+
+
         private void GetFavoriteRecipes()
         {
             IsBusy = true;
 
-            ObservableCollection<RecipeModel> recipes = new();
-
-            foreach (var recipe in Recipes)
-            {
-                recipes.Add(recipe);
-            }
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
 
             Recipes.Clear();
 
@@ -216,6 +290,21 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        private ObservableCollection<RecipeModel> GetRecipesCopy()
+        {
+            ObservableCollection<RecipeModel> recipes = new();
+
+            foreach (var recipe in Recipes)
+            {
+                recipes.Add(recipe);
+            }
+
+            return recipes;
+        }
+
+        #endregion
+
+        #region Navigation Commands
         async Task ShowShoppingListAsync()
         {
             await Shell.Current.GoToAsync("shoppingList");
@@ -227,6 +316,7 @@ namespace yummyCook.ViewModels
 
             await Shell.Current.GoToAsync("recipeDetail");
         }
+        #endregion
 
     }
 }

@@ -13,33 +13,26 @@
         <VerticalStackLayout>
             <Label Text="Recepty"
                    StyleClass="PageH1" />
-            <CollectionView ItemsSource="{Binding Recipes}"
-                            VerticalScrollBarVisibility="Never"
-                            IsVisible="{Binding IsNotBusy}">
-                <CollectionView.ItemsLayout>
-                    <LinearItemsLayout Orientation="Vertical" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.Header>
-
-                    <!-- Hladanie a filtrovanie receptov -->
-                    <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
+            
+            <!-- Hladanie a filtrovanie receptov -->
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
                            HeightRequest="100">
-                        <StackLayout>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1.5*" />
-                                    <ColumnDefinition Width="1.5*" />
-                                    <ColumnDefinition Width="1.5*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                            
-                            
-                                <!-- Vyhladanie receptu -->
-                                <SearchBar Grid.Row="0"
+                <StackLayout>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <!-- Vyhladanie receptu -->
+                        <SearchBar Grid.Row="0"
                                        Grid.ColumnSpan="4"
                                        x:Name="FilterSearchBar"
                                        Text="{Binding SearchText, Mode=TwoWay}"
@@ -48,64 +41,71 @@
                                        Placeholder="Hledat"
                                        FontSize="17" />
 
-                                <Label Grid.Row="1"
+                        <Label Grid.Row="1"
                                        Grid.Column="0"
                                        Text="Filtr" 
                                        FontSize="20"
                                        HorizontalOptions="Center"
-                                       Margin="0, 5, 0, 0" />
+                                       Margin="0, 10, 0, 0" />
 
-                                <Button Grid.Column="1"
+                        <Button Grid.Column="1"
                                         Grid.Row="1"                                 
                                         Text="Oblíbené" 
                                         Command="{Binding FavoriteRecipesCommand}"
                                         Margin="0, 7, 0, 0" />
 
-                                <Button Grid.Column="2"
+                        <Button Grid.Column="2"
                                         Grid.Row="1"
-                                        Text="Hodnocení" 
+                                        Text="Hodnocení V" 
+                                        Command="{Binding ExpandRatingMenuCommand}"
                                         Margin="0, 7, 0, 0" />
-                                
-                                <Button Grid.Row="1"
+
+                        <Button Grid.Row="1"
                                         Grid.Column="3"
-                                        Text="čas" 
+                                        Text="čas V" 
                                         Margin="0, 7, 0, 0" />
-                            </Grid>
-                        </StackLayout>
-                    </Frame>
+                    </Grid>
+                </StackLayout>
+            </Frame>
 
-                </CollectionView.Header>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:RecipeModel">
-                        <Frame HeightRequest="200"
+            <StackLayout IsVisible="{Binding IsNotCollapsed}">
+                <CollectionView ItemsSource="{Binding Recipes}"
+                            VerticalScrollBarVisibility="Never"
+                            IsVisible="{Binding IsNotBusy}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:RecipeModel">
+                            <Frame HeightRequest="200"
                                Margin="5, 10">
-                            <Grid>
-                                <Image Source="{Binding Photo}"
-                                       Aspect="AspectFill" />
                                 <Grid>
-                                    <Grid.Background>
-                                        <LinearGradientBrush EndPoint="0,1">
-                                            <GradientStop Color="#00000000"
+                                    <Image Source="{Binding Photo}"
+                                       Aspect="AspectFill" />
+                                    <Grid>
+                                        <Grid.Background>
+                                            <LinearGradientBrush EndPoint="0,1">
+                                                <GradientStop Color="#00000000"
                                                           Offset="0.25" />
-                                            <GradientStop Color="Black"
+                                                <GradientStop Color="Black"
                                                           Offset="1" />
-                                            <GradientStop Color="#99000000"
+                                                <GradientStop Color="#99000000"
                                                           Offset="0.7" />
-                                        </LinearGradientBrush>
-                                    </Grid.Background>
+                                            </LinearGradientBrush>
+                                        </Grid.Background>
 
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="3*" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="3*" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
 
-                                    <Label Grid.Row="1"
+                                        <Label Grid.Row="1"
                                            Grid.Column="0"
                                            Grid.ColumnSpan="2"
                                            Text="{Binding Name}"
@@ -116,39 +116,101 @@
                                            TextColor="White"
                                            Margin="10,0,0,0"
                                            LineBreakMode="TailTruncation" />
-                                    <Label Grid.Row="2"
+                                        <Label Grid.Row="2"
                                            Grid.Column="0"
                                            Text="{Binding Time, StringFormat='{0} minut'}"
                                            HorizontalTextAlignment="Center"
                                            VerticalTextAlignment="Center"
                                            TextColor="LightGray" />
-                                    <Label Grid.Row="3"
+                                        <Label Grid.Row="3"
                                            Grid.Column="1"
                                            Text="{Binding Rating, StringFormat='{0} ⭐'}"
                                            HorizontalTextAlignment="Center"
                                            VerticalTextAlignment="Center"
                                            TextColor="LightGray" />
-                                    <Button Grid.Row="2"
+                                        <Button Grid.Row="2"
                                             Grid.RowSpan="2"
                                             Grid.Column="2"
                                             CornerRadius="10"
                                             Text="Do toho!"
                                             Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeViewModel}}, Path=GoToDetailCommand}"
                                             CommandParameter="{Binding .}">
-                                        <Button.Triggers>
-                                            <EventTrigger Event="Clicked">
-                                                <local:RecipeDetailTrigger />
-                                            </EventTrigger>
-                                        </Button.Triggers>
-                                    </Button>
+                                            <Button.Triggers>
+                                                <EventTrigger Event="Clicked">
+                                                    <local:RecipeDetailTrigger />
+                                                </EventTrigger>
+                                            </Button.Triggers>
+                                        </Button>
+                                    </Grid>
                                 </Grid>
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
 
-           
+            <StackLayout IsVisible="{Binding IsCollapsed}">
+                <Frame HeightRequest="250">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <Label Grid.Row="0"
+                               Grid.ColumnSpan="2"
+                               Text="Hodnocení"
+                               TextColor="Black"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+
+                        <Button Grid.Row="1"
+                                Grid.Column="0"
+                                Text="Hodnocení 5  "
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding FilterBestRecipesCommand}"
+                                Margin="5, 5, 0, 0" />
+
+                        <Button Grid.Row="2"
+                                Grid.Column="0"
+                                Text="Hodnocení 4+"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding FilterForRatingCommand}"
+                                Margin="5, 5, 0, 0" />
+
+                        <Button Grid.Row="3"
+                                Grid.Column="0"
+                                Text="Hodnocení 3+"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding FilterThreeRatingCommand}"
+                                Margin="5, 5, 0, 0" />
+
+                        <Button Grid.Row="5"
+                                Grid.Column="0"
+                                Text="Späť"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding CollapseRatingMenuCommand}"
+                                Margin="5, 0, 0, 5" />
+
+                    </Grid>
+                </Frame>
+            </StackLayout>
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
