@@ -1,19 +1,13 @@
 ﻿/**
  * RecipeViewModel.cs
+ * Autor: Peter Čellár (xcella01)
  * Autor: Ondřej Janečka (xjanec33)
  *
 */
 
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using yummyCook.Firebase;
-using yummyCook.Views.Main;
 
 namespace yummyCook.ViewModels
 {
@@ -207,7 +201,7 @@ namespace yummyCook.ViewModels
         private void SetRatingExpandMenu()
         {
             RatingMenuExpanded = true;
-            IsCollapsed |= (RatingMenuExpanded && timeMenuCollapsed);
+            IsCollapsed |= (RatingMenuExpanded && TimeMenuCollapsed);
         }
 
         private void UnsetRatingExpandMenu()
@@ -219,7 +213,7 @@ namespace yummyCook.ViewModels
         private void SetTimeExpandMenu()
         {
             TimeMenuExpanded = true;
-            IsCollapsed |= (TimeMenuExpanded && ratingMenuCollapsed);
+            IsCollapsed |= (TimeMenuExpanded && RatingMenuCollapsed);
         }
 
         private void UnsetTimeExpandMenu()

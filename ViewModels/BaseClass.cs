@@ -206,10 +206,10 @@ namespace yummyCook.ViewModels
 
                 ratingMenuExpanded = value; 
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(ratingMenuCollapsed));
+                OnPropertyChanged(nameof(RatingMenuCollapsed));
             }
         }
-        public bool ratingMenuCollapsed => !ratingMenuExpanded;
+        public bool RatingMenuCollapsed => !ratingMenuExpanded;
 
         /// <summary>
         /// Nastaví viditeľnosť filtrovacieho menu hodnotenia
@@ -226,10 +226,10 @@ namespace yummyCook.ViewModels
 
                 timeMenuExpanded = value;
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(timeMenuCollapsed));
+                OnPropertyChanged(nameof(TimeMenuCollapsed));
             }
         }
-        public bool timeMenuCollapsed => !timeMenuExpanded;
+        public bool TimeMenuCollapsed => !timeMenuExpanded;
 
         /// <summary>
         /// Nastaví viditeľnosť na Popis a Suroviny v detaile receptu
