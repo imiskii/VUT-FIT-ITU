@@ -31,6 +31,8 @@ namespace yummyCook.ViewModels
         public ICommand FilterForRatingCommand => new Command(GetFourStarAndAboveRecipes);
         public ICommand FilterThreeRatingCommand => new Command(GetThreeStarAndAboveRecipes);
         public ICommand CollapseRatingMenuCommand => new Command(UnsetRatingExpandMenu);
+        public ICommand ExpandTimeMenuCommand => new Command(SetTimeExpandMenu);
+        public ICommand LessThanTenMinutesCommand => new Command(GetLessThanTenMinutesRecipes);
 
         public Command GetRecipesCommand { get; }
 
@@ -198,15 +200,41 @@ namespace yummyCook.ViewModels
 
         private void SetRatingExpandMenu()
         {
-            if (IsCollapsed)
-                IsCollapsed = false;
-            else
-                IsCollapsed = true;
+            RatingMenuExpanded = true;
+            IsCollapsed |= (RatingMenuExpanded && timeMenuCollapsed);
         }
 
         private void UnsetRatingExpandMenu()
         {
+            RatingMenuExpanded = false;
+            IsCollapsed &= RatingMenuExpanded;
+        }
+
+        private void SetTimeExpandMenu()
+        {
+            TimeMenuExpanded = true;
+            IsCollapsed |= (TimeMenuExpanded && ratingMenuCollapsed);
+        }
+
+        private void GetLessThanTenMinutesRecipes()
+        {
+            IsBusy = true;
+
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
+            int tenMinutes = 10;
+
+            Recipes.Clear();
+
+            foreach (var recipe in recipes)
+            {
+                if (recipe.Time <= tenMinutes)
+                {
+                    Recipes.Add(recipe);
+                }
+            }
+
             IsCollapsed = false;
+            IsBusy = false;
         }
 
         private void GetFiveStarRecipes()

@@ -191,6 +191,46 @@ namespace yummyCook.ViewModels
         }
         public bool IsNotEmpty => !IsEmpty;
 
+        /// <summary>
+        /// Nastaví viditeľnosť filtrovacieho menu hodnotenia
+        /// </summary>
+        bool ratingMenuExpanded;
+        public bool RatingMenuExpanded
+        {
+            get => ratingMenuExpanded;
+
+            set
+            {
+                if (ratingMenuExpanded == value)
+                    return;
+
+                ratingMenuExpanded = value; 
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(ratingMenuCollapsed));
+            }
+        }
+        public bool ratingMenuCollapsed => !ratingMenuExpanded;
+
+        /// <summary>
+        /// Nastaví viditeľnosť filtrovacieho menu hodnotenia
+        /// </summary>
+        bool timeMenuExpanded;
+        public bool TimeMenuExpanded
+        {
+            get => timeMenuExpanded;
+
+            set
+            {
+                if (timeMenuExpanded == value)
+                    return;
+
+                timeMenuExpanded = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(timeMenuCollapsed));
+            }
+        }
+        public bool timeMenuCollapsed => !timeMenuExpanded;
+
         bool isCollapsed;
         public bool IsCollapsed
         {

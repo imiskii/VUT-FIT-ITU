@@ -61,14 +61,15 @@
                                         Margin="0, 7, 0, 0" />
 
                         <Button Grid.Row="1"
-                                        Grid.Column="3"
-                                        Text="čas V" 
-                                        Margin="0, 7, 0, 0" />
+                                Grid.Column="3"
+                                Text="čas V" 
+                                Command="{Binding ExpandTimeMenuCommand}"
+                                Margin="0, 7, 0, 0" />
                     </Grid>
                 </StackLayout>
             </Frame>
 
-            <StackLayout IsVisible="{Binding IsNotCollapsed}">
+            <StackLayout IsVisible="{Binding IsCollapsed}">
                 <CollectionView ItemsSource="{Binding Recipes}"
                             VerticalScrollBarVisibility="Never"
                             IsVisible="{Binding IsNotBusy}">
@@ -205,6 +206,92 @@
                                 FontSize="15"
                                 HorizontalOptions="Center"
                                 Command="{Binding CollapseRatingMenuCommand}"
+                                Margin="5, 0, 0, 5" />
+
+                    </Grid>
+                </Frame>
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding IsNotCollapsed}">
+                <Frame HeightRequest="250">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <Label Grid.Row="0"
+                               Grid.ColumnSpan="2"
+                               Text="Čas prípravy"
+                               TextColor="Black"
+                               FontSize="18"
+                               FontAttributes="Bold"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center" />
+
+                        <Button Grid.Row="1"
+                                Grid.Column="0"
+                                Text="&lt; 10 min"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding LessThanTenMinutesCommand}"
+                                Margin="5, 5, 0, 0" />
+
+                        <Button Grid.Row="2"
+                                Grid.Column="0"
+                                Text="&lt; 20 min"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding LessThanTwentyMinutesCommand}"
+                                Margin="5, 5, 0, 0" />
+
+                        <Button Grid.Row="3"
+                                Grid.Column="0"
+                                Text="&lt; 30 min"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding LessThanThirtyMinutesCommand}"
+                                Margin="5, 5, 0, 0" />
+
+                        <Button Grid.Row="1"
+                                Grid.Column="1"
+                                Text="&lt; 60 min"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding LessThanSixtyMinutesCommand}"
+                                Margin="5, 5, 0, 0" />
+
+                        <Button Grid.Row="2"
+                                Grid.Column="1"
+                                Text="&lt; 2 hod  "
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding LessThanTwoHoursCommand}"
+                                Margin="5, 5, 0, 0" />
+
+                        <Button Grid.Row="3"
+                                Grid.Column="1"
+                                Text="&gt; 2 hod  "
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding GreaterThanTwoHoursCommand}"
+                                Margin="5, 5, 0, 0" />
+
+                        <Button Grid.Row="5"
+                                Grid.Column="0"
+                                Text="Späť"
+                                FontSize="15"
+                                HorizontalOptions="Center"
+                                Command="{Binding CollapseTimeMenuCommand}"
                                 Margin="5, 0, 0, 5" />
 
                     </Grid>
