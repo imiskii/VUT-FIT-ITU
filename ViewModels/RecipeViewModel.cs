@@ -33,6 +33,12 @@ namespace yummyCook.ViewModels
         public ICommand CollapseRatingMenuCommand => new Command(UnsetRatingExpandMenu);
         public ICommand ExpandTimeMenuCommand => new Command(SetTimeExpandMenu);
         public ICommand LessThanTenMinutesCommand => new Command(GetLessThanTenMinutesRecipes);
+        public ICommand LessThanTwentyMinutesCommand => new Command(GetLessThanTwentyMinutesRecipes);
+        public ICommand LessThanThirtyMinutesCommand => new Command(GetLessThanThirtyMinutesRecipes);
+        public ICommand LessThanSixtyMinutesCommand => new Command(GetLessThanSixtyMinutesRecipes);
+        public ICommand LessThanTwoHoursCommand => new Command(GetLessThanTwoHoursRecipes);
+        public ICommand GreaterThanTwoHoursCommand => new Command(GetGreaterThanTwoHoursRecipes);
+        public ICommand CollapseTimeMenuCommand => new Command(UnsetTimeExpandMenu);
 
         public Command GetRecipesCommand { get; }
 
@@ -216,10 +222,14 @@ namespace yummyCook.ViewModels
             IsCollapsed |= (TimeMenuExpanded && ratingMenuCollapsed);
         }
 
+        private void UnsetTimeExpandMenu()
+        {
+            TimeMenuExpanded = false;
+            IsCollapsed &= TimeMenuExpanded;
+        }
+
         private void GetLessThanTenMinutesRecipes()
         {
-            IsBusy = true;
-
             ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
             int tenMinutes = 10;
 
@@ -233,8 +243,103 @@ namespace yummyCook.ViewModels
                 }
             }
 
+            TimeMenuExpanded = false;
             IsCollapsed = false;
-            IsBusy = false;
+        }
+
+        private void GetLessThanTwentyMinutesRecipes()
+        {
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
+            int twentyMinutes = 20;
+
+            Recipes.Clear();
+
+            foreach (var recipe in recipes)
+            {
+                if (recipe.Time <= twentyMinutes)
+                {
+                    Recipes.Add(recipe);
+                }
+            }
+
+            TimeMenuExpanded = false;
+            IsCollapsed = false;
+        }
+
+        private void GetLessThanThirtyMinutesRecipes()
+        {
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
+            int thirtyMinutes = 30;
+
+            Recipes.Clear();
+
+            foreach (var recipe in recipes)
+            {
+                if (recipe.Time <= thirtyMinutes)
+                {
+                    Recipes.Add(recipe);
+                }
+            }
+
+            TimeMenuExpanded = false;
+            IsCollapsed = false;
+        }
+
+        private void GetLessThanSixtyMinutesRecipes()
+        {
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
+            int sixtyMinutes = 60;
+
+            Recipes.Clear();
+
+            foreach (var recipe in recipes)
+            {
+                if (recipe.Time <= sixtyMinutes)
+                {
+                    Recipes.Add(recipe);
+                }
+            }
+
+            TimeMenuExpanded = false;
+            IsCollapsed = false;
+        }
+
+        private void GetLessThanTwoHoursRecipes()
+        {
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
+            int twoHours = 120;
+
+            Recipes.Clear();
+
+            foreach (var recipe in recipes)
+            {
+                if (recipe.Time <= twoHours)
+                {
+                    Recipes.Add(recipe);
+                }
+            }
+
+            TimeMenuExpanded = false;
+            IsCollapsed = false;
+        }
+
+        private void GetGreaterThanTwoHoursRecipes()
+        {
+            ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
+            int twoHours = 120;
+
+            Recipes.Clear();
+
+            foreach (var recipe in recipes)
+            {
+                if (recipe.Time >= twoHours)
+                {
+                    Recipes.Add(recipe);
+                }
+            }
+
+            TimeMenuExpanded = false;
+            IsCollapsed = false;
         }
 
         private void GetFiveStarRecipes()
@@ -254,6 +359,7 @@ namespace yummyCook.ViewModels
                 }
             }
 
+            RatingMenuExpanded = false;
             IsCollapsed = false;
             IsBusy = false;
         }
@@ -275,6 +381,7 @@ namespace yummyCook.ViewModels
                 }
             }
 
+            RatingMenuExpanded = false;
             IsCollapsed = false;
             IsBusy = false;
         }
@@ -296,10 +403,10 @@ namespace yummyCook.ViewModels
                 }
             }
 
+            RatingMenuExpanded = false;
             IsCollapsed = false;
             IsBusy = false;
         }
-
 
         private void GetFavoriteRecipes()
         {
