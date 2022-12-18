@@ -68,15 +68,15 @@
                 <Button Grid.Column="0"
                         BackgroundColor="Orange"
                         Margin="0, 0, 0, 2"
-                        Text="Popis a Suroviny" />
+                        Text="Popis a Suroviny" 
+                        Command="{Binding ShowRecipeDescriptionCommand}"/>
 
                 <!-- Postup -->
                 <Button Grid.Column="1"
                         BackgroundColor="Orange"
                         Margin="2, 0, 0, 0"
                         Text="Postup" 
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=GoToRecipeGuideCommand}"
-                        CommandParameter="{Binding .}" />
+                        Command="{Binding ShowRecipeGuideCommand}" />
 
 
                 <!-- Nutricne hodnoty -->
@@ -84,12 +84,12 @@
                         BackgroundColor="Orange"
                         Margin="2, 0, 0, 0"
                         Text="Nutriční hodnoty" 
-                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:RecipeDetailViewModel}}, Path=GoToRecipeNutritionCommand}"
-                        CommandParameter="{Binding .}" />
+                        Command="{Binding ShowRecipeNutritionsCommand}" />
             </Grid>
 
             <!-- Zobrazenie surovín -->
-            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}">
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Gray100}, Dark={StaticResource Gray600}}"
+                   IsVisible="{Binding ShowRecipeDescription}">
                 <!-- Zobrazenie jednotlivých surovín -->
                 <CollectionView ItemsSource="{Binding Ingredients}"
                             VerticalScrollBarVisibility="Never">
@@ -179,18 +179,137 @@
                 </CollectionView>
             </Frame>
 
-            <!-- Postup -->
+            <!-- Popis -->
             <Label Text="Popis"
                    FontSize="Large"
                    FontAttributes="Bold"
-                   TextColor="Orange"/>
-
-            <Grid>
+                   TextColor="Orange"
+                   IsVisible="{Binding ShowRecipeDescription}"/>
+            <Grid IsVisible="{Binding ShowRecipeDescription}">
                 <Label x:DataType="model:RecipeModel"
                        Text="{Binding Description}"
                        FontSize="16"/>
             </Grid>
 
+            <!-- Postup -->
+            <Frame IsVisible="{Binding ShowRecipeGuide}">
+                <CollectionView ItemsSource="{Binding Steps}"
+                      VerticalScrollBarVisibility="Never">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" 
+                                       ItemSpacing="20"/>
+                    </CollectionView.ItemsLayout>
+
+                    <!-- Jednotlivý krok postupu -->
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Steps">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Ellipse Grid.Column="0"                                      
+                                     HeightRequest="60"
+                                     WidthRequest="60"
+                                     Fill="Orange" 
+                                     VerticalOptions="Start"
+                                     HorizontalOptions="Start"/>
+
+                                <Label Grid.Column="0"
+                                   Text="{Binding Index, StringFormat=Krok {0}}"
+                                   FontSize="15"
+                                   VerticalOptions="Start"
+                                   HorizontalOptions="Start"
+                                   Margin="7, 18, 0, 0"/>
+
+                                <Label Grid.Column="1"
+                                   Text="{Binding Step}"
+                                   FontSize="Medium"
+                                   HorizontalTextAlignment="Start"
+                                   VerticalTextAlignment="Center"
+                                   TextColor="White"
+                                   Margin="10, 0, 0, 0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Frame>
+
+            <!-- Nutričné hodnoty -->
+            <Frame BackgroundColor="Orange"
+                   HeightRequest="100"
+                   IsVisible="{Binding ShowRecipeNutritions}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="0.9*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+
+                    <Label Grid.Row="0"
+                           Grid.Column="0"
+                           Text="Kalórie"
+                           TextColor="Black"
+                           FontSize="17"
+                           HorizontalOptions="Center" />
+
+                    <Label Grid.Row="1"
+                           Grid.Column="0"
+                           Text="758kcal"
+                           TextColor="Black"
+                           FontSize="15" 
+                           HorizontalOptions="Center" />
+
+                    <Label Grid.Row="0"
+                           Grid.Column="1"
+                           Text="Tuky"
+                           TextColor="Black"
+                           FontSize="17"
+                           HorizontalOptions="Center" />
+
+                    <Label Grid.Row="1"
+                           Grid.Column="1"
+                           Text="65g"
+                           TextColor="Black"
+                           FontSize="15"
+                           HorizontalOptions="Center" />
+
+                    <Label Grid.Row="0"
+                           Grid.Column="2"
+                           Text="Bielkoviny"
+                           TextColor="Black"
+                           FontSize="17"
+                           HorizontalOptions="Center" />
+
+                    <Label Grid.Row="1"
+                           Grid.Column="2"
+                           Text="21.2g"
+                           TextColor="Black"
+                           FontSize="15"
+                           HorizontalOptions="Center" />
+
+                    <Label Grid.Row="0"
+                           Grid.Column="3"
+                           Text="Cukry"
+                           TextColor="Black"
+                           FontSize="17"
+                           HorizontalOptions="Center" />
+
+                    <Label Grid.Row="1"
+                           Grid.Column="3"
+                           Text="65g"
+                           TextColor="Black"
+                           FontSize="15"
+                           HorizontalOptions="Center" />
+                </Grid>
+            </Frame>
 
         </VerticalStackLayout>
     </ScrollView>

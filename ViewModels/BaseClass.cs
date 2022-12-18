@@ -231,6 +231,60 @@ namespace yummyCook.ViewModels
         }
         public bool timeMenuCollapsed => !timeMenuExpanded;
 
+        /// <summary>
+        /// Nastaví viditeľnosť na Popis a Suroviny v detaile receptu
+        /// </summary>
+        bool showRecipeDescription;
+        public bool ShowRecipeDescription
+        {
+            get => showRecipeDescription;
+
+            set
+            {
+                if (showRecipeDescription == value) 
+                    return;
+
+                showRecipeDescription = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Nastaví viditeľnosť na Postup v detaile receptu
+        /// </summary>
+        bool showRecipeGuide;
+        public bool ShowRecipeGuide
+        {
+            get => showRecipeDescription;
+
+            set
+            {
+                if (showRecipeGuide == value)
+                    return;
+
+                showRecipeGuide = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Nastaví viditeľnosť na Nutričné hodnoty v detaile receptu
+        /// </summary>
+        bool showRecipeNutritions;
+        public bool ShowRecipeNutritions
+        {
+            get => showRecipeNutritions;
+
+            set
+            {
+                if (showRecipeNutritions == value)
+                    return;
+
+                showRecipeNutritions = value;
+                OnPropertyChanged();
+            }
+        }
+
         bool isCollapsed;
         public bool IsCollapsed
         {

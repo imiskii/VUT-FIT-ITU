@@ -46,8 +46,6 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<RecipeViewModel>();
         builder.Services.AddTransient<RecipeDetailViewModel>();
-        builder.Services.AddSingleton<GuideViewModel>();
-        builder.Services.AddSingleton<RecipeNutritionViewModel>();
         builder.Services.AddSingleton<BaseClass>();
         builder.Services.AddSingleton<HomePage>();
         builder.Services.AddSingleton<FirebaseHelper>();
@@ -65,8 +63,6 @@ public static class MauiProgram
         builder.Services.AddTransient<RecipesPage>();
         builder.Services.AddTransient<RecipeDetailPage>();
         builder.Services.AddTransient<RecipeCreatePage>();
-        builder.Services.AddTransient<GuidePage>();
-        builder.Services.AddTransient<RecipeNutritionPage>();
 
         return builder.Build();
 	}

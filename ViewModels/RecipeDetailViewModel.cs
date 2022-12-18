@@ -9,46 +9,47 @@ namespace yummyCook.ViewModels
     public partial class RecipeDetailViewModel : BaseClass
     {
         public RecipeModel recipeModel { get; } = new();
+        FirebaseHelper firebaseHelper = new FirebaseHelper();
         public ObservableCollection<Ingredients> Ingredients { get; } = new();
+        public ObservableCollection<Steps> Steps { get; } = new();
 
         // Commandy na presmerovanie
         public ICommand NavigateBackCommand => new Command(NavigateBackFromDetail);
-        public ICommand GoToRecipeGuideCommand => new Command<RecipeModel>(GoToGuideAsync);
-        public ICommand GoToRecipeNutritionCommand => new Command<RecipeModel>(GoToNutritionAsync);
-        
+        public ICommand ShowRecipeGuideCommand => new Command(ShowRecipeGuideDetail);
+        public ICommand ShowRecipeNutritionsCommand => new Command(ShowRecipeNutritionsDetail);
+        public ICommand ShowRecipeDescriptionCommand => new Command(ShowRecipeDescriptionDetail);
+
+
         public RecipeDetailViewModel() 
         {
             recipeModel = DetailRecipe;
+            ShowRecipeNutritions = false;
+            ShowRecipeGuide = false;
+            ShowRecipeDescription = true;
             Ingredients = LoadListFromRecipe(DetailRecipe.Ingredients);
-            
+            Steps = LoadListFromRecipe(DetailRecipe.Steps);
         }
 
         /// <summary>
-        /// Vrátenie sa na zoznam receptov
+        /// Získanie ingrediencíí podľa kategórie a ich vyfiltrovanie
+        /// Prevod na kolekciu
         /// </summary>
-        public async void NavigateBackFromDetail()
+        /// <param name="ingredients"></param>
+        /// <returns></returns>
+        private async Task<ObservableCollection<IngredientModel>> GetIngredientsAsync(List<Ingredients> ingredients)
         {
-            await Shell.Current.GoToAsync("..");
-        }
+            ObservableCollection<IngredientModel> result = new();
 
-        /// <summary>
-        /// Presmerovanie na stránku postupu receptu
-        /// </summary>
-        /// <param name="recipeModel">Model receptu</param>
-        public async void GoToGuideAsync(RecipeModel recipeModel)
-        {
-            DetailRecipe = recipeModel;
-            await Shell.Current.GoToAsync("/guide");
-        }
+            // Ziskanie ingrediencii podla kategorii
+            foreach (var ingredient in ingredients)
+            {
+                foreach (var item in (await firebaseHelper.GetIngredients(ingredient.Category)))
+                {
+                    if (item.Name == ingredient.Name) result.Add(item);
+                }
+            }
 
-        /// <summary>
-        /// Presmerovanie na stránku s nutričnými hodnotami
-        /// </summary>
-        /// <param name="recipeModel">Model receptu</param>
-        public async void GoToNutritionAsync(RecipeModel recipeModel)
-        {
-            DetailRecipe = recipeModel;
-            await Shell.Current.GoToAsync("/recipeNutrition");
+            return result;
         }
 
         /// <summary>
@@ -60,13 +61,53 @@ namespace yummyCook.ViewModels
         ObservableCollection<T> LoadListFromRecipe<T>(List<T> itemsList)
         {
             ObservableCollection<T> itemsCollection = new();
-            
-            foreach(T step in itemsList)
+
+            foreach (T step in itemsList)
             {
                 itemsCollection.Add(step);
             }
 
             return itemsCollection;
         }
+
+        #region Navigation Commands
+        /// <summary>
+        /// Nastavenie viditeľnosti na postup receptu
+        /// </summary>
+        private void ShowRecipeGuideDetail()
+        {
+            ShowRecipeDescription = false;
+            ShowRecipeNutritions = false;
+            ShowRecipeGuide = true;
+        }
+
+        /// <summary>
+        /// Nastavenie viditeľnosti na nutričné hodnoty receptu
+        /// </summary>
+        private void ShowRecipeNutritionsDetail()
+        {
+            ShowRecipeDescription = false;
+            ShowRecipeGuide = false;
+            ShowRecipeNutritions = true;
+        }
+
+        /// <summary>
+        /// Nastavenie viditeľnosti na popis receptu
+        /// </summary>
+        private void ShowRecipeDescriptionDetail()
+        {
+            ShowRecipeGuide = false;
+            ShowRecipeNutritions = false;
+            ShowRecipeDescription = true;
+        }
+
+        /// <summary>
+        /// Vrátenie sa na zoznam receptov
+        /// </summary>
+        public async void NavigateBackFromDetail()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+        #endregion
     }
 }
