@@ -12,10 +12,6 @@ namespace yummyCook.ViewModels
         FirebaseHelper firebaseHelper = new FirebaseHelper();
         public ObservableCollection<Ingredients> Ingredients { get; } = new();
         public ObservableCollection<Steps> Steps { get; } = new();
-        public string Calories { get; set; }
-        public string Fat { get; set; }
-        public string Proteins { get; set; }
-        public string Sugar { get; set; }
 
         // Commandy na presmerovanie
         public ICommand NavigateBackCommand => new Command(NavigateBackFromDetail);
@@ -23,7 +19,7 @@ namespace yummyCook.ViewModels
         public ICommand ShowRecipeNutritionsCommand => new Command(ShowRecipeNutritionsDetail);
         public ICommand ShowRecipeDescriptionCommand => new Command(ShowRecipeDescriptionDetail);
 
-
+        #region Constructor
         public RecipeDetailViewModel() 
         {
             recipeModel = DetailRecipe;
@@ -33,7 +29,84 @@ namespace yummyCook.ViewModels
             Ingredients = LoadListFromRecipe(DetailRecipe.Ingredients);
             Steps = LoadListFromRecipe(DetailRecipe.Steps);
         }
+        #endregion
 
+        #region Binding Properties
+
+        /// <summary>
+        /// Počet kalórii receptu
+        /// </summary>
+        string calories;
+        public string Calories
+        {
+            get => calories;
+
+            set
+            {
+                if (calories == value)
+                    return;
+
+                calories = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Počet tukov receptu
+        /// </summary>
+        string fat;
+        public string Fat
+        {
+            get => fat;
+
+            set
+            {
+                if (fat == value)
+                    return;
+
+                fat = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Počet bielkovín receptu
+        /// </summary>
+        string proteins;
+        public string Proteins
+        {
+            get => proteins;
+
+            set
+            {
+                if (proteins == value)
+                    return;
+
+                proteins = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Počet cukrov receptu
+        /// </summary>
+        string sugar;
+        public string Sugar
+        {
+            get => sugar;
+
+            set
+            {
+                if (sugar == value)
+                    return;
+
+                sugar = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region Helper Methods
 
         /// <summary>
         /// Generická metóda na prevedenie listu na kolekciu
@@ -75,7 +148,7 @@ namespace yummyCook.ViewModels
             {
                 foreach(var recipeIngredient in recipeIngredients)
                 {
-                    foreach(var ingredient in ShoppingListData)
+                    foreach(var ingredient in JoinedIngredients)
                     {
                         if (ingredient.Name.Equals(recipeIngredient.Name))
                         {
@@ -99,6 +172,7 @@ namespace yummyCook.ViewModels
                 Sugar = "0 g";
             }
         }
+        #endregion
 
         #region Command Methods
         /// <summary>
