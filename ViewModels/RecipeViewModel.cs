@@ -174,7 +174,11 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
-
+        /// <summary>
+        /// Vyhľadanie receptu podľa zadaného textu
+        /// </summary>
+        /// <param name="query">Dotaz na recept</param>
+        /// <returns></returns>
         async Task GetRecipeBySearchAsync(string query)
         {
             IsBusy = true;
@@ -198,30 +202,45 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        /// <summary>
+        /// Zobrazenie filtrov podľa hodnotení
+        /// </summary>
         private void SetRatingExpandMenu()
         {
             RatingMenuExpanded = true;
             IsCollapsed |= (RatingMenuExpanded && TimeMenuCollapsed);
         }
 
+        /// <summary>
+        /// Skrytie filtrov podľa hodnotení
+        /// </summary>
         private void UnsetRatingExpandMenu()
         {
             RatingMenuExpanded = false;
             IsCollapsed &= RatingMenuExpanded;
         }
 
+        /// <summary>
+        /// Zobrazenie filtrov podľa doby prípravy receptu
+        /// </summary>
         private void SetTimeExpandMenu()
         {
             TimeMenuExpanded = true;
             IsCollapsed |= (TimeMenuExpanded && RatingMenuCollapsed);
         }
 
+        /// <summary>
+        /// Skrytie filtrov podľa doby prípravy receptu
+        /// </summary>
         private void UnsetTimeExpandMenu()
         {
             TimeMenuExpanded = false;
             IsCollapsed &= TimeMenuExpanded;
         }
 
+        /// <summary>
+        /// Získanie receptov pod 10 min
+        /// </summary>
         private void GetLessThanTenMinutesRecipes()
         {
             ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
@@ -241,6 +260,9 @@ namespace yummyCook.ViewModels
             IsCollapsed = false;
         }
 
+        /// <summary>
+        /// Získanie receptov pod 20 min
+        /// </summary>
         private void GetLessThanTwentyMinutesRecipes()
         {
             ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
@@ -260,6 +282,9 @@ namespace yummyCook.ViewModels
             IsCollapsed = false;
         }
 
+        /// <summary>
+        /// Získanie receptov pod 30 min
+        /// </summary>
         private void GetLessThanThirtyMinutesRecipes()
         {
             ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
@@ -279,6 +304,9 @@ namespace yummyCook.ViewModels
             IsCollapsed = false;
         }
 
+        /// <summary>
+        /// Získanie receptov pod 60 min
+        /// </summary>
         private void GetLessThanSixtyMinutesRecipes()
         {
             ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
@@ -298,6 +326,9 @@ namespace yummyCook.ViewModels
             IsCollapsed = false;
         }
 
+        /// <summary>
+        /// Získanie receptov pod 2 hodiny
+        /// </summary>
         private void GetLessThanTwoHoursRecipes()
         {
             ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
@@ -317,6 +348,9 @@ namespace yummyCook.ViewModels
             IsCollapsed = false;
         }
 
+        /// <summary>
+        /// Získanie receptov nad 2 hodiny
+        /// </summary>
         private void GetGreaterThanTwoHoursRecipes()
         {
             ObservableCollection<RecipeModel> recipes = GetRecipesCopy();
@@ -336,6 +370,9 @@ namespace yummyCook.ViewModels
             IsCollapsed = false;
         }
 
+        /// <summary>
+        /// Získanie receptov s najlepším hodnotením
+        /// </summary>
         private void GetFiveStarRecipes()
         {
             IsBusy = true;
@@ -358,6 +395,9 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        /// <summary>
+        /// Získanie receptov so 4 hviezdičkami
+        /// </summary>
         private void GetFourStarAndAboveRecipes()
         {
             IsBusy = true;
@@ -380,6 +420,9 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        /// <summary>
+        /// Získanie receptov s tromi hviezdičkami
+        /// </summary>
         private void GetThreeStarAndAboveRecipes()
         {
             IsBusy = true;
@@ -402,6 +445,9 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        /// <summary>
+        /// Získanie obľúbených receptov
+        /// </summary>
         private void GetFavoriteRecipes()
         {
             IsBusy = true;
@@ -419,6 +465,10 @@ namespace yummyCook.ViewModels
             IsBusy = false;
         }
 
+        /// <summary>
+        /// Skopírovanie aktuálne zobrazených receptov
+        /// </summary>
+        /// <returns></returns>
         private ObservableCollection<RecipeModel> GetRecipesCopy()
         {
             ObservableCollection<RecipeModel> recipes = new();

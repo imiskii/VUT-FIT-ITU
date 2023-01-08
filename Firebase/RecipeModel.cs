@@ -3,17 +3,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using yummyCook.ViewModels;
 
 namespace yummyCook.Firebase
 {
 
-    public class Ingredients
+    public class Ingredients : BaseClass
     {
         public string Name { get; set; }
         public string Category { get; set; }
         public int Index { get; set; }
         public int Weight { get; set; }
         public string Unit { get; set; }
+        public ICommand AddToShoppingListCommand => new Command<string>(AddToShoppingList);
+
+        /// <summary>
+        /// Pridanie ingrediencie do nákupného košíku z detailu receptu
+        /// </summary>
+        /// <param name="ingredientName"></param>
+        private void AddToShoppingList(string ingredientName)
+        {
+            try
+            {
+                if (!ShoppingListData.Any(x => x.Name.Equals(ingredientName)))
+                {
+                    var ingredient = JoinedIngredients.Where(x => x.Name.Equals(ingredientName)).FirstOrDefault();
+                    ShoppingListData.Add(ingredient);
+                }
+            }catch(Exception) 
+            {
+                return;
+            }
+        }
     }
 
     public class Steps

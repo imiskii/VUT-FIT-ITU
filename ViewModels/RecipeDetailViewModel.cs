@@ -134,7 +134,7 @@ namespace yummyCook.ViewModels
         }
 
         /// <summary>
-        /// Získanie ingrediencií podľa unikátnych kategórii ingrediencií z modelu
+        /// Vypočítanie celkových nutričných hodnôt receptu
         /// </summary>
         /// <param name="ingredients">Kolekcia ingrediencií z modelu</param>
         /// <returns></returns>
