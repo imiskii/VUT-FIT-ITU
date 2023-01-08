@@ -30,14 +30,13 @@
                                 Padding="0, 0, 0, 3.5"
                                 VerticalOptions="Center"
                                 Command="{Binding NavigateBackCommand}" />
-                        
+
 
                         <!-- Názov receptu -->
                         <Label Grid.Column="1" 
                                StyleClass="PageH2"
-                               x:DataType="model:RecipeModel"
-                               Text="{Binding Name}"
-                               Margin="60, 0, 0, 0"
+                               Text="{Binding recipeModel.Name}"
+                               Margin="40, 0, 0, 0"
                                FontSize="Title"   
                                FontAttributes="Bold"
                                TextColor="White"
@@ -50,8 +49,7 @@
             <!-- Obrázok receptu -->
             <Frame HeightRequest="150">
                 <Grid>
-                    <Image x:DataType="model:RecipeModel" 
-                        Source="{Binding Photo}" Aspect="AspectFill"/>
+                    <Image Source="{Binding recipeModel.Photo}" Aspect="AspectFill"/>
                 </Grid>
             </Frame>
 
@@ -186,8 +184,7 @@
                    TextColor="Orange"
                    IsVisible="{Binding ShowRecipeDescription}"/>
             <Grid IsVisible="{Binding ShowRecipeDescription}">
-                <Label x:DataType="model:RecipeModel"
-                       Text="{Binding Description}"
+                <Label Text="{Binding recipeModel.Description}"
                        FontSize="16"/>
             </Grid>
 
@@ -214,22 +211,24 @@
                                      WidthRequest="60"
                                      Fill="Orange" 
                                      VerticalOptions="Start"
-                                     HorizontalOptions="Start"/>
+                                     HorizontalOptions="Start"
+                                     Margin="5, 5, 0, 0"/>
 
                                 <Label Grid.Column="0"
-                                   Text="{Binding Index, StringFormat=Krok {0}}"
+                                   Text="{Binding Index}"
                                    FontSize="15"
+                                   FontAttributes="Bold"
                                    VerticalOptions="Start"
                                    HorizontalOptions="Start"
-                                   Margin="7, 18, 0, 0"/>
+                                   Margin="30, 23, 0, 0"/>
 
                                 <Label Grid.Column="1"
                                    Text="{Binding Step}"
                                    FontSize="Medium"
                                    HorizontalTextAlignment="Start"
                                    VerticalTextAlignment="Center"
-                                   TextColor="White"
-                                   Margin="10, 0, 0, 0"/>
+                                   TextColor="Black"
+                                   Margin="10, 5, 0, 0"/>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -262,7 +261,7 @@
 
                     <Label Grid.Row="1"
                            Grid.Column="0"
-                           Text="758kcal"
+                           Text="{Binding Calories}"
                            TextColor="Black"
                            FontSize="15" 
                            HorizontalOptions="Center" />
@@ -276,7 +275,7 @@
 
                     <Label Grid.Row="1"
                            Grid.Column="1"
-                           Text="65g"
+                           Text="{Binding Fat}"
                            TextColor="Black"
                            FontSize="15"
                            HorizontalOptions="Center" />
@@ -290,7 +289,7 @@
 
                     <Label Grid.Row="1"
                            Grid.Column="2"
-                           Text="21.2g"
+                           Text="{Binding Proteins}"
                            TextColor="Black"
                            FontSize="15"
                            HorizontalOptions="Center" />
@@ -304,7 +303,7 @@
 
                     <Label Grid.Row="1"
                            Grid.Column="3"
-                           Text="65g"
+                           Text="{Binding Sugar}"
                            TextColor="Black"
                            FontSize="15"
                            HorizontalOptions="Center" />

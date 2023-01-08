@@ -12,6 +12,10 @@ namespace yummyCook.ViewModels
         FirebaseHelper firebaseHelper = new FirebaseHelper();
         public ObservableCollection<Ingredients> Ingredients { get; } = new();
         public ObservableCollection<Steps> Steps { get; } = new();
+        public string Calories { get; set; }
+        public string Fat { get; set; }
+        public string Proteins { get; set; }
+        public string Sugar { get; set; }
 
         // Commandy na presmerovanie
         public ICommand NavigateBackCommand => new Command(NavigateBackFromDetail);
@@ -30,27 +34,6 @@ namespace yummyCook.ViewModels
             Steps = LoadListFromRecipe(DetailRecipe.Steps);
         }
 
-        /// <summary>
-        /// Získanie ingrediencíí podľa kategórie a ich vyfiltrovanie
-        /// Prevod na kolekciu
-        /// </summary>
-        /// <param name="ingredients"></param>
-        /// <returns></returns>
-        private async Task<ObservableCollection<IngredientModel>> GetIngredientsAsync(List<Ingredients> ingredients)
-        {
-            ObservableCollection<IngredientModel> result = new();
-
-            // Ziskanie ingrediencii podla kategorii
-            foreach (var ingredient in ingredients)
-            {
-                foreach (var item in (await firebaseHelper.GetIngredients(ingredient.Category)))
-                {
-                    if (item.Name == ingredient.Name) result.Add(item);
-                }
-            }
-
-            return result;
-        }
 
         /// <summary>
         /// Generická metóda na prevedenie listu na kolekciu
@@ -62,15 +45,62 @@ namespace yummyCook.ViewModels
         {
             ObservableCollection<T> itemsCollection = new();
 
-            foreach (T step in itemsList)
+            try
             {
-                itemsCollection.Add(step);
+                foreach (T step in itemsList)
+                {
+                    itemsCollection.Add(step);
+                }
+            }
+            catch (Exception)
+            {
+                return null;
             }
 
             return itemsCollection;
         }
 
-        #region Navigation Commands
+        /// <summary>
+        /// Získanie ingrediencií podľa unikátnych kategórii ingrediencií z modelu
+        /// </summary>
+        /// <param name="ingredients">Kolekcia ingrediencií z modelu</param>
+        /// <returns></returns>
+        private void SetRecipeNutritions(ObservableCollection<Ingredients> recipeIngredients)
+        {
+            float calories = 0;
+            float fat = 0;
+            float proteins = 0;
+            float sugar = 0;
+            try
+            {
+                foreach(var recipeIngredient in recipeIngredients)
+                {
+                    foreach(var ingredient in ShoppingListData)
+                    {
+                        if (ingredient.Name.Equals(recipeIngredient.Name))
+                        {
+                            calories += ingredient.Calories;
+                            fat += ingredient.Fat;
+                            proteins += ingredient.Proteins;
+                            sugar += ingredient.Sugar;
+                        }
+                    }
+                }
+                Calories = calories.ToString() + " kcal";
+                Fat = fat.ToString() + " g";
+                Proteins = proteins.ToString() + " g";
+                Sugar = sugar.ToString() + " g";
+            }
+            catch(Exception)
+            {
+                Calories = "0 kcal";
+                Fat = "0 g";
+                Proteins = "0 g";
+                Sugar = "0 g";
+            }
+        }
+
+        #region Command Methods
         /// <summary>
         /// Nastavenie viditeľnosti na postup receptu
         /// </summary>
@@ -86,6 +116,7 @@ namespace yummyCook.ViewModels
         /// </summary>
         private void ShowRecipeNutritionsDetail()
         {
+            SetRecipeNutritions(Ingredients);
             ShowRecipeDescription = false;
             ShowRecipeGuide = false;
             ShowRecipeNutritions = true;
@@ -100,7 +131,9 @@ namespace yummyCook.ViewModels
             ShowRecipeNutritions = false;
             ShowRecipeDescription = true;
         }
+        #endregion
 
+        #region Navigation Commands
         /// <summary>
         /// Vrátenie sa na zoznam receptov
         /// </summary>

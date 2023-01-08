@@ -442,9 +442,6 @@ namespace yummyCook.ViewModels
         async void GoToDetailAsync(RecipeModel recipe)
         {
             DetailRecipe = recipe;
-            ShowRecipeGuide = false;
-            ShowRecipeNutritions = false;
-            ShowRecipeDescription = true;
 
             await Shell.Current.GoToAsync("recipeDetail");
         }

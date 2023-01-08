@@ -255,7 +255,7 @@ namespace yummyCook.ViewModels
         bool showRecipeGuide;
         public bool ShowRecipeGuide
         {
-            get => showRecipeDescription;
+            get => showRecipeGuide;
 
             set
             {
