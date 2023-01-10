@@ -47,7 +47,8 @@
             </Frame>
 
             <!-- Obrázok receptu -->
-            <Frame HeightRequest="150">
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}" 
+                   HeightRequest="150">
                 <Grid>
                     <Image Source="{Binding recipeModel.Photo}" Aspect="AspectFill"/>
                 </Grid>
@@ -191,7 +192,8 @@
             </Grid>
 
             <!-- Postup -->
-            <Frame IsVisible="{Binding ShowRecipeGuide}">
+            <Frame BackgroundColor="{AppThemeBinding Light={StaticResource Secondary}, Dark={StaticResource DarkSecondary}}" 
+                   IsVisible="{Binding ShowRecipeGuide}">
                 <CollectionView ItemsSource="{Binding Steps}"
                       VerticalScrollBarVisibility="Never">
                     <CollectionView.ItemsLayout>
